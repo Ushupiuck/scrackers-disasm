@@ -5613,7 +5613,7 @@ Fields_MainLoop:
 		bsr.w	sub_F390
 		jsr	(Field_ReadController).l
 		jsr	(Field_PauseGame).l
-		jsr	(sub_CCCA).l			; commented out causes screen not to follow durin normal play, and stars on the tether didn"t animate
+		jsr	(sub_CCCA).l			; commented out causes screen not to follow during normal play, and stars on the tether didn't animate
 		jsr	(sub_81F8).l			; Sonic/Tails object related
 		jsr	(sub_82B2).l			; deformation/screen control??
 		disable_ints
@@ -5904,7 +5904,7 @@ loc_8214:
 
 
 sub_821C:
-		pea	(sub_8736).l
+		pea	(sub_8736).l ; Field related -- contains a table pointing to animations, mappings & DPLC's for the characters
 		pea	loc_82A6(pc)
 		tst.b	(a5)
 		bpl.s	loc_8236
@@ -6626,7 +6626,7 @@ CharacterDataTable:
 ; Level Zones
 ; ---------------------------------------------------------------------------
 
-Levels:
+Levels: ; TODO: Explore
 		pea	(a0)
 		lea	loc_8B1C(pc),a0
 		move.l	a0,(v_vdpindex).w
