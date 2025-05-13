@@ -2964,7 +2964,7 @@ loc_1D72:
 		jmp	locret_1D92(pc,d1.w)
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
-locret_1D92:	rts
+locret_1D92:	rts		; For some reason, this offset table has been disabled? assuming it is
 ; ---------------------------------------------------------------------------
 		bra.s	loc_1D9C
 ; ---------------------------------------------------------------------------
@@ -4047,34 +4047,34 @@ loc_5144:
 loc_5152:	dc.b $27
 		dc.b $10
 		dc.b   3
-		dc.b $E8				; �
+		dc.b $E8
 		dc.b   0
-		dc.b $64				; d
+		dc.b $64
 		dc.b   0
 		dc.b  $A
 		dc.b   0
 		dc.b   1
-		dc.b $74				; t
+		dc.b $74
 		dc.b   0
-		dc.b $34				; 4
+		dc.b $34
 		dc.b   0
-		dc.b $E5				; �
-		dc.b $8A				; �
-		dc.b $E4				; �
-		dc.b $4A				; J
+		dc.b $E5
+		dc.b $8A
+		dc.b $E4
+		dc.b $4A
 		dc.b   0
-		dc.b $42				; B
-		dc.b $40				; @
+		dc.b $42
+		dc.b $40
 		dc.b   0
-		dc.b $48				; H
-		dc.b $42				; B
-		dc.b $23				; #
-		dc.b $C2				; �
+		dc.b $48
+		dc.b $42
+		dc.b $23
+		dc.b $C2
 		dc.b   0
-		dc.b $C0				; �
+		dc.b $C0
 		dc.b   0
 		dc.b   4
-		dc.b $70				; p
+		dc.b $70
 		dc.b   0
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -4898,13 +4898,13 @@ loc_6AB6:
 
 loc_6AE6:
 		move.w	#$200,d7
-		move.w	#$E0,d0				; "�"
+		move.w	#$E0,d0
 		bra.s	loc_6B0C
 ; ---------------------------------------------------------------------------
 
 loc_6AF0:
 		move.w	#$240,d7
-		move.w	#$F0,d0				; "�"
+		move.w	#$F0,d0
 		bra.s	loc_6B0C
 ; ---------------------------------------------------------------------------
 
@@ -4920,8 +4920,8 @@ loc_6B04:
 
 loc_6B0C:
 		move.w	#4,($FFFFFAC6).w
-		move.w	#$A0,($FFFFCA5E).w		; "�"
-		move.w	#$A0,($FFFFCA60).w		; "�"
+		move.w	#$A0,($FFFFCA5E).w
+		move.w	#$A0,($FFFFCA60).w
 		move.w	#$118,($FFFFCDDE).w
 		move.w	#$114,($FFFFCDE0).w
 		lea	($FFFFD164).w,a0
@@ -4970,8 +4970,8 @@ loc_6B94:
 
 loc_6B9E:
 		move.w	#4,($FFFFFAC6).w
-		move.w	#$A0,($FFFFCA5E).w		; "�"
-		move.w	#$A0,($FFFFCA60).w		; "�"
+		move.w	#$A0,($FFFFCA5E).w
+		move.w	#$A0,($FFFFCA60).w
 		move.w	#$118,($FFFFCDDE).w
 		move.w	#$114,($FFFFCDE0).w
 		move.w	#$D8,(a0)+
@@ -5055,7 +5055,7 @@ loc_6C70:
 		dbf	d7,loc_6C70
 		enable_ints
 		addq.w	#4,($FFFFFAC4).w
-		move.w	#$20,($FFFFFAC6).w		; " "
+		move.w	#$20,($FFFFFAC6).w
 		move.w	#$F8,($FFFFCA5E).w
 		move.w	#$18,($FFFFCDDE).w
 		move.w	#$F8,($FFFFCA60).w
@@ -5124,7 +5124,7 @@ loc_6D38:
 		subi.w	#$10,($FFFFCA5E).w
 		subi.w	#$10,($FFFFCA60).w
 		addq.w	#4,($FFFFFAC4).w
-		move.w	#$20,($FFFFFAC6).w		; " "
+		move.w	#$20,($FFFFFAC6).w
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -5148,7 +5148,7 @@ loc_6D6E:
 		move.l	(a0)+,(a1)+
 		endr
 		addq.w	#4,($FFFFFAC4).w
-		move.w	#$20,($FFFFFAC6).w		; " "
+		move.w	#$20,($FFFFFAC6).w
 		rts
 ; ---------------------------------------------------------------------------
 dword_6DBC:	dc.l $D80F01
@@ -5169,7 +5169,7 @@ loc_6DDC:
 		subq.w	#1,($FFFFFAC6).w
 		bne.s	locret_6DFC
 		addq.w	#4,($FFFFFAC4).w
-		move.w	#$21,($FFFFFAC6).w		; "!"
+		move.w	#$21,($FFFFFAC6).w
 
 locret_6DFC:
 		rts
@@ -5486,14 +5486,14 @@ loc_754A:
 TitleScrn_ToOption:
 		cmpi.w	#2,(v_titleselect).w
 		bne.s	TitleScrn_ToLevSel
-		move.w	#id_Options,(v_gamemode).w	; "@"
+		move.w	#id_Options,(v_gamemode).w
 		rts
 ; ---------------------------------------------------------------------------
 
 TitleScrn_ToLevSel:
 		move.b	#0,($FFFFD89C).w
 		move.b	#$FF,($FFFFD8AC).w
-		move.w	#id_LevelSelect,(v_gamemode).w	; "0"
+		move.w	#id_LevelSelect,(v_gamemode).w
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -5545,7 +5545,7 @@ MAPUNC_TitleMenu_2:
 		binclude	"Uncompressed/MapuncTitleMenu02.bin" ; Uncompressed screen map for the title screen - menu selection
 		even
 MAPUNC_TitleMenu_3:
-		binclude	"Uncompressed/MapuncTitleMenu03.bin" ; Uncompressed screen map for the title menu - "1ST	ROM 19940401"
+		binclude	"Uncompressed/MapuncTitleMenu03.bin" ; Uncompressed screen map for the title menu - "1ST ROM 19940401"
 		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
@@ -5575,8 +5575,8 @@ Fields:
 		jsr	(sub_15D0).w
 		move.w	#5,($FFFFD83C).w
 		move.w	#7,($FFFFD840).w
-		move.w	#$3F,($FFFFD844).w		; "?"
-		move.w	#$3F,($FFFFD848).w		; "?"
+		move.w	#$3F,($FFFFD844).w
+		move.w	#$3F,($FFFFD848).w
 		jsr	(sub_8196).l
 		jsr	(sub_D1E0).l
 		jsr	(sub_FA44).l
@@ -5633,10 +5633,10 @@ Field_ReadController:
 		sne	d2
 		move.b	4(a3,d1.w),d0
 		move.b	d0,d1
-		andi.b	#$70,d1				; "p"
+		andi.b	#$70,d1
 		sne	d1
 		or.b	d2,d1
-		andi.b	#$70,d1				; "p"
+		andi.b	#$70,d1
 		or.b	d1,d0
 		lea	($FFFFFB00).w,a4
 		move.b	-1(a4),d1
@@ -5657,10 +5657,10 @@ Field_ReadController:
 		sne	d2
 		move.b	4(a3,d1.w),d0
 		move.b	d0,d1
-		andi.b	#$70,d1				; "p"
+		andi.b	#$70,d1
 		sne	d1
 		or.b	d2,d1
-		andi.b	#$70,d1				; "p"
+		andi.b	#$70,d1
 		or.b	d1,d0
 
 loc_7FA8:
@@ -5737,8 +5737,8 @@ Field_PauseGame:
 		tst.b	($FFFFD89F).w
 		bpl.w	locret_8194
 		move.b	($FFFFC93C).w,d0
-		andi.b	#$70,d0				; "p"
-		cmpi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
+		cmpi.b	#$70,d0
 		bne.s	loc_8086
 		disable_ints
 		suba.l	a0,a0
@@ -5782,7 +5782,7 @@ loc_80D2:
 		move.l	d0,(a0)+
 		dbf	d1,loc_80D2
 		lea	($FFFFCA5E).w,a0
-		move.w	#$DF,d1				; "�"
+		move.w	#$DF,d1
 
 loc_80E0:
 		move.l	d0,(a0)+
@@ -5849,10 +5849,10 @@ sub_8196:
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	loc_81CC
-		move.w	#$80,4(a0)			; "�"
+		move.w	#$80,4(a0)
 		move.w	#2,6(a0)
-		move.w	#$70,8(a0)			; "p"
-		move.w	#$70,$C(a0)			; "p"
+		move.w	#$70,8(a0)
+		move.w	#$70,$C(a0)
 		move.w	#$8000,$20(a0)
 		move.w	a0,($FFFFD862).w
 
@@ -5860,10 +5860,10 @@ loc_81CC:
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	locret_81F6
-		move.w	#$80,4(a0)			; "�"
+		move.w	#$80,4(a0)
 		move.w	#$802,6(a0)
-		move.w	#$B0,8(a0)			; "�"
-		move.w	#$70,$C(a0)			; "p"
+		move.w	#$B0,8(a0)
+		move.w	#$70,$C(a0)
 		move.w	#$8000,$20(a0)
 		move.w	a0,($FFFFD864).w
 
@@ -5986,15 +5986,15 @@ nullsub_1:
 
 
 sub_82B2:
-							; Field_PauseGame+116p
+							; Field_PauseGame+116
 		move.w	($FFFFD830).w,d0
 		bpl.s	loc_82BA
 		moveq	#0,d0
 
 loc_82BA:
-		cmpi.w	#$BF,d0				; "�"
+		cmpi.w	#$BF,d0
 		bcs.s	loc_82C4
-		move.w	#$BF,d0				; "�"
+		move.w	#$BF,d0
 
 loc_82C4:
 		move.w	d0,($FFFFD830).w
@@ -6033,7 +6033,7 @@ loc_82DE:
 
 loc_8320:
 		lea	($FFFFCA5E).w,a0
-		move.w	#$6F,d2				; "o"
+		move.w	#$6F,d2
 
 loc_8328:
 		move.l	d0,(a0)+
@@ -6053,7 +6053,8 @@ loc_8356:
 		addq.w	#1,($FFFFFAEA).w
 		rts
 ; ---------------------------------------------------------------------------
-PALCY_RainbowField:dc.w	$EEA
+PALCY_RainbowField:
+		dc.w $EEA
 		dc.w $EC4
 		dc.w $E82
 		dc.w $E40
@@ -6079,7 +6080,7 @@ loc_837C:
 		swap	d0
 		move.w	d1,d0
 		lea	($FFFFCA5E).w,a0
-		move.w	#$DF,d1				; "�"
+		move.w	#$DF,d1
 
 .loop:
 		move.l	d0,(a0)+
@@ -6111,7 +6112,8 @@ loc_83E4:
 ; End of function sub_82B2
 
 ; ---------------------------------------------------------------------------
-PALCY_ElectricField_1:dc.w $CE0
+PALCY_ElectricField_1:
+		dc.w $CE0
 		dc.w $AC2
 		dc.w $880
 		dc.w $642
@@ -6309,7 +6311,7 @@ loc_856A:	dc.l $FFFFFAEC
 		; perhaps intentional though, considering it can flash very fast.
 		dc.l $FFFFD41C
 	else
-		dc.l $FFFFD43C	
+		dc.l $FFFFD43C
 	endif
 PALCY_ElectricField_2:dc.w $EE0
 		dc.w $64
@@ -6368,7 +6370,7 @@ loc_85D6:	dc.l $FFFFFAEE
 		; perhaps intentional though, considering it can flash very fast.
 		dc.l $FFFFD41E
 	else
-		dc.l $FFFFD43E	
+		dc.l $FFFFD43E
 	endif
 		dc.l $8E00032
 		dc.l $6C00005
@@ -6391,7 +6393,7 @@ sub_860A:
 		bne.s	locret_8630
 		addq.b	#4,(a1)
 		move.b	(a1),d0
-		andi.w	#$FC,d0				; "�"
+		andi.w	#$FC,d0
 		move.w	(a0,d0.w),(a2)
 		move.w	2(a0,d0.w),d0
 		bpl.s	loc_862C
@@ -6659,8 +6661,8 @@ loc_88D2:
 		jsr	(sub_15D0).w
 		move.w	#5,($FFFFD83C).w
 		move.w	#7,($FFFFD840).w
-		move.w	#$3F,($FFFFD844).w		; "?"
-		move.w	#$3F,($FFFFD848).w		; "?"
+		move.w	#$3F,($FFFFD844).w
+		move.w	#$3F,($FFFFD848).w
 		jsr	(sub_BE72).l
 		jsr	(sub_D1E0).l
 		jsr	(sub_EFD4).l
@@ -6740,10 +6742,10 @@ Level_ReadController:
 		sne	d2
 		move.b	4(a3,d1.w),d0
 		move.b	d0,d1
-		andi.b	#$70,d1				; "p"
+		andi.b	#$70,d1
 		sne	d1
 		or.b	d2,d1
-		andi.b	#$70,d1				; "p"
+		andi.b	#$70,d1
 		or.b	d1,d0
 		lea	($FFFFFB00).w,a4
 		move.b	-1(a4),d1
@@ -6764,10 +6766,10 @@ Level_ReadController:
 		sne	d2
 		move.b	4(a3,d1.w),d0
 		move.b	d0,d1
-		andi.b	#$70,d1				; "p"
+		andi.b	#$70,d1
 		sne	d1
 		or.b	d2,d1
-		andi.b	#$70,d1				; "p"
+		andi.b	#$70,d1
 		or.b	d1,d0
 
 loc_8AB4:
@@ -6848,8 +6850,8 @@ Level_PauseGame:
 		tst.b	($FFFFD89F).w
 		bpl.w	locret_8BFC
 		move.b	($FFFFC93C).w,d0
-		andi.b	#$70,d0				; "p"
-		cmpi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
+		cmpi.b	#$70,d0
 		bne.s	loc_8BA0
 		disable_ints
 		suba.l	a0,a0
@@ -7092,7 +7094,7 @@ loc_8EE0:
 		move.w	d0,($FFFFD834).w
 		move.w	d0,d1
 		lsl.w	#5,d1
-		subi.w	#$90,d1				; "�"
+		subi.w	#$90,d1
 		move.w	d1,($FFFFD830).w
 		lea	MAPUNC_SelectMenu_2(pc),a1
 		lsl.w	#4,d0
@@ -7316,7 +7318,7 @@ OptionSoundTest_Main:
 		move.l	#$78000003,(vdp_control_port).l
 		move.l	#0,(vdp_data_port).l
 		move.l	#0,(vdp_data_port).l
-		move.w	#$80,(v_menu_soundid).w		; "�"
+		move.w	#$80,(v_menu_soundid).w
 		enable_ints
 		addq.w	#4,(v_subgamemode).w
 		rts
@@ -7356,7 +7358,7 @@ OptionSoundTest_Exit:
 ; ---------------------------------------------------------------------------
 
 loc_94A0:
-		andi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
 		bne.s	loc_94A8
 		rts
 ; ---------------------------------------------------------------------------
@@ -7728,7 +7730,7 @@ locret_97E6:
 		neg.w	d3
 		addq.w	#3,($FFFFFBC4).w
 		move.w	($FFFFFBC4).w,d2
-		move.w	#$6F,d7				; "o"
+		move.w	#$6F,d7
 		move.w	$10(a1),d0
 		move.w	d0,d1
 		andi.w	#1,d1
@@ -7920,6 +7922,8 @@ loc_99E4:
 		move.w	(a4),(a2)+
 		dbf	d7,loc_99E4
 		rts
+; ---------------------------------------------------------------------------
+; A table of RAM adresses
 ; ---------------------------------------------------------------------------
 dword_99F0:	dc.l $FFFFFBC4
 		dc.l $FFFFFBC4
@@ -8851,7 +8855,7 @@ loc_A1F2:
 loc_A1FC:
 		move.w	($FFFFD868).w,d0
 		movea.l	off_A206(pc,d0.w),a0
-		jmp	(a0)
+		jmp	(a0)		; A dynamic call... to entries on a table right next line?
 ; ---------------------------------------------------------------------------
 off_A206:	dc.l loc_B422
 		dc.l loc_B81A
@@ -8900,7 +8904,7 @@ loc_A26A:
 		jmp	locret_A282(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-locret_A282:
+locret_A282:		; For some reason, this offset table has been disabled
 		rts
 ; ---------------------------------------------------------------------------
 		dc.w loc_A296-locret_A282
@@ -9185,7 +9189,7 @@ loc_A506:
 
 loc_A51E:
 		move.b	3(a5),d0
-		andi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
 		beq.s	loc_A530
 		move.b	#$E,7(a6)
 		rts
@@ -9270,7 +9274,7 @@ loc_A5F2:
 
 loc_A5FC:
 		move.b	2(a5),d0
-		andi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
 		bne.s	locret_A618
 		cmpi.l	#$FFFC8000,$1C(a6)
 		bge.s	locret_A618
@@ -9497,7 +9501,7 @@ loc_A808:
 loc_A810:
 		cmpi.w	#$400,d0
 		bcs.s	loc_A820
-		moveq	#$26,d2				; "&"
+		moveq	#$26,d2
 		andi.w	#$3FF,$28(a6)
 		bra.s	loc_A830
 ; ---------------------------------------------------------------------------
@@ -9580,7 +9584,7 @@ loc_A8C6:
 loc_A8D6:
 		move.b	2(a5),d0
 		move.b	d0,d1
-		andi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
 		bne.s	loc_A928
 		move.b	5(a5),d2
 		andi.b	#$F,d1
@@ -9650,7 +9654,7 @@ locret_A992:
 
 loc_A994:
 		bclr	#4,$25(a6)
-		move.w	#$2E,$26(a6)			; "."
+		move.w	#$2E,$26(a6)
 		addq.b	#1,$28(a6)
 		tst.l	$2C(a6)
 		bne.s	loc_A9B2
@@ -9674,7 +9678,7 @@ loc_A9C8:
 		bne.w	loc_AA08
 		addi.l	#$3800,$1C(a6)
 		bclr	#0,$25(a6)
-		move.w	#$30,$26(a6)			; "0"
+		move.w	#$30,$26(a6)
 		clr.b	$2A(a6)
 		clr.w	$2C(a6)
 		bsr.w	sub_CBC0
@@ -9728,7 +9732,7 @@ loc_AA46:
 ; ---------------------------------------------------------------------------
 
 loc_AA6E:
-		move.w	#$32,$26(a6)			; "2"
+		move.w	#$32,$26(a6)
 		rts
 
 ; =============== S U B	R O U T	I N E =======================================
@@ -9736,7 +9740,7 @@ loc_AA6E:
 
 sub_AA76:
 		move.b	3(a5),d0
-		andi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
 		beq.s	locret_AAA2
 		move.w	($FFFFFAE0).w,d0
 		cmpi.w	#$18,d0
@@ -9756,7 +9760,7 @@ locret_AAA2:
 
 sub_AAA4:
 		move.b	3(a5),d0
-		andi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
 		beq.s	locret_AAF6
 		move.b	#4,7(a6)
 		clr.w	$28(a6)
@@ -9835,7 +9839,7 @@ loc_AB30:
 		jmp	locret_AB48(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-locret_AB48:
+locret_AB48:		; For some reason, this offset table has been disabled
 		rts
 ; ---------------------------------------------------------------------------
 		dc.w loc_AB5C-locret_AB48
@@ -10106,7 +10110,7 @@ loc_ADB8:
 
 loc_ADD0:
 		move.b	3(a5),d0
-		andi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
 		beq.s	loc_ADE2
 		move.b	#$E,7(a6)
 		rts
@@ -10191,7 +10195,7 @@ loc_AEA4:
 
 loc_AEAE:
 		move.b	2(a5),d0
-		andi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
 		bne.s	locret_AECA
 		cmpi.l	#$FFFC0000,$1C(a6)
 		bge.s	locret_AECA
@@ -10413,7 +10417,7 @@ loc_B0B6:
 loc_B0BE:
 		cmpi.w	#$400,d0
 		bcs.s	loc_B0CE
-		moveq	#$26,d2				; "&"
+		moveq	#$26,d2
 		andi.w	#$1FF,$28(a6)
 		bra.s	loc_B0DE
 ; ---------------------------------------------------------------------------
@@ -10496,7 +10500,7 @@ loc_B174:
 loc_B184:
 		move.b	2(a5),d0
 		move.b	d0,d1
-		andi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
 		bne.s	loc_B1D6
 		move.b	5(a5),d2
 		andi.b	#$F,d1
@@ -10581,7 +10585,7 @@ loc_B250:
 
 loc_B274:
 		bclr	#4,$25(a6)
-		move.w	#$2E,$26(a6)			; "."
+		move.w	#$2E,$26(a6)
 		addq.b	#1,$28(a6)
 		tst.l	$2C(a6)
 		bne.s	loc_B292
@@ -10605,7 +10609,7 @@ loc_B2A8:
 		bne.w	loc_B2EC
 		addi.l	#$3800,$1C(a6)
 		bclr	#0,$25(a6)
-		move.w	#$30,$26(a6)			; "0"
+		move.w	#$30,$26(a6)
 		clr.b	$2A(a6)
 		clr.w	$2C(a6)
 		bsr.w	sub_CBC0
@@ -10660,7 +10664,7 @@ loc_B32A:
 ; ---------------------------------------------------------------------------
 
 loc_B352:
-		move.w	#$32,$26(a6)			; "2"
+		move.w	#$32,$26(a6)
 		rts
 
 ; =============== S U B	R O U T	I N E =======================================
@@ -10668,7 +10672,7 @@ loc_B352:
 
 sub_B35A:
 		move.b	3(a5),d0
-		andi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
 		beq.s	locret_B386
 		move.w	($FFFFFAE0).w,d0
 		cmpi.w	#$18,d0
@@ -10688,7 +10692,7 @@ locret_B386:
 
 sub_B388:
 		move.b	3(a5),d0
-		andi.b	#$70,d0				; "p"
+		andi.b	#$70,d0
 		beq.s	locret_B3DA
 		move.b	#4,7(a6)
 		clr.w	$28(a6)
@@ -10829,7 +10833,7 @@ off_B448:	dc.w loc_B47C-off_B448
 ; ---------------------------------------------------------------------------
 
 loc_B47C:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		cmpi.b	#2,$28(a5)
 		bne.s	loc_B492
 		andi.w	#$FF7F,4(a6)
@@ -10847,7 +10851,7 @@ loc_B492:
 loc_B4A2:
 		tst.w	$2E(a5)
 		beq.s	sub_B4EC
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		move.b	$2B(a5),d0
 		addq.b	#8,d0
 		lsr.w	#3,d0
@@ -10879,7 +10883,7 @@ word_B4CC:	dc.w $9C
 
 
 sub_B4EC:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#0,d4
 		move.b	$28(a5),d4
 		add.w	d4,d4
@@ -11017,7 +11021,7 @@ loc_B5C0:	dc.w $5C
 ; ---------------------------------------------------------------------------
 
 sub_B5F0:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFF2,d0
 		moveq	#$FFFFFFF3,d1
 		btst	#0,$28(a5)
@@ -11026,12 +11030,12 @@ sub_B5F0:
 
 loc_B604:
 		bsr.w	sub_CA82
-		move.w	#$6C,$26(a6)			; "l"
+		move.w	#$6C,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_B610:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#-2,d0
 		moveq	#$FFFFFFF6,d1
 		btst	#0,$28(a5)
@@ -11041,12 +11045,12 @@ sub_B610:
 
 loc_B626:
 		bsr.w	sub_CA82
-		move.w	#$70,$26(a6)			; "p"
+		move.w	#$70,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_B632:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFF3,d0
 		moveq	#$FFFFFFF8,d1
 		btst	#0,$28(a5)
@@ -11055,12 +11059,12 @@ sub_B632:
 
 loc_B646:
 		bsr.w	sub_CA82
-		move.w	#$74,$26(a6)			; "t"
+		move.w	#$74,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_B652:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#-3,d0
 		moveq	#$FFFFFFF4,d1
 		btst	#0,$28(a5)
@@ -11070,7 +11074,7 @@ sub_B652:
 
 loc_B668:
 		bsr.w	sub_CA82
-		move.w	#$78,$26(a6)			; "x"
+		move.w	#$78,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -11080,7 +11084,7 @@ loc_B674:
 ; ---------------------------------------------------------------------------
 
 sub_B67C:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFEA,d0
 		moveq	#$FFFFFFF4,d1
 		bsr.w	sub_CA82
@@ -11149,16 +11153,16 @@ loc_B6F6:
 ; ---------------------------------------------------------------------------
 
 sub_B6FE:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#-3,d0
 		moveq	#$FFFFFFF3,d1
 		bsr.w	sub_CA82
-		move.w	#$BC,$26(a6)			; "�"
+		move.w	#$BC,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_B714:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#0,d0
 		moveq	#$FFFFFFF3,d1
 		btst	#0,$28(a5)
@@ -11167,12 +11171,12 @@ sub_B714:
 
 loc_B728:
 		bsr.w	sub_CA82
-		move.w	#$BC,$26(a6)			; "�"
+		move.w	#$BC,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_B734:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#4,d0
 		moveq	#$FFFFFFE7,d1
 		btst	#0,$28(a5)
@@ -11182,12 +11186,12 @@ sub_B734:
 
 loc_B74A:
 		bsr.w	sub_CA82
-		move.w	#$C0,$26(a6)			; "�"
+		move.w	#$C0,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_B756:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#-5,d0
 		moveq	#$FFFFFFE9,d1
 		btst	#0,$28(a5)
@@ -11196,12 +11200,12 @@ sub_B756:
 
 loc_B76A:
 		bsr.w	sub_CA82
-		move.w	#$C4,$26(a6)			; "�"
+		move.w	#$C4,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_B776:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFEE,d0
 		moveq	#$FFFFFFF6,d1
 		btst	#0,$28(a5)
@@ -11211,7 +11215,7 @@ sub_B776:
 
 loc_B78C:
 		bsr.w	sub_CA82
-		move.w	#$C8,$26(a6)			; "�"
+		move.w	#$C8,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -11226,7 +11230,7 @@ loc_B7A0:
 ; ---------------------------------------------------------------------------
 
 sub_B7A8:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFF0,d0
 		moveq	#$FFFFFFE9,d1
 		bsr.w	sub_CA82
@@ -11315,13 +11319,13 @@ off_B840:	dc.w sub_B874-off_B840
 ; ---------------------------------------------------------------------------
 
 sub_B874:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		cmpi.b	#2,$28(a5)
 		bne.s	loc_B892
 		moveq	#$FFFFFFF9,d0
 		moveq	#$FFFFFFF6,d1
 		bsr.w	sub_CA82
-		move.w	#$64,$26(a6)			; "d"
+		move.w	#$64,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -11329,14 +11333,14 @@ loc_B892:
 		moveq	#$FFFFFFF4,d0
 		moveq	#$FFFFFFEE,d1
 		bsr.w	sub_CA82
-		move.w	#$5C,$26(a6)			; "\"
+		move.w	#$5C,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_B8A2:
 		tst.w	$2E(a5)
 		beq.s	sub_B8F0
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		move.b	$2B(a5),d0
 		addq.b	#8,d0
 		lsr.w	#3,d0
@@ -11369,7 +11373,7 @@ word_B8D0:	dc.w $20
 
 
 sub_B8F0:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#0,d4
 		move.b	$28(a5),d4
 		add.w	d4,d4
@@ -11537,38 +11541,38 @@ word_B9F4:	dc.w $80
 ; ---------------------------------------------------------------------------
 
 sub_BA34:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFF0,d0
 		moveq	#$FFFFFFEE,d1
 		bsr.w	sub_CA82
-		move.w	#$A8,$26(a6)			; "�"
+		move.w	#$A8,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_BA4A:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFF0,d0
 		moveq	#$FFFFFFE9,d1
 		bsr.w	sub_CA82
-		move.w	#$AC,$26(a6)			; "�"
+		move.w	#$AC,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_BA60:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFEE,d0
 		moveq	#$FFFFFFF0,d1
 		bsr.w	sub_CA82
-		move.w	#$B0,$26(a6)			; "�"
+		move.w	#$B0,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_BA76:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFF0,d0
 		moveq	#$FFFFFFE8,d1
 		bsr.w	sub_CA82
-		move.w	#$B4,$26(a6)			; "�"
+		move.w	#$B4,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -11578,7 +11582,7 @@ loc_BA8C:
 ; ---------------------------------------------------------------------------
 
 sub_BA94:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFF4,d0
 		cmpi.b	#$14,$28(a5)
 		bcs.s	loc_BAA6
@@ -11587,7 +11591,7 @@ sub_BA94:
 loc_BAA6:
 		moveq	#$FFFFFFEE,d1
 		bsr.w	sub_CA82
-		move.w	#$5C,$26(a6)			; "\"
+		move.w	#$5C,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -11643,16 +11647,16 @@ loc_BB08:
 ; ---------------------------------------------------------------------------
 
 sub_BB10:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#-3,d0
 		moveq	#-5,d1
 		bsr.w	sub_CA82
-		move.w	#$BC,$26(a6)			; "�"
+		move.w	#$BC,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_BB26:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#0,d0
 		moveq	#-5,d1
 		btst	#0,$28(a5)
@@ -11661,12 +11665,12 @@ sub_BB26:
 
 loc_BB3A:
 		bsr.w	sub_CA82
-		move.w	#$BC,$26(a6)			; "�"
+		move.w	#$BC,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_BB46:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#4,d0
 		moveq	#$FFFFFFE7,d1
 		btst	#0,$28(a5)
@@ -11676,12 +11680,12 @@ sub_BB46:
 
 loc_BB5C:
 		bsr.w	sub_CA82
-		move.w	#$C0,$26(a6)			; "�"
+		move.w	#$C0,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_BB68:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#-5,d0
 		moveq	#$FFFFFFE9,d1
 		btst	#0,$28(a5)
@@ -11690,12 +11694,12 @@ sub_BB68:
 
 loc_BB7C:
 		bsr.w	sub_CA82
-		move.w	#$C4,$26(a6)			; "�"
+		move.w	#$C4,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_BB88:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFEE,d0
 		moveq	#$FFFFFFF6,d1
 		btst	#0,$28(a5)
@@ -11705,7 +11709,7 @@ sub_BB88:
 
 loc_BB9E:
 		bsr.w	sub_CA82
-		move.w	#$C8,$26(a6)			; "�"
+		move.w	#$C8,$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -11720,7 +11724,7 @@ loc_BBB2:
 ; ---------------------------------------------------------------------------
 
 sub_BBBA:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFF4,d0
 		moveq	#$FFFFFFEE,d1
 		bsr.w	sub_CA82
@@ -11824,7 +11828,7 @@ loc_BCA0:
 		move.w	d0,$2A(a6)
 		moveq	#0,d0
 		move.b	$2A(a6),d0
-		addi.w	#$76,d0				; "v"
+		addi.w	#$76,d0
 		move.w	d0,$26(a6)
 		moveq	#$FFFFFFDC,d0
 		moveq	#$FFFFFFEE,d1
@@ -11838,8 +11842,8 @@ loc_BCBC:
 ; ---------------------------------------------------------------------------
 
 loc_BCC4:
-		ori.w	#$80,4(a6)			; "�"
-		move.w	#$67,$26(a6)			; "g"
+		ori.w	#$80,4(a6)
+		move.w	#$67,$26(a6)
 		moveq	#$FFFFFFF0,d0
 		moveq	#0,d1
 		move.b	#0,$20(a6)
@@ -11854,12 +11858,12 @@ loc_BCE6:
 ; ---------------------------------------------------------------------------
 
 loc_BCF0:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		move.w	$18(a5),d0
 		move.w	$1C(a5),d1
 		jsr	(sub_42CE).w
 		addi.w	#$10,d2
-		andi.w	#$E0,d2				; "�"
+		andi.w	#$E0,d2
 		lsr.w	#2,d2
 		move.w	word_BD36+4(pc,d2.w),d0
 		move.b	$28(a5),d1
@@ -11961,7 +11965,7 @@ loc_BDD6:
 ; ---------------------------------------------------------------------------
 
 loc_BDDE:
-		ori.w	#$80,4(a6)			; "�"
+		ori.w	#$80,4(a6)
 		moveq	#0,d0
 		move.b	$28(a5),d0
 		add.w	d0,d0
@@ -12016,7 +12020,7 @@ loc_BE2E:
 		tst.b	6(a5)
 		bne.s	loc_BE66
 		move.l	a2,($FFFFD894).w
-		ori.b	#$40,($FFFFD87A).w		; "@"
+		ori.b	#$40,($FFFFD87A).w
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -12034,7 +12038,7 @@ sub_BE72:
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	loc_BE9C
-		move.w	#$80,4(a0)			; "�"
+		move.w	#$80,4(a0)
 		move.w	#$800,6(a0)
 		move.w	#0,$20(a0)
 		move.w	a0,($FFFFD862).w
@@ -12043,13 +12047,13 @@ loc_BE9C:
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	loc_BEE0
-		move.w	#$80,4(a0)			; "�"
+		move.w	#$80,4(a0)
 		move.w	#2,6(a0)
 		move.w	($FFFFC9DE).w,d0
-		addi.w	#$B8,d0				; "�"
+		addi.w	#$B8,d0
 		move.w	d0,8(a0)
 		move.w	($FFFFC9EE).w,d0
-		addi.w	#$70,d0				; "p"
+		addi.w	#$70,d0
 		move.w	d0,$C(a0)
 		move.w	#0,$20(a0)
 		movea.w	($FFFFD862).w,a6
@@ -12061,7 +12065,7 @@ loc_BEE0:
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	loc_BF00
-		move.w	#$80,4(a0)			; "�"
+		move.w	#$80,4(a0)
 		move.w	#$1000,6(a0)
 		move.w	#0,$20(a0)
 		move.w	($FFFFD862).w,$24(a0)
@@ -12070,24 +12074,24 @@ loc_BF00:
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	loc_BF1E
-		move.w	#$80,4(a0)			; "�"
+		move.w	#$80,4(a0)
 		move.w	#$C00,6(a0)
-		move.w	#$21,$20(a0)			; "!"
+		move.w	#$21,$20(a0)
 		move.w	a0,($FFFFD864).w
 
 loc_BF1E:
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	loc_BF62
-		move.w	#$80,4(a0)			; "�"
+		move.w	#$80,4(a0)
 		move.w	#$402,6(a0)
 		move.w	($FFFFC9DE).w,d0
-		addi.w	#$88,d0				; "�"
+		addi.w	#$88,d0
 		move.w	d0,8(a0)
 		move.w	($FFFFC9EE).w,d0
-		addi.w	#$70,d0				; "p"
+		addi.w	#$70,d0
 		move.w	d0,$C(a0)
-		move.w	#$21,$20(a0)			; "!"
+		move.w	#$21,$20(a0)
 		movea.w	($FFFFD864).w,a6
 		move.w	a0,($FFFFD864).w
 		move.w	a0,$24(a6)
@@ -12097,9 +12101,9 @@ loc_BF62:
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	locret_BF82
-		move.w	#$80,4(a0)			; "�"
+		move.w	#$80,4(a0)
 		move.w	#$1400,6(a0)
-		move.w	#$21,$20(a0)			; "!"
+		move.w	#$21,$20(a0)
 		move.w	($FFFFD864).w,$24(a0)
 
 locret_BF82:
@@ -12554,7 +12558,7 @@ sub_C29E:
 		move.b	#$A,($FFFFFAE8).w
 		move.b	$2A(a6),d0
 		addi.b	#$20,d0
-		andi.w	#$C0,d0				; "�"
+		andi.w	#$C0,d0
 		lsr.w	#4,d0
 		jmp	loc_C2BE(pc,d0.w)
 ; End of function sub_C29E
@@ -13370,7 +13374,6 @@ sub_CA3C:
 
 
 sub_CA82:
-							; sub_B4EC+20p	...
 		move.b	$20(a5),d2
 		move.b	d2,$20(a6)
 
@@ -13596,7 +13599,7 @@ loc_CC62:
 		moveq	#$C,d0
 		jsr	(sub_1918).w
 		bmi.s	locret_CCC8
-		move.w	#$80,4(a0)			; "�"
+		move.w	#$80,4(a0)
 		move.w	#$28,6(a0)
 		move.w	#$28,6(a0)
 		move.w	#$FF,$26(a0)
@@ -13645,7 +13648,7 @@ sub_CCCA:
 		ext.l	d1
 		add.l	d1,d0
 		lsr.l	#1,d0
-		subi.w	#$A0,d0				; "�"
+		subi.w	#$A0,d0
 		move.w	d0,($FFFFD830).w
 		move.w	$C(a0),d0
 		ext.l	d0
@@ -13653,7 +13656,7 @@ sub_CCCA:
 		ext.l	d1
 		add.l	d1,d0
 		lsr.l	#1,d0
-		subi.w	#$70,d0				; "p"
+		subi.w	#$70,d0
 		move.w	d0,($FFFFD832).w
 		lea	loc_CFD0(pc),a2
 		moveq	#0,d0
@@ -13886,7 +13889,6 @@ loc_CF46:
 		lea	($FFFFD854).w,a0
 
 loc_CF4A:
-							; sub_CCCA+2C2j
 		move.w	(a0),d0
 		beq.s	locret_CF8E
 		movea.w	d0,a0
@@ -13909,7 +13911,6 @@ loc_CF74:
 		ori.w	#$8000,d0
 
 loc_CF7E:
-							; sub_CCCA+2A8j ...
 		move.w	d0,$20(a0)
 		addq.w	#2,d5
 		tst.w	(a3,d5.w)
@@ -14494,7 +14495,7 @@ loc_D1E2:
 		moveq	#8,d0
 		jsr	(sub_1918).w
 		bmi.s	locret_D202
-		move.w	#$80,4(a0)			; "�"
+		move.w	#$80,4(a0)
 		move.w	#$800,6(a0)
 		move.l	#TethCodingValue,$10(a0)
 		dbf	d7,loc_D1E2
@@ -16981,10 +16982,10 @@ loc_EBE0:
 		tst.w	($FFFFD834).w
 		beq.s	loc_EC02
 		movea.w	($FFFFD862).w,a0
-		cmpi.w	#$8F,$C(a0)			; "�"
+		cmpi.w	#$8F,$C(a0)
 		bcs.s	loc_EBFE
 		movea.w	($FFFFD864).w,a0
-		cmpi.w	#$8F,$C(a0)			; "�"
+		cmpi.w	#$8F,$C(a0)
 		bcc.s	loc_EC02
 
 loc_EBFE:
@@ -17091,56 +17092,56 @@ unk_ECE6:	dc.b   0
 		dc.b $17
 		dc.b $19
 		dc.b $20
-		dc.b $22				; "
-		dc.b $23				; #
-		dc.b $25				; %
-		dc.b $27				; "
-		dc.b $28				; (
-		dc.b $30				; 0
-		dc.b $31				; 1
-		dc.b $33				; 3
-		dc.b $34				; 4
-		dc.b $36				; 6
-		dc.b $38				; 8
-		dc.b $39				; 9
-		dc.b $41				; A
-		dc.b $42				; B
-		dc.b $44				; D
-		dc.b $45				; E
-		dc.b $47				; G
-		dc.b $48				; H
-		dc.b $50				; P
-		dc.b $52				; R
-		dc.b $53				; S
-		dc.b $55				; U
-		dc.b $56				; V
-		dc.b $58				; X
-		dc.b $59				; Y
-		dc.b $61				; a
-		dc.b $63				; c
-		dc.b $64				; d
-		dc.b $66				; f
-		dc.b $67				; g
-		dc.b $69				; i
-		dc.b $70				; p
-		dc.b $72				; r
-		dc.b $73				; s
-		dc.b $75				; u
-		dc.b $77				; w
-		dc.b $78				; x
-		dc.b $80				; �
-		dc.b $81				; �
-		dc.b $83				; �
-		dc.b $84				; �
-		dc.b $86				; �
-		dc.b $88				; �
-		dc.b $89				; �
-		dc.b $91				; �
-		dc.b $92				; �
-		dc.b $94				; �
-		dc.b $95				; �
-		dc.b $97				; �
-		dc.b $99				; �
+		dc.b $22
+		dc.b $23
+		dc.b $25
+		dc.b $27
+		dc.b $28
+		dc.b $30
+		dc.b $31
+		dc.b $33
+		dc.b $34
+		dc.b $36
+		dc.b $38
+		dc.b $39
+		dc.b $41
+		dc.b $42
+		dc.b $44
+		dc.b $45
+		dc.b $47
+		dc.b $48
+		dc.b $50
+		dc.b $52
+		dc.b $53
+		dc.b $55
+		dc.b $56
+		dc.b $58
+		dc.b $59
+		dc.b $61
+		dc.b $63
+		dc.b $64
+		dc.b $66
+		dc.b $67
+		dc.b $69
+		dc.b $70
+		dc.b $72
+		dc.b $73
+		dc.b $75
+		dc.b $77
+		dc.b $78
+		dc.b $80
+		dc.b $81
+		dc.b $83
+		dc.b $84
+		dc.b $86
+		dc.b $88
+		dc.b $89
+		dc.b $91
+		dc.b $92
+		dc.b $94
+		dc.b $95
+		dc.b $97
+		dc.b $99
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -17436,7 +17437,7 @@ sub_EFD4:
 		move.l	#0,$24(a0)
 		lea	loc_F00E(pc),a1
 		lea	($FFFFD9F2).w,a2
-		move.w	#$67,d0				; "g"
+		move.w	#$67,d0
 
 loc_EFF8:
 		move.w	(a1)+,(a2)+
@@ -17660,8 +17661,8 @@ sub_F1CA:
 		lea	($FFFFC9DE).w,a0
 		_move.w	0(a0),d0
 		move.w	$10(a0),d1
-		addi.w	#$A0,d0				; "�"
-		addi.w	#$70,d1				; "p"
+		addi.w	#$A0,d0
+		addi.w	#$70,d1
 		move.w	d0,($FFFFD8E4).w
 		move.w	d1,($FFFFD8E6).w
 		subi.w	#$140,d0
@@ -17670,7 +17671,7 @@ sub_F1CA:
 
 loc_F1EE:
 		move.w	d0,($FFFFD8DC).w
-		subi.w	#$E0,d1				; "�"
+		subi.w	#$E0,d1
 		bcc.s	loc_F1FA
 		moveq	#0,d1
 
@@ -17685,7 +17686,7 @@ loc_F1FA:
 
 loc_F214:
 		move.w	d0,($FFFFD8E0).w
-		addi.w	#$E0,d1				; "�"
+		addi.w	#$E0,d1
 		cmp.w	($FFFFD8EA).w,d1
 		bcs.s	loc_F226
 		move.w	($FFFFD8EA).w,d1
@@ -17910,7 +17911,7 @@ loc_F3B6:
 ; ---------------------------------------------------------------------------
 		bra.s	loc_F43E
 ; ---------------------------------------------------------------------------
-		dc.w	$4278,$FDC1	; clr.w	($FFFFFDC1).w
+		clr.w	($FFFFFDC1).w
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17957,9 +17958,6 @@ loc_F43E:
 
 
 sub_F45C:
-
-; FUNCTION CHUNK AT 0000F4D8 SIZE 0000000C BYTES
-
 		moveq	#$B,d7
 		lea	TitleCardBG_TileLocationArray(pc),a6
 
@@ -17991,7 +17989,8 @@ sub_F472:
 ; End of function sub_F472
 
 ; ---------------------------------------------------------------------------
-TitleCardBG_TileLocationArray:dc.w $40
+TitleCardBG_TileLocationArray:
+		dc.w $40
 		dc.l TCBG_Tile2
 		dc.w $60
 		dc.l TCBG_Tile3
@@ -18143,7 +18142,7 @@ loc_F59E:
 		move.w	#$8003,d2
 		move.w	($FFFFD816).w,d3
 		jsr	(sub_86E).w
-		cmpi.w	#$20,($FFFFFDC6).w		; " "
+		cmpi.w	#$20,($FFFFFDC6).w
 		ble.s	locret_F5C0
 		addq.w	#4,($FFFFFDC4).w
 
@@ -18344,7 +18343,7 @@ loc_F720:
 		movem.w	(sp)+,d1/d3
 		moveq	#6,d0
 		move.w	#$8008,d2
-		addi.w	#$30,d3				; "0"
+		addi.w	#$30,d3
 		jsr	(sub_86E).w
 		cmpi.w	#6,($FFFFFDCC).w
 		blt.s	locret_F7E6
@@ -18371,7 +18370,7 @@ loc_F7F8:
 		moveq	#6,d0
 		sub.w	($FFFFFDCC).w,d0
 		move.w	($FFFFD816).w,d3
-		addi.w	#$44,d3				; "D"
+		addi.w	#$44,d3
 		moveq	#5,d1
 		move.w	#$8004,d2
 		movem.w	d0/d3,-(sp)
@@ -18422,7 +18421,7 @@ loc_F884:
 		addi.w	#$380,d3
 		add.w	($FFFFD816).w,d3
 		jsr	(sub_86E).w
-		cmpi.w	#$21,($FFFFFDCE).w		; "!"
+		cmpi.w	#$21,($FFFFFDCE).w
 		blt.s	locret_F8B0
 		addq.w	#4,($FFFFFDC4).w
 
