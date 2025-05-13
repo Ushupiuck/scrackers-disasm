@@ -4959,13 +4959,13 @@ loc_6B7C:
 ; ---------------------------------------------------------------------------
 
 loc_6B88:
-		move.l	#$60011B,d7
+		move.l	#$60011B,d7 ; Potential reference to Sonic's art+$11B?
 		lea	($FFFFD194).w,a0
 		bra.s	loc_6B9E
 ; ---------------------------------------------------------------------------
 
 loc_6B94:
-		move.l	#$700135,d7
+		move.l	#$700135,d7 ; Potential reference to UnknownData_00070000+$135?
 		lea	($FFFFD19C).w,a0
 
 loc_6B9E:
@@ -18768,8 +18768,8 @@ UnkReps:	dc.w $0022				; number of uncompressed art files to read
 ; Data Location (0000FDB0 - 0000FFFF)
 ; Striped out
 ; UnkData_0000FDB0:
-		binclude	"UnknownCodes/UnknownData_0000FDB0.bin"
-		even
+;		binclude	"UnknownCodes/UnknownData_0000FDB0.bin"
+;		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18848,7 +18848,7 @@ Music86:	include	"Sound/Music/Mus86 - Game Over.asm"
 ; Data Location (00016000 - 00016703)
 ; Striped out
 ; UnkData_00016000:
-		binclude	"UnknownCodes/UnknownData_00016000.bin"
+;		binclude	"UnknownCodes/UnknownData_00016000.bin"
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18929,8 +18929,8 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Data Location (0001F762 - 0001FB61)
 ; Striped out
 ; UnkData_0001F762:
-		binclude	"UnknownCodes/UnknownData_0001F762.bin"
-	even
+;		binclude	"UnknownCodes/UnknownData_0001F762.bin"
+;	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18939,8 +18939,8 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Data Location (0001FB62 - 0001FFFF)
 ; Striped out
 ; UnkData_0001FB62:
-		binclude	"UnknownCodes/UnknownData_0001FB62.bin"
-	even
+;		binclude	"UnknownCodes/UnknownData_0001FB62.bin"
+;	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
