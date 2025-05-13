@@ -18889,6 +18889,7 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Striped out
 ; UnkData_00018341:
 		binclude	"UnknownCodes/UnknownData_00018341.bin"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18898,6 +18899,7 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Striped out
 ; UnkData_00018741:
 		binclude	"UnknownCodes/UnknownData_00018741.bin"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18907,6 +18909,7 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Striped out
 ; UnkData_0001C990:
 		binclude	"UnknownCodes/UnknownData_0001C990.bin"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18916,6 +18919,7 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Striped out
 ; UnkData_0001CD90:
 		binclude	"UnknownCodes/UnknownData_0001CD90.bin"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18926,6 +18930,7 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Striped out
 ; UnkData_0001F762:
 		binclude	"UnknownCodes/UnknownData_0001F762.bin"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18935,6 +18940,7 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Striped out
 ; UnkData_0001FB62:
 		binclude	"UnknownCodes/UnknownData_0001FB62.bin"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19130,66 +19136,79 @@ ARTUNC_TitleCardBGAndPause:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG1.bin"		; Yellow Pause Bar
+	even
 ; ---------------------------------------------------------------------------
 TCBG_Tile2:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG2.bin"		; Title Card - Black tiles that appear to hide the level design before the title card appears
+	even
 ; ---------------------------------------------------------------------------
 TCBG_Tile3:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG3.bin"		; Title Card - Dark Gray/Blue Bar that comes down first
+	even
 ; ---------------------------------------------------------------------------
 TCBG_Tile4:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG4.bin"		; Title Card - Light Gray/Blue Bar that appears from top right
+	even
 ; ---------------------------------------------------------------------------
 TCBG_Tile5:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG5.bin"		; Title Card - Pure White tiles that appear from the left
+	even
 ; ---------------------------------------------------------------------------
 TCBG_Tile6:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG6.bin"		; Title Card - Faded Blue tiles that appear from the bottom that move over the Pure White tiles
+	even
 ; ---------------------------------------------------------------------------
 TCBG_Tile7:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG7.bin"		; ??? (Unused)
+	even
 ; ---------------------------------------------------------------------------
 TCBG_Tile8:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG8.bin"		; Title Card - Dark Blue tiles on bottom right
+	even
 ; ---------------------------------------------------------------------------
 TCBG_Tile9:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG9.bin"		; Title Card - Light blue tiles that appear on the bottom and right
+	even
 ; ---------------------------------------------------------------------------
 TCBG_TileA:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBGA.bin"		; Title Card - Red thin bar that appears from the right
+	even
 ; ---------------------------------------------------------------------------
 TCBG_TileB:
 		dc.w 32*2				; 64 bytes (2 tiles)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBGB.bin"		; Title Card - White Zig-Zag tiles that appear overlapping the light Gray/Blue Bar that appears from top right
+	even
 ; ---------------------------------------------------------------------------
 TCBG_TileC:
 		dc.w 32*2				; 64 bytes (2 tiles)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBGC.bin"		; Title Card - White Zig-Zag tiles that appear overlapping middle section
+	even
 ; ---------------------------------------------------------------------------
 TCBG_TileD:
 		dc.w 32*2				; 64 bytes (2 tiles)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBGD.bin"		; Title Card - Light blue Zig-Zag tiles (The Light blue tiles overlapping the white Zig-Zag tiles basically)
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19213,17 +19232,17 @@ ARTNEM_SpikesVer:
 ; ---------------------------------------------------------------------------
 	include	"PLCMAPANI/MAP_Springs.asm"		; Spring mapping
 	include	"PLCMAPANI/MAP_Spikes.asm"		; Spikes mapping
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Unknown Data, Something to do with sprite mapping or PLC (Possibly an
 ; index block in here?)
 ; ---------------------------------------------------------------------------
-
 unk_42358:		dc.b $FF,$64,$FF,$70,$FF,$7C
 unk_4235E:		dc.b $FF,$82,$FF,$8E,$FF,$9A
 unk_42364:		dc.b $FF,$A0,$FF,$AC,$FF,$B8
-
+	even
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Object Positions
@@ -19354,26 +19373,37 @@ ARTUNC_TTZAnimatedTurbineBG7:
 ; ---------------------------------------------------------------------------
 AniArt_Combi:						; "COMBI" (Unused)
 	binclude	"artunc/Combi_Un.bin"
+	even
 AniArt_Limits:						; "LIMITS" (Unused)
 	binclude	"artunc/Limits_Un.bin"
+	even
 AniArt_StripBlock:					; Striped Block (Unused)
 	binclude	"artunc/StripBlock_Un.bin"
+	even
 AniArt_Score:						; "SCORE" (Unused)
 	binclude	"artunc/Score_Un.bin"
+	even
 AniArt_Rings:						; "RINGS" (Unused)
 	binclude	"artunc/Rings_Un.bin"
+	even
 AniArt_SLTime:						; "/TIME" (Unused)
 	binclude	"artunc/SLTime_Un.bin"
+	even
 AniArt_Hud1to9_Sym:					; "0" to "9" Hud (Exclaimation Mark, and Minute/Second Symbol)
 	binclude	"artunc/Hud0to9_Sym.bin"
+	even
 AniArt_RingSprites:					; Ring Sprites
 	binclude	"artunc/Spark_Ring.bin"
+	even
 AniArt_Tether:						; Tether Star Sprites
 	binclude	"artunc/Tether.bin"
+	even
 AniArt_MultiStars:					; Multiple Stars (Unused)
 	binclude	"artunc/MultipleStars_Un.bin"
+	even
 AniArt_MiliSymbol:					; "" (Second/Mili-Second Symbol)
 	binclude	"artunc/Hud_Sym2.bin"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19416,6 +19446,7 @@ MAPUNC_ElectricFieldBG:
 ; Striped out
 ; UnkData_00054460:
 		binclude	"UnknownCodes/UnknownData_00054460.bin"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19443,12 +19474,15 @@ ARTUNC_TailsArms:
 ; ---------------------------------------------------------------------------
 PLCMAP_SonArm_MainIndex:
 	include	"PLCMAPANI/PLCMAP_IndxBlck_SonicArm.asm"
+	even
 ; ---------------------------------------------------------------------------
 PLC_SonicArm:
 	include	"PLCMAPANI/PLC_SonicArm.asm"
+	even
 ; ---------------------------------------------------------------------------
 Map_SonicArm:
 	include	"PLCMAPANI/MAP_SonicArm.asm"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19456,15 +19490,19 @@ Map_SonicArm:
 ; ---------------------------------------------------------------------------
 ANI_Sonic:
 	include	"PLCMAPANI/ANI_Sonic.asm"
+	even
 ; ---------------------------------------------------------------------------
 PLCMAP_Sonic_MainIndex:
 	include	"PLCMAPANI/PLCMAP_IndxBlck_Sonic.asm"
+	even
 ; ---------------------------------------------------------------------------
 PLC_Sonic:
 	include	"PLCMAPANI/PLC_Sonic.asm"
+	even
 ; ---------------------------------------------------------------------------
 Map_Sonic:
 	include	"PLCMAPANI/MAP_Sonic.asm"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19472,12 +19510,15 @@ Map_Sonic:
 ; ---------------------------------------------------------------------------
 PLCMAP_TalArm_MainIndex:
 	include	"PLCMAPANI/PLCMAP_IndxBlck_TailsArm.asm"
+	even
 ; ---------------------------------------------------------------------------
 PLC_TailsArm:
 	include	"PLCMAPANI/PLC_TailsArm.asm"
+	even
 ; ---------------------------------------------------------------------------
 MAP_TailsArm:
 	include	"PLCMAPANI/MAP_TailsArm.asm"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19485,15 +19526,19 @@ MAP_TailsArm:
 ; ---------------------------------------------------------------------------
 ANI_Tails:
 	include	"PLCMAPANI/ANI_Tails.asm"
+	even
 ; ---------------------------------------------------------------------------
 PLCMAP_Tails_MainIndex:
 	include	"PLCMAPANI/PLCMAP_IndxBlck_Tails.asm"
+	even
 ; ---------------------------------------------------------------------------
 PLC_Tails:
 	include	"PLCMAPANI/PLC_Tails.asm"
+	even
 ; ---------------------------------------------------------------------------
 MAP_Tails:
 	include	"PLCMAPANI/MAP_Tails.asm"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19501,15 +19546,19 @@ MAP_Tails:
 ; ---------------------------------------------------------------------------
 ANI_SonicFields:
 	include	"PLCMAPANI/ANI_SonicFields.asm"
+	even
 ; ---------------------------------------------------------------------------
 PLCMAP_SonicFields_MainIndex:
 	include	"PLCMAPANI/PLCMAP_IndxBlck_SonicFields.asm"
+	even
 ; ---------------------------------------------------------------------------
 PLC_SonicFields:
 	include	"PLCMAPANI/PLC_SonicFields.asm"
+	even
 ; ---------------------------------------------------------------------------
 Map_SonicFields:
 	include	"PLCMAPANI/MAP_SonicFields.asm"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19517,15 +19566,19 @@ Map_SonicFields:
 ; ---------------------------------------------------------------------------
 ANI_TailsFields:
 	include	"PLCMAPANI/ANI_TailsFields.asm"
+	even
 ; ---------------------------------------------------------------------------
 PLCMAP_TailsFields_MainIndex:
 	include	"PLCMAPANI/PLCMAP_IndxBlck_TailsFields.asm"
+	even
 ; ---------------------------------------------------------------------------
 PLC_TailsFields:
 	include	"PLCMAPANI/PLC_TailsFields.asm"
+	even
 ; ---------------------------------------------------------------------------
 Map_TailsFields:
 	include	"PLCMAPANI/MAP_TailsFields.asm"
+	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
