@@ -1446,7 +1446,7 @@ loc_F18:
 
 locret_F20:
 		rts
-		
+
 ; ===========================================================================
 
 ClearPLC:
@@ -1548,7 +1548,7 @@ loc_FEE:
 
 locret_101E:
 		rts
-		
+
 ; ===========================================================================
 
 ProcessDPLC_Pop:
@@ -4157,9 +4157,9 @@ SegaScreen:
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 SegaScreen_VDPSettings:
-		dc.w $8230				; plane a: 
+		dc.w $8230				; plane a:
 		dc.w $8407				; plane b:
-		dc.w $833C				; window table: 
+		dc.w $833C				; window table:
 		dc.w $855C				; sprite table: B800
 		dc.w $8D2F				; horizontal scroll table: BC00
 		dc.w $8B00				; full scroll horizontally/vertically, external interrupt disabled
@@ -17013,7 +17013,7 @@ loc_EC20:
 		bclr	#7,(v_lagger).w
 
 .wait:
-		tst.b	(v_lagger).w	
+		tst.b	(v_lagger).w
 		bpl.s	.wait
 		dbf	d0,.loop
 		clr.w	(v_subgamemode).w
