@@ -6,7 +6,7 @@
 ; ---------------------------------------------------------------------------
 
 FixDriverBugs = fixBugs
-OptimiseDriver = 0
+OptimiseDriver = 1
 
 ; ===========================================================================
 
@@ -374,27 +374,11 @@ loc_B9:
 		call	StopAllSound
 		ld	a, zmake68kBank(MusicBank)
 		ld	(zMusicBank), a
-	if FixDriverBugs
 		ld	a, zmake68kBank(SoundBank)
-	else
-		; DANGER!
-		; This is bugged, it's supposed to be the sound bank...
-		ld	a, zmake68kBank(DACBank)
-	endif
 		ld	(zSoundBank), a
 
-	if FixDriverBugs
 		ld	de, 0				; set DAC length to nothing
-	endif
 		ld	hl, zSoundBank
-	if ~~FixDriverBugs
-		; DANGER!
-		; This is bugged, the DAC needs de to be cleared in order to
-		; not continue checking if there is a sample. This leads to
-		; constant crashes on hardware if nothing is played on the
-		; Sega Screen or anywhere that sound isn't being played.
-		ld	a, (hl)
-	endif
 		bankswitch
 		ld	iy, DecTable
 		ei
@@ -1249,7 +1233,6 @@ PlaySoundID:
 		ld	a, (zSoundQueue0)
 		bit	7, a
 		jp	z, StopAllSound			; 00-7F	- Stop All
-	if FixDriverBugs
 		cp	bgm_Last			; is the ID music?
 		jp	c, zPlayMusic			; if so, play music
 
@@ -1270,20 +1253,6 @@ PlaySoundID:
 
 		cp	flg_Last			; is the ID after the command flags?
 		ret	nc				; do nothing...
-	else
-		; DANGER!
-		; Some checks are in incorrect ranges and not checked against any bounds!
-		; Music checks 81-9F (proper range should be 81-86)
-		; Special SFX checks B0-DF (proper range should be D0-D3)
-		cp	bgm_Last+19h			; is the ID music?
-		jp	c, zPlayMusic			; if so, play music
-		cp	sfx_Last			; is the ID SFX?
-		jp	c, PlaySFX			; if so, play SFX
-		cp	flg_First			; is the ID special SFX?
-		jp	c, PlaySpcSFX			; if so, play special SFX
-		cp	flg_Last+15h			; is the ID after the command flags?
-		jp	nc, StopAllSound		; if so, Stop all sound
-	endif
 
 PlaySnd_Command:
 		sub	flg_First
@@ -3186,27 +3155,6 @@ ptr_mus86:	dw zmake68kPtr(Music86)
 ptr_musend
 
 SoundIndex:
-	if ~~FixDriverBugs
-		; DANGER!
-		; These pointers along with the pointers inside of the SFX are
-		; all half a bank too long!
-ptr_sndA0:	dw zmake68kPtr(SoundA0)+4000h
-ptr_sndA1:	dw zmake68kPtr(SoundA1)+4000h
-ptr_sndA2:	dw zmake68kPtr(SoundA2)+4000h
-ptr_sndA3:	dw zmake68kPtr(SoundA3)+4000h
-ptr_sndA4:	dw zmake68kPtr(SoundA4)+4000h
-ptr_sndA5:	dw zmake68kPtr(SoundA5)+4000h
-ptr_sndA6:	dw zmake68kPtr(SoundA6)+4000h
-ptr_sndA7:	dw zmake68kPtr(SoundA7)+4000h
-ptr_sndA8:	dw zmake68kPtr(SoundA8)+4000h
-ptr_sndA9:	dw zmake68kPtr(SoundA9)+4000h
-ptr_sndAA:	dw zmake68kPtr(SoundAA)+4000h
-ptr_sndAB:	dw zmake68kPtr(SoundAB)+4000h
-ptr_sndAC:	dw zmake68kPtr(SoundAC)+4000h
-ptr_sndAD:	dw zmake68kPtr(SoundAD)+4000h
-ptr_sndAE:	dw zmake68kPtr(SoundAE)+4000h
-ptr_sndAF:	dw zmake68kPtr(SoundAF)+4000h
-	else
 ptr_sndA0:	dw zmake68kPtr(SoundA0)
 ptr_sndA1:	dw zmake68kPtr(SoundA1)
 ptr_sndA2:	dw zmake68kPtr(SoundA2)
@@ -3223,22 +3171,12 @@ ptr_sndAC:	dw zmake68kPtr(SoundAC)
 ptr_sndAD:	dw zmake68kPtr(SoundAD)
 ptr_sndAE:	dw zmake68kPtr(SoundAE)
 ptr_sndAF:	dw zmake68kPtr(SoundAF)
-	endif
 ptr_sndend
 
 SpecSoundIndex:
-	if ~~FixDriverBugs
-		; DANGER!
-		; Once again, these pointers along with the pointers inside of the
-		; SFX are all half a bank too long!
-ptr_sndD0:	dw zmake68kPtr(SoundA0)+4000h
-ptr_sndD1:	dw zmake68kPtr(SoundA1)+4000h
-ptr_sndD2:	dw zmake68kPtr(SoundA3)+4000h
-	else
 ptr_sndD0:	dw zmake68kPtr(SoundA0)
 ptr_sndD1:	dw zmake68kPtr(SoundA1)
 ptr_sndD2:	dw zmake68kPtr(SoundA3)
-	endif
 ptr_specend
 
 SndPriorities:	db 7Fh,	7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh,	7Fh, 7Fh
