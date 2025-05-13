@@ -2037,7 +2037,7 @@ loc_1684:
 		bpl.s	loc_16BA
 		move.w	d2,$14(a0)
 		move.w	d3,$16(a0)
-		movea.l	$10(a0),a3
+		movea.l	$10(a0),a3 ; obMap?
 		move.b	$20(a0),d0
 		andi.w	#$18,d0
 		move.w	$20(a0),d4
@@ -15944,7 +15944,7 @@ loc_E2E6:
 		andi.w	#$C,d0
 		add.w	d0,d0
 		lea	word_E334(pc,d0.w),a0
-		move.l	a0,$10(a6)
+		move.l	a0,obMap(a6)
 		btst	#6,5(a6)
 		beq.s	loc_E32C
 		bclr	#7,5(a6)
@@ -15985,7 +15985,7 @@ loc_E356:
 		bne.s	loc_E37C
 		move.w	#0,4(a6)
 		move.w	#$2020,$22(a6)
-		move.l	#word_E376,$10(a6)
+		move.l	#word_E376,obMap(a6)
 		addq.b	#1,$28(a6)
 		bra.s	loc_E37C
 ; ---------------------------------------------------------------------------
@@ -16126,7 +16126,7 @@ loc_E45A:
 		bne.s	loc_E480
 		move.w	#0,4(a6)
 		move.w	#$2020,$22(a6)
-		move.l	#word_E47A,$10(a6)
+		move.l	#word_E47A,obMap(a6)
 		addq.b	#1,$28(a6)
 		bra.s	loc_E480
 ; ---------------------------------------------------------------------------
@@ -16870,7 +16870,7 @@ loc_EB34:
 		add.w	d1,d1
 		adda.w	(a0,d1.w),a0
 		addq.b	#2,$27(a6)
-		move.l	a0,$10(a6)
+		move.l	a0,obMap(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
