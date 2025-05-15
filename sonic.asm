@@ -8916,22 +8916,22 @@ SonicObject: ; Sonic Object Code?
 		moveq	#0,d0
 		move.b	7(a6),d0
 		pea	loc_C746(pc)
-		move.w	locret_A282(pc,d0.w),d0
-		jmp	locret_A282(pc,d0.w)
+		move.w	SonicIndex(pc,d0.w),d0
+		jmp	SonicIndex(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-locret_A282:		; For some reason, this offset table has been disabled
+SonicIndex:		; For some reason, this offset table has been disabled
 		rts
 ; ---------------------------------------------------------------------------
-		dc.w loc_A296-locret_A282
-		dc.w loc_A588-locret_A282
-		dc.w loc_A66E-locret_A282
-		dc.w loc_A67C-locret_A282
-		dc.w loc_A72E-locret_A282
-		dc.w locret_A992-locret_A282
-		dc.w SonicSpindash-locret_A282
-		dc.w loc_A9C8-locret_A282
-		dc.w loc_AA46-locret_A282
+		dc.w loc_A296-SonicIndex
+		dc.w loc_A588-SonicIndex
+		dc.w loc_A66E-SonicIndex
+		dc.w loc_A67C-SonicIndex
+		dc.w loc_A72E-SonicIndex
+		dc.w locret_A992-SonicIndex
+		dc.w SonicSpindash-SonicIndex
+		dc.w loc_A9C8-SonicIndex
+		dc.w loc_AA46-SonicIndex
 ; ---------------------------------------------------------------------------
 
 loc_A296:
@@ -9199,7 +9199,7 @@ loc_A506:
 		tst.b	(a5)
 		bmi.s	loc_A530
 		bsr.w	sub_AA76
-		bsr.w	sub_AAA4
+		bsr.w	ObjSonic_Jump
 		bra.s	loc_A530
 ; ---------------------------------------------------------------------------
 
@@ -9774,7 +9774,7 @@ locret_AAA2:
 ; =============== S U B	R O U T	I N E =======================================
 
 
-sub_AAA4:
+ObjSonic_Jump:
 		move.b	3(a5),d0
 		andi.b	#$70,d0
 		beq.s	locret_AAF6
@@ -9807,7 +9807,7 @@ loc_AAD4:
 
 locret_AAF6:
 		rts
-; End of function sub_AAA4
+; End of function ObjSonic_Jump
 
 
 ; =============== S U B	R O U T	I N E =======================================
@@ -14661,7 +14661,7 @@ loc_D362:
 loc_D388:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D392
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_D392:
 		rts
@@ -14740,7 +14740,7 @@ loc_D452:
 loc_D478:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D482
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_D482:
 		rts
@@ -14819,7 +14819,7 @@ loc_D542:
 loc_D568:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D572
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_D572:
 		rts
@@ -14895,7 +14895,7 @@ loc_D62E:
 loc_D654:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D65E
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_D65E:
 		rts
@@ -14982,7 +14982,7 @@ loc_D73E:
 loc_D764:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D76E
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_D76E:
 		rts
@@ -15071,7 +15071,7 @@ loc_D852:
 loc_D878:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D882
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_D882:
 		rts
@@ -15156,7 +15156,7 @@ loc_D95E:
 loc_D984:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D98E
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_D98E:
 		rts
@@ -15243,7 +15243,7 @@ loc_DA6E:
 loc_DA94:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DA9E
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_DA9E:
 		rts
@@ -15320,7 +15320,7 @@ loc_DB5A:
 loc_DB80:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DB8A
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_DB8A:
 		rts
@@ -15400,7 +15400,7 @@ loc_DC4A:
 loc_DC70:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DC7A
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_DC7A:
 		rts
@@ -15479,7 +15479,7 @@ loc_DD3A:
 loc_DD60:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DD6A
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_DD6A:
 		rts
@@ -15556,7 +15556,7 @@ loc_DE26:
 loc_DE4C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DE56
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_DE56:
 		rts
@@ -15643,7 +15643,7 @@ loc_DF36:
 loc_DF5C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DF66
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_DF66:
 		rts
@@ -15732,7 +15732,7 @@ loc_E04A:
 loc_E070:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E07A
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_E07A:
 		rts
@@ -15817,7 +15817,7 @@ loc_E156:
 loc_E17C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E186
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_E186:
 		rts
@@ -15904,7 +15904,7 @@ loc_E266:
 loc_E28C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E296
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_E296:
 		rts
@@ -16018,7 +16018,7 @@ word_E376:
 loc_E37C:
 		jsr	(loc_F2D0).l
 		bcc.s	loc_E38A
-		jmp	(sub_F286).l
+		jmp	(DeleteObject).l
 ; ---------------------------------------------------------------------------
 
 loc_E38A:
@@ -16159,7 +16159,7 @@ word_E47A:
 loc_E480:
 		jsr	(loc_F2D0).l
 		bcc.s	loc_E48E
-		jmp	(sub_F286).l
+		jmp	(DeleteObject).l
 ; ---------------------------------------------------------------------------
 
 loc_E48E:
@@ -16293,7 +16293,7 @@ loc_E592:
 loc_E59A:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E5A4
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_E5A4:
 		rts
@@ -16354,7 +16354,7 @@ loc_E63A:
 loc_E642:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E64C
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_E64C:
 		rts
@@ -16415,7 +16415,7 @@ loc_E6E2:
 loc_E6EA:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E6F4
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_E6F4:
 		rts
@@ -16476,7 +16476,7 @@ loc_E78A:
 loc_E792:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E79C
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_E79C:
 		rts
@@ -16537,7 +16537,7 @@ loc_E832:
 loc_E83A:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E844
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_E844:
 		rts
@@ -16598,7 +16598,7 @@ loc_E8DA:
 loc_E8E2:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E8EC
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_E8EC:
 		rts
@@ -16659,7 +16659,7 @@ loc_E982:
 loc_E98A:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E994
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_E994:
 		rts
@@ -16720,7 +16720,7 @@ loc_EA2A:
 loc_EA32:
 		bsr.w	loc_F2D0
 		bcc.s	locret_EA3C
-		bsr.w	sub_F286
+		bsr.w	DeleteObject
 
 locret_EA3C:
 		rts
@@ -17771,13 +17771,13 @@ locret_F284:
 ; =============== S U B	R O U T	I N E =======================================
 
 
-sub_F286:
+DeleteObject:
 		move.w	$24(a6),d0
 		lea	($FFFFD8F2).w,a0
 		move.b	#2,(a0,d0.w)
 		jsr	(sub_1980).w
 		rts
-; End of function sub_F286
+; End of function DeleteObject
 
 
 ; =============== S U B	R O U T	I N E =======================================
