@@ -7609,7 +7609,7 @@ loc_967C:
 		lea	PAL_SpeedSliderZone(pc),a0
 		lea	($FFFFD424).w,a2
 		bsr.w	sub_9E6E
-		lea	loc_9C28(pc),a0
+		lea	SSZ_FG_StartLocCam(pc),a0
 		lea	($FFFFD816).w,a2
 		bsr.w	sub_9E84
 		movea.l	a1,a0
@@ -8198,7 +8198,7 @@ locret_9C1E:
 ; ---------------------------------------------------------------------------
 SSZ_ArtLocs:	dc.l ARTNEM_SSZ8x8_FG
 		dc.l ARTNEM_SSZ8x8_BG
-loc_9C28:	dc.b   0
+SSZ_FG_StartLocCam:	dc.b   0
 		dc.b   0
 		dc.b   0
 		dc.b $D0				; �
@@ -8220,24 +8220,19 @@ SSZ_MapFGLocs:	dc.l MAPENI_SSZ16x16_FG
 		dc.l MAPENI_SSZ128x128_FG
 		dc.l MAPENI_SSZLayout_FG
 		dc.l COL_SSZPrimary
-loc_9C4A:	dc.b   0
-		dc.b   0
-		dc.b   0
-		dc.b $54				; T
-		dc.b   4
-		dc.b   8
-		dc.b   4
-		dc.b   6
-		dc.b   3
-		dc.b $33				; 3
-		dc.b   0
-		dc.b $C0				; �
-		dc.b   0
-		dc.b   0
-		dc.b   2
-		dc.b $20
-		dc.b   0
-		dc.b   0
+loc_9C4A:
+	dc.w $0000	; Start X scroll
+	dc.w $0054	; Start Y scroll
+	dc.b $04	; H scroll base
+	dc.b $08	; H scroll param
+	dc.b $04	; V scroll base
+	dc.b $06	; V scroll param
+	dc.w $0333	; VRAM destination
+	dc.w $00C0	; Max X scroll
+	dc.w $0000	; Min X scroll
+	dc.w $0220	; Max Y scroll
+	dc.w $0000	; Min Y scroll
+
 SSZ_MapBGLocs:	dc.l MAPENI_SSZ16x16_BG
 		dc.l MAPENI_SSZ128x128_BG
 		dc.l MAPENI_SSZLayout_BG
@@ -8246,40 +8241,34 @@ PAL_SpeedSliderZone:
 		even
 TTZ_ArtLocs:	dc.l ARTNEM_TTZ8x8_FG
 		dc.l ARTNEM_TTZ8x8_BG
-TTZ_FG_StartLocCam:	
-        dc.w  $0015               ; X starting location
-		dc.w  $0DE0               ; Y starting location
-		dc.b  $10
-		dc.b  $20
-		dc.b  $10
-		dc.b  $20
-		dc.w  ($0800/$20)		  ; V-Ram address to write the level art to
-		dc.w  $06C0               ; Maximum X display area
-		dc.w  $0000
-		dc.w  $0F20               ; Maximum Y display area
-		dc.w  $0000
+TTZ_FG_StartLocCam:
+		dc.w $0015
+		dc.w $0DE0
+		dc.b $10  ; Level Size
+		dc.b $20  ; Level Size
+		dc.b $10
+		dc.b $20
+		dc.w ($0800/$20)				; V-Ram address to write the level art to ($0040)
+		dc.w $06C0  ; Maximum X display area
+		dc.w $0000
+		dc.w $0F20  ; Maximum Y display area
+		dc.w $0000
 TTZ_MapFGLocs:	dc.l MAPENI_TTZ16x16_FG
 		dc.l MAPENI_TTZ128x128_FG
 		dc.l MAPENI_TTZLayout_FG
 		dc.l COL_TTZPrimary
-loc_9CD2:	dc.b   0
-		dc.b $30				; 0
-		dc.b  $A
-		dc.b $60				; `
-		dc.b $10
-		dc.b $20
-		dc.b  $C
-		dc.b $18
-		dc.b   1
-		dc.b $6F				; o
-		dc.b   4
-		dc.b $C0				; �
-		dc.b   0
-		dc.b   0
-		dc.b  $B
-		dc.b $20
-		dc.b   0
-		dc.b   0
+loc_9CD2:
+	dc.w $0030      ; Start X scroll
+	dc.w $0A60      ; Start Y scroll
+	dc.b $10        ; H scroll base
+	dc.b $20        ; H scroll param
+	dc.b $0C        ; V scroll base
+	dc.b $18        ; V scroll param
+	dc.w $016F      ; VRAM destination
+	dc.w $04C0      ; Max X scroll
+	dc.w $0000      ; Min X scroll
+	dc.w $0B20      ; Max Y scroll
+	dc.w $0000      ; Min Y scroll
 TTZ_MapBGLocs:	dc.l MAPENI_TTZ16x16_BG
 		dc.l MAPENI_TTZ128x128_BG
 		dc.l MAPENI_TTZLayout_BG
