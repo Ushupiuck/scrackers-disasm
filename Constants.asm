@@ -56,6 +56,7 @@ ObjectPointer: equ 6
 obX:        equ 8
 obY:        equ $C
 obMap:		equ $10					; mappings address (4 bytes)
+obAngle:    equ $2A
 obInertia:   equ $2C
 
 ; Background music

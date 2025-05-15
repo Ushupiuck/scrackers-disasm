@@ -8838,8 +8838,8 @@ loc_A1BC:
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
 off_A1CE:	
-        dc.l loc_A26A	; Load Sonic			; something to do with stopping reflexes
-		dc.l loc_AB30       ; Load Tails
+        dc.l SonicObject	; Load Sonic			; something to do with stopping reflexes
+		dc.l TailsObject       ; Load Tails
 		dc.l locret_B414
 		dc.l locret_B416
 		dc.l locret_B418
@@ -8898,7 +8898,7 @@ loc_A262:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_A26A: ; Sonic Object Code?
+SonicObject: ; Sonic Object Code?
 		move.w	#$C10,$22(a6)
 		moveq	#0,d0
 		move.b	7(a6),d0
@@ -8916,7 +8916,7 @@ locret_A282:		; For some reason, this offset table has been disabled
 		dc.w loc_A67C-locret_A282
 		dc.w loc_A72E-locret_A282
 		dc.w locret_A992-locret_A282
-		dc.w loc_A994-locret_A282
+		dc.w SonicSpindash-locret_A282
 		dc.w loc_A9C8-locret_A282
 		dc.w loc_AA46-locret_A282
 ; ---------------------------------------------------------------------------
@@ -8961,7 +8961,7 @@ loc_A2F0:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.b	#$A,($FFFFFAE8).w
-		move.b	$2A(a6),d0
+		move.b	obAngle(a6),d0
 		addi.b	#$10,d0
 		cmpi.b	#$20,d0
 		bcc.s	loc_A38A
@@ -9115,7 +9115,7 @@ loc_A454:
 		moveq	#2,d2
 
 loc_A45A:
-		move.b	$2A(a6),d0
+		move.b	obAngle(a6),d0
 		btst	#3,$25(a6)
 		bne.s	loc_A488
 		subi.b	#$10,d0
@@ -9212,7 +9212,7 @@ loc_A530:
 loc_A550:
 		bclr	#0,$25(a6)
 		move.b	#8,7(a6)
-		move.b	$2A(a6),d2
+		move.b	obAngle(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_A56C
 		addi.b	#-$80,d2
@@ -9238,7 +9238,7 @@ loc_A588:
 		bclr	#0,$25(a6)
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
-		clr.b	$2A(a6)
+		clr.b	obAngle(a6)
 		clr.w	obInertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_A5E4
@@ -9338,7 +9338,7 @@ loc_A67C:
 		bclr	#0,$25(a6)
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
-		clr.b	$2A(a6)
+		clr.b	obAngle(a6)
 		clr.w	obInertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_A6CE
@@ -9520,7 +9520,7 @@ loc_A82A:
 		moveq	#$1E,d2
 
 loc_A830:
-		move.b	$2A(a6),d0
+		move.b	obAngle(a6),d0
 		btst	#3,$25(a6)
 		bne.s	loc_A85E
 		subi.b	#$10,d0
@@ -9628,7 +9628,7 @@ loc_A94E:
 		bclr	#0,$25(a6)
 		beq.s	loc_A988
 		move.b	#8,7(a6)
-		move.b	$2A(a6),d2
+		move.b	obAngle(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_A96C
 		addi.b	#-$80,d2
@@ -9655,7 +9655,7 @@ locret_A992:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_A994:
+SonicSpindash:
 		bclr	#4,$25(a6)
 		move.w	#$2E,$26(a6)
 		addq.b	#1,$28(a6)
@@ -9682,7 +9682,7 @@ loc_A9C8:
 		addi.l	#$3800,$1C(a6)
 		bclr	#0,$25(a6)
 		move.w	#$30,$26(a6)
-		clr.b	$2A(a6)
+		clr.b	obAngle(a6)
 		clr.w	obInertia(a6)
 		bsr.w	sub_CBC0
 		jsr	(sub_C49A).l
@@ -9768,7 +9768,7 @@ sub_AAA4:
 		move.b	#4,7(a6)
 		clr.w	$28(a6)
 		bclr	#0,$25(a6)
-		move.b	$2A(a6),d2
+		move.b	obAngle(a6),d2
 		jsr	(CalcSine).w
 		move.w	d0,d3
 		move.w	d1,d4
@@ -9814,7 +9814,7 @@ locret_AB00:
 ; ---------------------------------------------------------------------------
 
 loc_AB02:
-		move.b	$2A(a6),d0
+		move.b	obAngle(a6),d0
 		move.b	d0,d2
 		subi.b	#$20,d0
 		cmpi.b	#$C0,d0
@@ -9834,7 +9834,7 @@ loc_AB2A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_AB30:
+TailsObject:
 		move.w	#$C0D,$22(a6)
 		moveq	#0,d0
 		move.b	7(a6),d0
@@ -9897,7 +9897,7 @@ loc_ABB6:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.b	#$A,($FFFFFAE8).w
-		move.b	$2A(a6),d0
+		move.b	obAngle(a6),d0
 		addi.b	#$10,d0
 		cmpi.b	#$20,d0
 		bcc.s	loc_AC50
@@ -10037,7 +10037,7 @@ loc_AD06:
 		moveq	#2,d2
 
 loc_AD0C:
-		move.b	$2A(a6),d0
+		move.b	obAngle(a6),d0
 		btst	#3,$25(a6)
 		bne.s	loc_AD3A
 		subi.b	#$10,d0
@@ -10134,7 +10134,7 @@ loc_ADE2:
 loc_AE02:
 		bclr	#0,$25(a6)
 		move.b	#8,7(a6)
-		move.b	$2A(a6),d2
+		move.b	obAngle(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_AE1E
 		addi.b	#-$80,d2
@@ -10160,7 +10160,7 @@ loc_AE3A:
 		bclr	#0,$25(a6)
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
-		clr.b	$2A(a6)
+		clr.b	obAngle(a6)
 		clr.w	obInertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_AE96
@@ -10260,7 +10260,7 @@ loc_AF2E:
 		bclr	#0,$25(a6)
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
-		clr.b	$2A(a6)
+		clr.b	obAngle(a6)
 		clr.w	obInertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_AF80
@@ -10437,7 +10437,7 @@ loc_B0D8:
 		moveq	#$1E,d2
 
 loc_B0DE:
-		move.b	$2A(a6),d0
+		move.b	obAngle(a6),d0
 		btst	#3,$25(a6)
 		bne.s	loc_B10C
 		subi.b	#$10,d0
@@ -10545,7 +10545,7 @@ loc_B1FC:
 		bclr	#0,$25(a6)
 		beq.s	loc_B236
 		move.b	#8,7(a6)
-		move.b	$2A(a6),d2
+		move.b	obAngle(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_B21A
 		addi.b	#-$80,d2
@@ -10614,7 +10614,7 @@ loc_B2A8:
 		addi.l	#$3800,$1C(a6)
 		bclr	#0,$25(a6)
 		move.w	#$30,$26(a6)
-		clr.b	$2A(a6)
+		clr.b	obAngle(a6)
 		clr.w	obInertia(a6)
 		bsr.w	sub_CBC0
 		bsr.w	sub_B35A
@@ -10701,7 +10701,7 @@ sub_B388:
 		move.b	#4,7(a6)
 		clr.w	$28(a6)
 		bclr	#0,$25(a6)
-		move.b	$2A(a6),d2
+		move.b	obAngle(a6),d2
 		jsr	(CalcSine).w
 		move.w	d0,d3
 		move.w	d1,d4
@@ -10747,7 +10747,7 @@ locret_B3E4:
 ; ---------------------------------------------------------------------------
 
 loc_B3E6:
-		move.b	$2A(a6),d0
+		move.b	obAngle(a6),d0
 		move.b	d0,d2
 		subi.b	#$20,d0
 		cmpi.b	#$C0,d0
@@ -11824,16 +11824,16 @@ loc_BC8A:
 		ori.w	#$80,4(a6)
 
 sub_BC90:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		addi.w	#$20,d0
 		cmpi.w	#$500,d0
 		bcs.s	loc_BCA0
 		moveq	#0,d0
 
 loc_BCA0:
-		move.w	d0,$2A(a6)
+		move.w	d0,obAngle(a6)
 		moveq	#0,d0
-		move.b	$2A(a6),d0
+		move.b	obAngle(a6),d0
 		addi.w	#$76,d0
 		move.w	d0,$26(a6)
 		moveq	#$FFFFFFDC,d0
@@ -12562,7 +12562,7 @@ sub_C29E:
 		move.w	$24(a6),d4
 		andi.w	#2,d4
 		move.b	#$A,($FFFFFAE8).w
-		move.b	$2A(a6),d0
+		move.b	obAngle(a6),d0
 		addi.b	#$20,d0
 		andi.w	#$C0,d0
 		lsr.w	#4,d0
@@ -12609,7 +12609,7 @@ loc_C2CE:
 		beq.s	loc_C334
 		sub.w	d1,obY(a6)
 		move.w	(sp)+,d2
-		move.b	d2,$2A(a6)
+		move.b	d2,obAngle(a6)
 		move.l	(sp)+,d3
 		moveq	#-1,d5
 		rts
@@ -12617,7 +12617,7 @@ loc_C2CE:
 
 loc_C326:
 		sub.w	d0,obY(a6)
-		move.b	d2,$2A(a6)
+		move.b	d2,obAngle(a6)
 		addq.l	#6,sp
 		moveq	#-1,d5
 		rts
@@ -12660,7 +12660,7 @@ loc_C340:
 		beq.s	loc_C3A8
 		sub.w	d1,obX(a6)
 		move.w	(sp)+,d2
-		move.b	d2,$2A(a6)
+		move.b	d2,obAngle(a6)
 		move.l	(sp)+,d3
 		moveq	#-1,d5
 		rts
@@ -12668,7 +12668,7 @@ loc_C340:
 
 loc_C39A:
 		sub.w	d0,obX(a6)
-		move.b	d2,$2A(a6)
+		move.b	d2,obAngle(a6)
 		addq.l	#6,sp
 		moveq	#-1,d5
 		rts
@@ -12711,7 +12711,7 @@ loc_C3B4:
 		beq.s	loc_C41C
 		sub.w	d1,obY(a6)
 		move.w	(sp)+,d2
-		move.b	d2,$2A(a6)
+		move.b	d2,obAngle(a6)
 		move.l	(sp)+,d3
 		moveq	#-1,d5
 		rts
@@ -12719,7 +12719,7 @@ loc_C3B4:
 
 loc_C40E:
 		sub.w	d0,obY(a6)
-		move.b	d2,$2A(a6)
+		move.b	d2,obAngle(a6)
 		addq.l	#6,sp
 		moveq	#-1,d5
 		rts
@@ -12763,7 +12763,7 @@ loc_C442:
 		beq.s	loc_C48E
 		sub.w	d1,obX(a6)
 		move.w	(sp)+,d2
-		move.b	d2,$2A(a6)
+		move.b	d2,obAngle(a6)
 		move.l	(sp)+,d3
 		moveq	#-1,d5
 		rts
@@ -12771,7 +12771,7 @@ loc_C442:
 
 loc_C480:
 		sub.w	d0,obX(a6)
-		move.b	d2,$2A(a6)
+		move.b	d2,obAngle(a6)
 		addq.l	#6,sp
 		moveq	#-1,d5
 		rts
@@ -12791,7 +12791,7 @@ sub_C49A:
 		move.w	$24(a6),d4
 		andi.w	#2,d4
 		move.b	#8,($FFFFFAE8).w
-		move.b	$2A(a6),d0
+		move.b	obAngle(a6),d0
 		addi.b	#$20,d0
 		andi.w	#$40,d0
 		lsr.w	#4,d0
@@ -13252,7 +13252,7 @@ sub_C8CA:
 		addi.w	#$D08,d1
 		jsr	(sub_5090).l
 		moveq	#0,d0
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		move.w	($FFFFD81E).w,d1
 		addi.w	#$C12,d1
 		jsr	(sub_5090).l
@@ -13530,7 +13530,7 @@ loc_CB90:
 sub_CBC0:
 		move.l	$18(a6),d3
 		move.l	$1C(a6),d4
-		move.b	$2A(a6),d2
+		move.b	obAngle(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_CBD8
 		addi.b	#-$80,d2
@@ -13726,13 +13726,13 @@ loc_CD80:
 ; ---------------------------------------------------------------------------
 
 loc_CDBC:
-		sub.b	$2A(a0),d2
+		sub.b	obAngle(a0),d2
 		cmpi.b	#$A0,d2
 		bcs.w	loc_CE14
 		cmpi.b	#$E0,d2
 		bhi.w	loc_CE14
 		move.b	#8,7(a0)
-		move.b	$2A(a0),d2
+		move.b	obAngle(a0),d2
 		btst	#3,$25(a0)
 		beq.s	loc_CDE6
 		addi.b	#-$80,d2
@@ -13807,13 +13807,13 @@ loc_CE5A:
 ; ---------------------------------------------------------------------------
 
 loc_CE78:
-		sub.b	$2A(a1),d2
+		sub.b	obAngle(a1),d2
 		cmpi.b	#$A0,d2
 		bcs.w	loc_CED0
 		cmpi.b	#$E0,d2
 		bhi.w	loc_CED0
 		move.b	#8,7(a1)
-		move.b	$2A(a1),d2
+		move.b	obAngle(a1),d2
 		btst	#3,$25(a1)
 		beq.s	loc_CEA2
 		addi.b	#-$80,d2
@@ -14541,42 +14541,42 @@ loc_D216:
 ; ---------------------------------------------------------------------------
 
 Obj_Index:
-		bra.w	loc_D2A8                    ; Obj00 - Red Spring Right
-		bra.w	loc_D394                    ; Obj04 - Red Spring Left
-		bra.w	loc_D484                    ; Obj08 - Red Spring Up
-		bra.w	loc_D574                    ; Obj0C - Red Spring Down
-		bra.w	locret_EBAC                 ; Obj10 - Null
-		bra.w	loc_D660                    ; Obj14 - Diagonal Red Spring Right Up
-		bra.w	loc_D770                    ; Obj18 - Diagonal Red Spring Left Up
-		bra.w	loc_D884                    ; Obj1C - Diagonal Red Spring Right Down
-		bra.w	loc_D990                    ; Obj20 - Diagonal Red Spring Left Up
-		bra.w	locret_E2BC                 ; Obj24 - Null
-		bra.w	loc_E2BE                    ; Obj28 - Ring Loss
-		bra.w	locret_E352                 ; Obj2C - Null
-		bra.w	locret_E354                 ; Obj30 - Null
-		bra.w	loc_DAA0                    ; Obj34 - Yellow Spring Right
-		bra.w	loc_DB8C                    ; Obj38 - Yellow Spring Left
-		bra.w	loc_DC7C                    ; Obj3C - Yellow Spring Up
-		bra.w	loc_DD6C                    ; Obj40 - Yellow Spring Down
-		bra.w	loc_DE58                    ; Obj44 - Diagonal Yellow Spring Right Up
-		bra.w	loc_DF68                    ; Obj48 - Diagonal Yellow Spring Left Up
-		bra.w	loc_E07C                    ; Obj4C - Diagonal Yellow Spring Right Dow
-		bra.w	loc_E188                    ; Obj50 - Diagonal Yellow Spring Left Up
-		bra.w	loc_E4FE                    ; Obj54 - Spikes Up
-		bra.w	loc_E5A6                    ; Obj58 - Spikes Down
-		bra.w	loc_E64E                    ; Obj5C - Spikes Right
-		bra.w	loc_E6F6                    ; Obj60 - Spikes Left
-		bra.w	loc_E79E                    ; Obj64 - Diagonal Springs Right Up
-		bra.w	loc_E846                    ; Obj68 - Diagonal Springs Left Up
-		bra.w	loc_E8EE                    ; Obj6C - Diagonal Springs Right Down
-		bra.w	loc_E996                    ; Obj70 - Diagonal Springs Left Down
-		bra.w	loc_E356                    ; Obj74 - some sort of path swapper
-		bra.w	loc_E45A                    ; Obj78 - some sort of path swapper
-		bra.w	locret_E4FA                 ; Obj7C - Null
-		bra.w	locret_E4FC                 ; Obj80 - Null
+		bra.w	Spring_Right_Red                     ; Obj00 - Red Spring Right
+		bra.w	Spring_Left_Red                      ; Obj04 - Red Spring Left
+		bra.w	Spring_Up_Red                        ; Obj08 - Red Spring Up
+		bra.w	Spring_Down_Red                      ; Obj0C - Red Spring Down
+		bra.w	Obj10                                ; Obj10 - Null
+		bra.w	Spring_Diagonal_Up_Right_Red         ; Obj14 - Diagonal Red Spring Right Up
+		bra.w	Spring_Diagonal_Up_Left_Red          ; Obj18 - Diagonal Red Spring Left Up
+		bra.w	Spring_Diagonal_Down_Right_Red       ; Obj1C - Diagonal Red Spring Right Down
+		bra.w	Spring_Diagonal_Down_Left_Red        ; Obj20 - Diagonal Red Spring Left Down
+		bra.w	Obj24                                ; Obj24 - Null
+		bra.w	Scattering_Rings                     ; Obj28 - Ring Loss
+		bra.w	Obj2C                                ; Obj2C - Null
+		bra.w	Obj30                                ; Obj30 - Null
+		bra.w	Spring_Right_Yellow                  ; Obj34 - Yellow Spring Right
+		bra.w	Spring_Left_Yellow                   ; Obj38 - Yellow Spring Left
+		bra.w	Spring_Up_Yellow                     ; Obj3C - Yellow Spring Up
+		bra.w	Spring_Down_Yellow                   ; Obj40 - Yellow Spring Down
+		bra.w	Spring_Diagonal_Up_Right_Yellow      ; Obj44 - Diagonal Yellow Spring Right Up
+		bra.w	Spring_Diagonal_Up_Left_Yellow       ; Obj48 - Diagonal Yellow Spring Left Up
+		bra.w	Spring_Diagonal_Down_Right_Yellow    ; Obj4C - Diagonal Yellow Spring Right Down
+		bra.w	Spring_Diagonal_Down_Left_Yellow     ; Obj50 - Diagonal Yellow Spring Left Down
+		bra.w	Spikes_Up                            ; Obj54 - Spikes Up
+		bra.w	Spikes_Down                          ; Obj58 - Spikes Down
+		bra.w	Spikes_Right                         ; Obj5C - Spikes Right
+		bra.w	Spikes_Left                          ; Obj60 - Spikes Left
+		bra.w	Spring_Diagonal_Up_Right             ; Obj64 - Diagonal Springs Right Up
+		bra.w	Spring_Diagonal_Up_Left              ; Obj68 - Diagonal Springs Left Up
+		bra.w	Spring_Diagonal_Down_Right           ; Obj6C - Diagonal Springs Right Down
+		bra.w	Spring_Diagonal_Down_Left            ; Obj70 - Diagonal Springs Left Down
+		bra.w	Path_Swapper                         ; Obj74 - Path swapper
+		bra.w	Path_Swapper_2                       ; Obj78 - Path Swapper 2?
+		bra.w	Obj7C                                ; Obj7C - Null
+		bra.w	Obj80                                ; Obj80 - Null
 ; ---------------------------------------------------------------------------
 
-loc_D2A8:
+Spring_Right_Red:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_D2D6
@@ -14585,7 +14585,7 @@ loc_D2A8:
 		move.w	#$8080,4(a6)
 		move.b	#8,$22(a6)
 		move.b	#$10,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_D2D6:
 		movea.w	($FFFFD862).w,a0
@@ -14605,7 +14605,7 @@ loc_D2D6:
 ; ---------------------------------------------------------------------------
 
 loc_D308:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$F0000,d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
@@ -14628,13 +14628,13 @@ loc_D31C:
 ; ---------------------------------------------------------------------------
 
 loc_D34E:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$F0000,d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
 
 loc_D362:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D388
 		lea	(unk_42358).l,a0
@@ -14642,7 +14642,7 @@ loc_D362:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D388
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_D388:
 		bsr.w	loc_F2D0
@@ -14653,7 +14653,7 @@ locret_D392:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_D394:
+Spring_Left_Red:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_D3C2
@@ -14662,7 +14662,7 @@ loc_D394:
 		move.w	#$8080,4(a6)
 		move.b	#8,$22(a6)
 		move.b	#$10,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_D3C2:
 		movea.w	($FFFFD862).w,a0
@@ -14682,7 +14682,7 @@ loc_D3C2:
 ; ---------------------------------------------------------------------------
 
 loc_D3F4:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$F0000,d0
 		neg.l	d0
 		moveq	#0,d1
@@ -14706,14 +14706,14 @@ loc_D40A:
 ; ---------------------------------------------------------------------------
 
 loc_D43C:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$F0000,d0
 		neg.l	d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
 
 loc_D452:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D478
 		lea	(unk_42358).l,a0
@@ -14721,7 +14721,7 @@ loc_D452:
 		bsr.w	sub_EB22
 		cmpi.w	#$FF,d0
 		bne.s	loc_D478
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_D478:
 		bsr.w	loc_F2D0
@@ -14732,7 +14732,7 @@ locret_D482:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_D484:
+Spring_Up_Red:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_D4B2
@@ -14741,7 +14741,7 @@ loc_D484:
 		move.w	#$8080,4(a6)
 		move.b	#$10,$22(a6)
 		move.b	#8,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_D4B2:
 		movea.w	($FFFFD862).w,a0
@@ -14761,7 +14761,7 @@ loc_D4B2:
 ; ---------------------------------------------------------------------------
 
 loc_D4E4:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$F0000,d1
 		neg.l	d1
 		moveq	#0,d0
@@ -14785,14 +14785,14 @@ loc_D4FA:
 ; ---------------------------------------------------------------------------
 
 loc_D52C:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$F0000,d1
 		neg.l	d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
 
 loc_D542:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D568
 		lea	(unk_4235E).l,a0
@@ -14800,7 +14800,7 @@ loc_D542:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D568
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_D568:
 		bsr.w	loc_F2D0
@@ -14811,7 +14811,7 @@ locret_D572:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_D574:
+Spring_Down_Red:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_D5A2
@@ -14820,7 +14820,7 @@ loc_D574:
 		move.w	#$8080,4(a6)
 		move.b	#$10,$22(a6)
 		move.b	#8,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_D5A2:
 		movea.w	($FFFFD862).w,a0
@@ -14840,7 +14840,7 @@ loc_D5A2:
 ; ---------------------------------------------------------------------------
 
 loc_D5D4:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$F0000,d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
@@ -14862,13 +14862,13 @@ loc_D5E8:
 		bra.s	loc_D62E
 ; ---------------------------------------------------------------------------
 loc_D61A:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$F0000,d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
 
 loc_D62E:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D654
 		lea	(unk_4235E).l,a0
@@ -14876,7 +14876,7 @@ loc_D62E:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D654
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_D654:
 		bsr.w	loc_F2D0
@@ -14887,7 +14887,7 @@ locret_D65E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_D660:
+Spring_Diagonal_Up_Right_Red:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_D68E
@@ -14896,7 +14896,7 @@ loc_D660:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_D68E:
 		movea.w	($FFFFD862).w,a0
@@ -14920,7 +14920,7 @@ loc_D68E:
 ; ---------------------------------------------------------------------------
 
 loc_D6CC:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d1
@@ -14948,14 +14948,14 @@ loc_D6E6:
 ; ---------------------------------------------------------------------------
 
 loc_D724:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d1
 		jsr	(loc_CB1C).l
 
 loc_D73E:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D764
 		lea	(unk_42364).l,a0
@@ -14963,7 +14963,7 @@ loc_D73E:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D764
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_D764:
 		bsr.w	loc_F2D0
@@ -14974,7 +14974,7 @@ locret_D76E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_D770:
+Spring_Diagonal_Up_Left_Red:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_D79E
@@ -14983,7 +14983,7 @@ loc_D770:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_D79E:
 		movea.w	($FFFFD862).w,a0
@@ -15007,7 +15007,7 @@ loc_D79E:
 ; ---------------------------------------------------------------------------
 
 loc_D7DC:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d0
@@ -15036,7 +15036,7 @@ loc_D7F8:
 ; ---------------------------------------------------------------------------
 
 loc_D836:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d0
@@ -15044,7 +15044,7 @@ loc_D836:
 		jsr	(loc_CB1C).l
 
 loc_D852:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D878
 		lea	(unk_42364).l,a0
@@ -15052,7 +15052,7 @@ loc_D852:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D878
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_D878:
 		bsr.w	loc_F2D0
@@ -15063,7 +15063,7 @@ locret_D882:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_D884:
+Spring_Diagonal_Down_Right_Red:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_D8B2
@@ -15072,7 +15072,7 @@ loc_D884:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_D8B2:
 		movea.w	($FFFFD862).w,a0
@@ -15096,7 +15096,7 @@ loc_D8B2:
 ; ---------------------------------------------------------------------------
 
 loc_D8F0:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		jsr	(loc_CB1C).l
@@ -15123,13 +15123,13 @@ loc_D908:
 ; ---------------------------------------------------------------------------
 
 loc_D946:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		jsr	(loc_CB1C).l
 
 loc_D95E:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D984
 		lea	(unk_42364).l,a0
@@ -15137,7 +15137,7 @@ loc_D95E:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D984
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_D984:
 		bsr.w	loc_F2D0
@@ -15148,7 +15148,7 @@ locret_D98E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_D990:
+Spring_Diagonal_Down_Left_Red:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_D9BE
@@ -15157,7 +15157,7 @@ loc_D990:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_D9BE:
 		movea.w	($FFFFD862).w,a0
@@ -15181,7 +15181,7 @@ loc_D9BE:
 ; ---------------------------------------------------------------------------
 
 loc_D9FC:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d0
@@ -15209,14 +15209,14 @@ loc_DA16:
 ; ---------------------------------------------------------------------------
 
 loc_DA54:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d0
 		jsr	(loc_CB1C).l
 
 loc_DA6E:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DA94
 		lea	(unk_42364).l,a0
@@ -15224,7 +15224,7 @@ loc_DA6E:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_DA94
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_DA94:
 		bsr.w	loc_F2D0
@@ -15235,7 +15235,7 @@ locret_DA9E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_DAA0:
+Spring_Right_Yellow:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_DACE
@@ -15244,7 +15244,7 @@ loc_DAA0:
 		move.w	#$8080,4(a6)
 		move.b	#8,$22(a6)
 		move.b	#$10,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_DACE:
 		movea.w	($FFFFD862).w,a0
@@ -15264,7 +15264,7 @@ loc_DACE:
 ; ---------------------------------------------------------------------------
 
 loc_DB00:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#ARTUNC_Tails,d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
@@ -15287,13 +15287,13 @@ loc_DB14:
 ; ---------------------------------------------------------------------------
 
 loc_DB46:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#ARTUNC_Tails,d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
 
 loc_DB5A:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DB80
 		lea	(unk_42358).l,a0
@@ -15301,7 +15301,7 @@ loc_DB5A:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_DB80
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_DB80:
 		bsr.w	loc_F2D0
@@ -15313,7 +15313,7 @@ locret_DB8A:
 ; ---------------------------------------------------------------------------
 ; Object coding for Spring
 
-loc_DB8C:
+Spring_Left_Yellow:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_DBBA
@@ -15322,7 +15322,7 @@ loc_DB8C:
 		move.w	#$8080,4(a6)
 		move.b	#8,$22(a6)
 		move.b	#$10,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_DBBA:
 		movea.w	($FFFFD862).w,a0
@@ -15342,7 +15342,7 @@ loc_DBBA:
 ; ---------------------------------------------------------------------------
 
 loc_DBEC:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#ARTUNC_Tails,d0
 		neg.l	d0
 		moveq	#0,d1
@@ -15366,14 +15366,14 @@ loc_DC02:
 ; ---------------------------------------------------------------------------
 
 loc_DC34:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#ARTUNC_Tails,d0
 		neg.l	d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
 
 loc_DC4A:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DC70
 		lea	(unk_42358).l,a0
@@ -15381,7 +15381,7 @@ loc_DC4A:
 		bsr.w	sub_EB22
 		cmpi.w	#$FF,d0
 		bne.s	loc_DC70
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_DC70:
 		bsr.w	loc_F2D0
@@ -15392,7 +15392,7 @@ locret_DC7A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_DC7C:
+Spring_Up_Yellow:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_DCAA
@@ -15401,7 +15401,7 @@ loc_DC7C:
 		move.w	#$8080,4(a6)
 		move.b	#$10,$22(a6)
 		move.b	#8,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_DCAA:
 		movea.w	($FFFFD862).w,a0
@@ -15421,7 +15421,7 @@ loc_DCAA:
 ; ---------------------------------------------------------------------------
 
 loc_DCDC:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#ARTUNC_Tails,d1
 		neg.l	d1
 		moveq	#0,d0
@@ -15445,14 +15445,14 @@ loc_DCF2:
 ; ---------------------------------------------------------------------------
 
 loc_DD24:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#ARTUNC_Tails,d1
 		neg.l	d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
 
 loc_DD3A:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DD60
 		lea	(unk_4235E).l,a0
@@ -15460,7 +15460,7 @@ loc_DD3A:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_DD60
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_DD60:
 		bsr.w	loc_F2D0
@@ -15471,7 +15471,7 @@ locret_DD6A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_DD6C:
+Spring_Down_Yellow:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_DD9A
@@ -15480,7 +15480,7 @@ loc_DD6C:
 		move.w	#$8080,4(a6)
 		move.b	#$10,$22(a6)
 		move.b	#8,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_DD9A:
 		movea.w	($FFFFD862).w,a0
@@ -15500,7 +15500,7 @@ loc_DD9A:
 ; ---------------------------------------------------------------------------
 
 loc_DDCC:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#ARTUNC_Tails,d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
@@ -15523,13 +15523,13 @@ loc_DDE0:
 ; ---------------------------------------------------------------------------
 
 loc_DE12:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#ARTUNC_Tails,d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
 
 loc_DE26:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DE4C
 		lea	(unk_4235E).l,a0
@@ -15537,7 +15537,7 @@ loc_DE26:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_DE4C
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_DE4C:
 		bsr.w	loc_F2D0
@@ -15548,7 +15548,7 @@ locret_DE56:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_DE58:
+Spring_Diagonal_Up_Right_Yellow:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_DE86
@@ -15557,7 +15557,7 @@ loc_DE58:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_DE86:
 		movea.w	($FFFFD862).w,a0
@@ -15581,7 +15581,7 @@ loc_DE86:
 ; ---------------------------------------------------------------------------
 
 loc_DEC4:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d1
@@ -15609,14 +15609,14 @@ loc_DEDE:
 ; ---------------------------------------------------------------------------
 
 loc_DF1C:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d1
 		jsr	(loc_CB1C).l
 
 loc_DF36:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DF5C
 		lea	(unk_42364).l,a0
@@ -15624,7 +15624,7 @@ loc_DF36:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_DF5C
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_DF5C:
 		bsr.w	loc_F2D0
@@ -15635,7 +15635,7 @@ locret_DF66:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_DF68:
+Spring_Diagonal_Up_Left_Yellow:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_DF96
@@ -15644,7 +15644,7 @@ loc_DF68:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_DF96:
 		movea.w	($FFFFD862).w,a0
@@ -15668,7 +15668,7 @@ loc_DF96:
 ; ---------------------------------------------------------------------------
 
 loc_DFD4:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d0
@@ -15697,7 +15697,7 @@ loc_DFF0:
 ; ---------------------------------------------------------------------------
 
 loc_E02E:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d0
@@ -15705,7 +15705,7 @@ loc_E02E:
 		jsr	(loc_CB1C).l
 
 loc_E04A:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_E070
 		lea	(unk_42364).l,a0
@@ -15713,7 +15713,7 @@ loc_E04A:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_E070
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_E070:
 		bsr.w	loc_F2D0
@@ -15724,7 +15724,7 @@ locret_E07A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E07C:
+Spring_Diagonal_Down_Right_Yellow:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_E0AA
@@ -15733,7 +15733,7 @@ loc_E07C:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_E0AA:
 		movea.w	($FFFFD862).w,a0
@@ -15757,7 +15757,7 @@ loc_E0AA:
 ; ---------------------------------------------------------------------------
 
 loc_E0E8:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		jsr	(loc_CB1C).l
@@ -15784,13 +15784,13 @@ loc_E100:
 ; ---------------------------------------------------------------------------
 
 loc_E13E:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		jsr	(loc_CB1C).l
 
 loc_E156:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_E17C
 		lea	(unk_42364).l,a0
@@ -15798,7 +15798,7 @@ loc_E156:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_E17C
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_E17C:
 		bsr.w	loc_F2D0
@@ -15809,7 +15809,7 @@ locret_E186:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E188:
+Spring_Diagonal_Down_Left_Yellow:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_E1B6
@@ -15818,7 +15818,7 @@ loc_E188:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_E1B6:
 		movea.w	($FFFFD862).w,a0
@@ -15842,7 +15842,7 @@ loc_E1B6:
 ; ---------------------------------------------------------------------------
 
 loc_E1F4:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d0
@@ -15870,14 +15870,14 @@ loc_E20E:
 ; ---------------------------------------------------------------------------
 
 loc_E24C:
-		ori.w	#1,$2A(a6)
+		ori.w	#1,obAngle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d0
 		jsr	(loc_CB1C).l
 
 loc_E266:
-		move.w	$2A(a6),d0
+		move.w	obAngle(a6),d0
 		btst	#0,d0
 		beq.s	loc_E28C
 		lea	(unk_42364).l,a0
@@ -15885,7 +15885,7 @@ loc_E266:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_E28C
-		andi.w	#$FFFE,$2A(a6)
+		andi.w	#$FFFE,obAngle(a6)
 
 loc_E28C:
 		bsr.w	loc_F2D0
@@ -15915,11 +15915,11 @@ word_E2B0:	dc.w $601
 		dc.w $8080
 ; ---------------------------------------------------------------------------
 
-locret_E2BC:
+Obj24:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E2BE:
+Scattering_Rings:
 		subq.w	#1,$26(a6)
 		bne.s	loc_E2C8
 		jmp	(sub_1980).w
@@ -15978,15 +15978,15 @@ word_E334:	dc.w $5F8
 		dc.w $F8FF
 ; ---------------------------------------------------------------------------
 
-locret_E352:
+Obj2C:
 		rts
 ; ---------------------------------------------------------------------------
 
-locret_E354:
+Obj30:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E356:
+Path_Swapper:
 		tst.b	$28(a6)
 		bne.s	loc_E37C
 		move.w	#0,4(a6)
@@ -16127,7 +16127,7 @@ loc_E44C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E45A:
+Path_Swapper_2:
 		tst.b	$28(a6)
 		bne.s	loc_E480
 		move.w	#0,4(a6)
@@ -16216,15 +16216,15 @@ loc_E4EC:
 		rts
 ; ---------------------------------------------------------------------------
 
-locret_E4FA:
+Obj7C:
 		rts
 ; ---------------------------------------------------------------------------
 
-locret_E4FC:
+Obj80:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E4FE:
+Spikes_Up:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_E526
@@ -16285,7 +16285,7 @@ locret_E5A4:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E5A6:
+Spikes_Down:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_E5CE
@@ -16346,7 +16346,7 @@ locret_E64C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E64E:
+Spikes_Right:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_E676
@@ -16407,7 +16407,7 @@ locret_E6F4:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E6F6:
+Spikes_Left:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_E71E
@@ -16468,7 +16468,7 @@ locret_E79C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E79E:
+Spring_Diagonal_Up_Right:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_E7C6
@@ -16529,7 +16529,7 @@ locret_E844:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E846:
+Spring_Diagonal_Up_Left:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_E86E
@@ -16590,7 +16590,7 @@ locret_E8EC:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E8EE:
+Spring_Diagonal_Down_Right:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_E916
@@ -16651,7 +16651,7 @@ locret_E994:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E996:
+Spring_Diagonal_Down_Left:
 		moveq	#7,d0
 		bclr	d0,$28(a6)
 		beq.s	loc_E9BE
@@ -16945,7 +16945,7 @@ locret_EBAA:
 
 ; ---------------------------------------------------------------------------
 
-locret_EBAC:
+Obj10:
 		rts
 
 ; =============== S U B	R O U T	I N E =======================================
@@ -17211,15 +17211,15 @@ loc_EDA6:
 		addq.w	#1,$28(a6)
 		andi.w	#7,$28(a6)
 		bne.s	locret_EDE2
-		addq.w	#1,$2A(a6)
-		move.w	$2A(a6),d2
+		addq.w	#1,obAngle(a6)
+		move.w	obAngle(a6),d2
 		cmpi.w	#6,d2
 		bne.s	loc_EDC6
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_EDC6:
 		moveq	#0,d2
-		move.w	$2A(a6),d2
+		move.w	obAngle(a6),d2
 		lsl.l	#1,d2
 		lea	($FFFFD3E4).w,a0
 		move.w	word_EDF4(pc,d2.w),d0
@@ -17259,10 +17259,10 @@ loc_EE0C:
 		addq.w	#1,$28(a6)
 		andi.w	#7,$28(a6)
 		bne.s	locret_EE4A
-		addq.w	#1,$2A(a6)
-		andi.w	#3,$2A(a6)
+		addq.w	#1,obAngle(a6)
+		andi.w	#3,obAngle(a6)
 		moveq	#0,d2
-		move.w	$2A(a6),d2
+		move.w	obAngle(a6),d2
 		lsl.l	#1,d2
 		lea	($FFFFD3E4).w,a0
 		move.w	word_EE4C(pc,d2.w),d0
@@ -17300,10 +17300,10 @@ loc_EE86:
 		addq.w	#1,$28(a6)
 		andi.w	#7,$28(a6)
 		bne.s	locret_EEB8
-		addq.w	#1,$2A(a6)
-		andi.w	#3,$2A(a6)
+		addq.w	#1,obAngle(a6)
+		andi.w	#3,obAngle(a6)
 		moveq	#0,d2
-		move.w	$2A(a6),d2
+		move.w	obAngle(a6),d2
 		lsl.l	#1,d2
 		lea	($FFFFD3E4).w,a0
 		move.w	word_EECA(pc,d2.w),d0
@@ -17349,10 +17349,10 @@ loc_EF04:
 		addq.w	#1,$28(a6)
 		andi.w	#7,$28(a6)
 		bne.s	locret_EF36
-		addq.w	#1,$2A(a6)
-		andi.w	#3,$2A(a6)
+		addq.w	#1,obAngle(a6)
+		andi.w	#3,obAngle(a6)
 		moveq	#0,d2
-		move.w	$2A(a6),d2
+		move.w	obAngle(a6),d2
 		lsl.l	#1,d2
 		lea	($FFFFD3E4).w,a0
 		move.w	word_EF48(pc,d2.w),d0
@@ -17385,16 +17385,16 @@ loc_EF58:
 		addq.w	#1,$28(a6)
 		andi.w	#7,$28(a6)
 		bne.s	locret_EFA2
-		addq.w	#1,$2A(a6)
-		andi.w	#7,$2A(a6)
-		move.w	$2A(a6),d2
+		addq.w	#1,obAngle(a6)
+		andi.w	#7,obAngle(a6)
+		move.w	obAngle(a6),d2
 		cmpi.w	#6,d2
 		bne.s	loc_EF7E
-		move.w	#0,$2A(a6)
+		move.w	#0,obAngle(a6)
 
 loc_EF7E:
 		moveq	#0,d2
-		move.w	$2A(a6),d2
+		move.w	obAngle(a6),d2
 		lsl.l	#1,d2
 		lea	($FFFFD3E4).w,a0
 		move.w	word_EFA4(pc,d2.w),d0
