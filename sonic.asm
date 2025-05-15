@@ -5577,7 +5577,7 @@ Fields:
 		move.w	#7,($FFFFD840).w
 		move.w	#$3F,($FFFFD844).w
 		move.w	#$3F,($FFFFD848).w
-		jsr	(sub_8196).l
+		jsr	(Load_Field_Players).l ; Load Field Player Objects
 		jsr	(sub_D1E0).l
 		jsr	(sub_FA44).l
 		ori.w	#$8144,($FFFFC9BA).w
@@ -5842,28 +5842,30 @@ locret_8194:
 
 ; =============== S U B	R O U T	I N E =======================================
 
-
+Load_Field_Players:
+Load_Sonic:
 sub_8196:
 		move.w	#0,($FFFFD866).w
 		move.w	#4,($FFFFD868).w
 		moveq	#4,d0
 		jsr	(sub_1918).w
-		bmi.s	loc_81CC
+		bmi.s	Load_Tails
 		move.w	#$80,4(a0)
-		move.w	#2,ObjectPointer(a0) ; Load Sonic Object Pointer?
-		move.w	#$70,obX(a0)
-		move.w	#$70,obY(a0)
+		move.w	#2,ObjectPointer(a0)       ; Load Sonic Object Pointer?
+		move.w	#$70,obX(a0)               ; Set starting X position
+		move.w	#$70,obY(a0)               ; Set starting Y position
 		move.w	#$8000,$20(a0)
 		move.w	a0,($FFFFD862).w
 
+Load_Tails:
 loc_81CC:
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	locret_81F6
 		move.w	#$80,4(a0)
-		move.w	#$802,ObjectPointer(a0) ; Load Tails Object Pointer?
-		move.w	#$B0,obX(a0)
-		move.w	#$70,obY(a0)
+		move.w	#$802,ObjectPointer(a0)    ; Load Tails Object Pointer?
+		move.w	#$B0,obX(a0)               ; Set starting X position
+		move.w	#$70,obY(a0)               ; Set starting Y position
 		move.w	#$8000,$20(a0)
 		move.w	a0,($FFFFD864).w
 
@@ -16020,8 +16022,8 @@ locret_E3A6:
 
 
 sub_E3A8:
-		move.w	8(a0),d0
-		sub.w	8(a6),d0
+		move.w	obX(a0),d0
+		sub.w	obX(a6),d0
 		move.w	obY(a0),d1
 		sub.w	obY(a6),d1
 		moveq	#0,d2
