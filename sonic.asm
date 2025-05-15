@@ -5607,7 +5607,7 @@ Fields:
 		move.w	#7,($FFFFD840).w
 		move.w	#$3F,($FFFFD844).w
 		move.w	#$3F,($FFFFD848).w
-		jsr	(sub_8196).l
+		jsr	(Load_Field_Players).l ; Load Field Player Objects
 		jsr	(sub_D1E0).l
 		jsr	(sub_FA44).l
 		ori.w	#$8144,($FFFFC9BA).w
@@ -5872,28 +5872,30 @@ locret_8194:
 
 ; =============== S U B	R O U T	I N E =======================================
 
-
+Load_Field_Players:
+Load_Sonic:
 sub_8196:
 		move.w	#0,($FFFFD866).w
 		move.w	#4,($FFFFD868).w
 		moveq	#4,d0
 		jsr	(sub_1918).w
-		bmi.s	loc_81CC
+		bmi.s	Load_Tails
 		move.w	#$80,4(a0)
-		move.w	#2,ObjectPointer(a0) ; Load Sonic Object Pointer?
-		move.w	#$70,obX(a0)
-		move.w	#$70,obY(a0)
+		move.w	#2,ObjectPointer(a0)       ; Load Sonic Object Pointer?
+		move.w	#$70,obX(a0)               ; Set starting X position
+		move.w	#$70,obY(a0)               ; Set starting Y position
 		move.w	#$8000,$20(a0)
 		move.w	a0,($FFFFD862).w
 
+Load_Tails:
 loc_81CC:
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	locret_81F6
 		move.w	#$80,4(a0)
-		move.w	#$802,ObjectPointer(a0) ; Load Tails Object Pointer?
-		move.w	#$B0,obX(a0)
-		move.w	#$70,obY(a0)
+		move.w	#$802,ObjectPointer(a0)    ; Load Tails Object Pointer?
+		move.w	#$B0,obX(a0)               ; Set starting X position
+		move.w	#$70,obY(a0)               ; Set starting Y position
 		move.w	#$8000,$20(a0)
 		move.w	a0,($FFFFD864).w
 
@@ -14565,39 +14567,39 @@ loc_D216:
 ; ---------------------------------------------------------------------------
 
 Obj_Index:
-		bra.w	loc_D2A8
-		bra.w	loc_D394
-		bra.w	loc_D484
-		bra.w	loc_D574
-		bra.w	locret_EBAC
-		bra.w	loc_D660
-		bra.w	loc_D770
-		bra.w	loc_D884
-		bra.w	loc_D990
-		bra.w	locret_E2BC
-		bra.w	loc_E2BE
-		bra.w	locret_E352
-		bra.w	locret_E354
-		bra.w	loc_DAA0
-		bra.w	loc_DB8C
-		bra.w	loc_DC7C
-		bra.w	loc_DD6C
-		bra.w	loc_DE58
-		bra.w	loc_DF68
-		bra.w	loc_E07C
-		bra.w	loc_E188
-		bra.w	loc_E4FE
-		bra.w	loc_E5A6
-		bra.w	loc_E64E
-		bra.w	loc_E6F6
-		bra.w	loc_E79E
-		bra.w	loc_E846
-		bra.w	loc_E8EE
-		bra.w	loc_E996
-		bra.w	loc_E356
-		bra.w	loc_E45A
-		bra.w	locret_E4FA
-		bra.w	locret_E4FC
+		bra.w	loc_D2A8                    ; Obj00 - Red Spring Right
+		bra.w	loc_D394                    ; Obj04 - Red Spring Left
+		bra.w	loc_D484                    ; Obj08 - Red Spring Up
+		bra.w	loc_D574                    ; Obj0C - Red Spring Down
+		bra.w	locret_EBAC                 ; Obj10 - Null
+		bra.w	loc_D660                    ; Obj14 - Diagonal Red Spring Right Up
+		bra.w	loc_D770                    ; Obj18 - Diagonal Red Spring Left Up
+		bra.w	loc_D884                    ; Obj1C - Diagonal Red Spring Right Down
+		bra.w	loc_D990                    ; Obj20 - Diagonal Red Spring Left Up
+		bra.w	locret_E2BC                 ; Obj24 - Null
+		bra.w	loc_E2BE                    ; Obj28 - Ring Loss
+		bra.w	locret_E352                 ; Obj2C - Null
+		bra.w	locret_E354                 ; Obj30 - Null
+		bra.w	loc_DAA0                    ; Obj34 - Yellow Spring Right
+		bra.w	loc_DB8C                    ; Obj38 - Yellow Spring Left
+		bra.w	loc_DC7C                    ; Obj3C - Yellow Spring Up
+		bra.w	loc_DD6C                    ; Obj40 - Yellow Spring Down
+		bra.w	loc_DE58                    ; Obj44 - Diagonal Yellow Spring Right Up
+		bra.w	loc_DF68                    ; Obj48 - Diagonal Yellow Spring Left Up
+		bra.w	loc_E07C                    ; Obj4C - Diagonal Yellow Spring Right Dow
+		bra.w	loc_E188                    ; Obj50 - Diagonal Yellow Spring Left Up
+		bra.w	loc_E4FE                    ; Obj54 - Spikes Up
+		bra.w	loc_E5A6                    ; Obj58 - Spikes Down
+		bra.w	loc_E64E                    ; Obj5C - Spikes Right
+		bra.w	loc_E6F6                    ; Obj60 - Spikes Left
+		bra.w	loc_E79E                    ; Obj64 - Diagonal Springs Right Up
+		bra.w	loc_E846                    ; Obj68 - Diagonal Springs Left Up
+		bra.w	loc_E8EE                    ; Obj6C - Diagonal Springs Right Down
+		bra.w	loc_E996                    ; Obj70 - Diagonal Springs Left Down
+		bra.w	loc_E356                    ; Obj74 - some sort of path swapper
+		bra.w	loc_E45A                    ; Obj78 - some sort of path swapper
+		bra.w	locret_E4FA                 ; Obj7C - Null
+		bra.w	locret_E4FC                 ; Obj80 - Null
 ; ---------------------------------------------------------------------------
 
 loc_D2A8:
@@ -16050,8 +16052,8 @@ locret_E3A6:
 
 
 sub_E3A8:
-		move.w	8(a0),d0
-		sub.w	8(a6),d0
+		move.w	obX(a0),d0
+		sub.w	obX(a6),d0
 		move.w	obY(a0),d1
 		sub.w	obY(a6),d1
 		moveq	#0,d2
