@@ -5095,7 +5095,7 @@ loc_6C70:
 		bsr.w	sub_6CF0
 		lea	(unk_0400&$FFFFFF).l,a0
 		movea.w	($FFFFD818).w,a6
-		lea	$2C(a6),a6
+		lea	obInertia(a6),a6
 		bsr.w	sub_6CF0
 		lea	(unk_0600&$FFFFFF).l,a0
 		movea.w	($FFFFD816).w,a6
@@ -6695,7 +6695,7 @@ loc_88D2:
 		move.w	#7,($FFFFD840).w
 		move.w	#$3F,($FFFFD844).w
 		move.w	#$3F,($FFFFD848).w
-		jsr	(sub_BE72).l
+		jsr	(Load_Level_Players).l
 		jsr	(sub_D1E0).l
 		jsr	(sub_EFD4).l
 		jsr	(Level_LoadObjectArt).l
@@ -8867,7 +8867,8 @@ loc_A1BC:
 		movea.w	($FFFFD862).w,a4
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
-off_A1CE:	dc.l loc_A26A	; Load Sonic			; something to do with stopping reflexes
+off_A1CE:	
+        dc.l loc_A26A	; Load Sonic			; something to do with stopping reflexes
 		dc.l loc_AB30       ; Load Tails
 		dc.l locret_B414
 		dc.l locret_B416
@@ -8927,7 +8928,7 @@ loc_A262:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_A26A:
+loc_A26A: ; Sonic Object Code?
 		move.w	#$C10,$22(a6)
 		moveq	#0,d0
 		move.b	7(a6),d0
@@ -8963,7 +8964,7 @@ loc_A296:
 		move.b	($FFFFD89E).w,d0
 		andi.b	#btnABC,d0
 		beq.s	loc_A2CC
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		bra.s	loc_A2D4
 ; ---------------------------------------------------------------------------
 
@@ -8973,7 +8974,7 @@ loc_A2CC:
 
 loc_A2D4:
 		move.w	#$FFF4,d0
-		move.w	$2C(a6),d1
+		move.w	obInertia(a6),d1
 		beq.s	loc_A2F0
 		bpl.s	loc_A2E4
 		neg.w	d0
@@ -8982,7 +8983,7 @@ loc_A2D4:
 loc_A2E4:
 		cmpi.w	#$C,d1
 		bcc.w	loc_A42E
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 
 loc_A2F0:
 		btst	#3,$25(a6)
@@ -9077,7 +9078,7 @@ loc_A3D2:
 loc_A3E0:
 		move.w	$24(a6),d1
 		eor.w	d0,d1
-		move.w	$2C(a6),d2
+		move.w	obInertia(a6),d2
 		ext.l	d2
 		swap	d2
 	if fixBugs
@@ -9090,14 +9091,14 @@ loc_A3E0:
 		bne.s	loc_A40A
 		andi.w	#8,d1
 		eor.w	d1,$24(a6)
-		tst.w	$2C(a6)
+		tst.w	obInertia(a6)
 		bpl.s	loc_A42A
-		neg.w	$2C(a6)
+		neg.w	obInertia(a6)
 		bra.s	loc_A42A
 ; ---------------------------------------------------------------------------
 
 loc_A40A:
-		move.w	$2C(a6),d0
+		move.w	obInertia(a6),d0
 		bpl.s	loc_A412
 		neg.w	d0
 
@@ -9118,10 +9119,10 @@ loc_A42A:
 		move.w	#$C,d0
 
 loc_A42E:
-		add.w	$2C(a6),d0
+		add.w	obInertia(a6),d0
 
 loc_A432:
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		bpl.s	loc_A43A
 		neg.w	d0
 
@@ -9184,7 +9185,7 @@ loc_A4B4:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.w	#$FF80,d0
-		move.w	$2C(a6),d1
+		move.w	obInertia(a6),d1
 		beq.s	loc_A4E0
 		bpl.s	loc_A4D6
 		neg.w	d0
@@ -9193,7 +9194,7 @@ loc_A4B4:
 loc_A4D6:
 		cmpi.w	#$80,d1
 		bcc.s	loc_A4F0
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 
 loc_A4E0:
 		move.l	#0,$26(a6)
@@ -9202,8 +9203,8 @@ loc_A4E0:
 ; ---------------------------------------------------------------------------
 
 loc_A4F0:
-		add.w	$2C(a6),d0
-		move.w	d0,$2C(a6)
+		add.w	obInertia(a6),d0
+		move.w	d0,obInertia(a6)
 		move.w	#$1A,$26(a6)
 		andi.b	#3,$28(a6)
 		rts
@@ -9228,7 +9229,7 @@ loc_A51E:
 ; ---------------------------------------------------------------------------
 
 loc_A530:
-		bsr.w	nullsub_2
+		bsr.w	Sonic_SlopeResist
 		bsr.w	sub_CBC0
 		jsr	(sub_C49A).l
 		jsr	(sub_C29E).l
@@ -9248,7 +9249,7 @@ loc_A550:
 
 loc_A56C:
 		jsr	(CalcSine).w
-		move.w	$2C(a6),d2
+		move.w	obInertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		asr.l	#6,d0
@@ -9268,7 +9269,7 @@ loc_A588:
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
 		clr.b	$2A(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_A5E4
 		move.l	$18(a6),d0
@@ -9349,7 +9350,7 @@ loc_A656:
 
 loc_A658:
 		asr.l	#8,d0
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		move.b	#2,7(a6)
 		move.l	#0,$26(a6)
 		rts
@@ -9368,7 +9369,7 @@ loc_A67C:
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
 		clr.b	$2A(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_A6CE
 		move.l	$18(a6),d0
@@ -9428,7 +9429,7 @@ loc_A716:
 
 loc_A718:
 		asr.l	#8,d0
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		move.b	#2,7(a6)
 		move.l	#0,$26(a6)
 
@@ -9468,7 +9469,7 @@ loc_A778:
 		move.w	8(a5),d0
 		bne.w	loc_A7CE
 		move.w	#$FFF4,d0
-		move.w	$2C(a6),d1
+		move.w	obInertia(a6),d1
 		beq.s	loc_A7A6
 		bpl.s	loc_A79A
 		neg.w	d0
@@ -9477,7 +9478,7 @@ loc_A778:
 loc_A79A:
 		cmpi.w	#$C,d1
 		bcc.w	loc_A804
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 
 loc_A7A6:
 		btst	#3,$25(a6)
@@ -9498,11 +9499,11 @@ loc_A7CE:
 		eor.w	d0,d1
 		andi.w	#8,d1
 		bne.s	loc_A7E0
-		tst.w	$2C(a6)
+		tst.w	obInertia(a6)
 		bpl.s	loc_A800
 
 loc_A7E0:
-		move.w	$2C(a6),d0
+		move.w	obInertia(a6),d0
 		bpl.s	loc_A7E8
 		neg.w	d0
 
@@ -9523,10 +9524,10 @@ loc_A800:
 		move.w	#$C,d0
 
 loc_A804:
-		add.w	$2C(a6),d0
+		add.w	obInertia(a6),d0
 
 loc_A808:
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		bpl.s	loc_A810
 		neg.w	d0
 
@@ -9589,7 +9590,7 @@ loc_A88A:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.w	#$FF80,d0
-		move.w	$2C(a6),d1
+		move.w	obInertia(a6),d1
 		beq.s	loc_A8B6
 		bpl.s	loc_A8AC
 		neg.w	d0
@@ -9598,7 +9599,7 @@ loc_A88A:
 loc_A8AC:
 		cmpi.w	#$80,d1
 		bcc.s	loc_A8C6
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 
 loc_A8B6:
 		move.l	#$1C0000,$26(a6)
@@ -9607,8 +9608,8 @@ loc_A8B6:
 ; ---------------------------------------------------------------------------
 
 loc_A8C6:
-		add.w	$2C(a6),d0
-		move.w	d0,$2C(a6)
+		add.w	obInertia(a6),d0
+		move.w	d0,obInertia(a6)
 		andi.b	#3,$28(a6)
 		rts
 ; ---------------------------------------------------------------------------
@@ -9642,7 +9643,7 @@ loc_A8F8:
 		move.b	#2,7(a6)
 
 loc_A928:
-		bsr.w	nullsub_2
+		bsr.w	Sonic_SlopeResist
 		bsr.w	sub_CBC0
 		jsr	(sub_C49A).l
 		jsr	(sub_C29E).l
@@ -9664,7 +9665,7 @@ loc_A94E:
 
 loc_A96C:
 		jsr	(CalcSine).w
-		move.w	$2C(a6),d2
+		move.w	obInertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		asr.l	#6,d0
@@ -9688,13 +9689,13 @@ loc_A994:
 		bclr	#4,$25(a6)
 		move.w	#$2E,$26(a6)
 		addq.b	#1,$28(a6)
-		tst.l	$2C(a6)
+		tst.l	obInertia(a6)
 		bne.s	loc_A9B2
 		btst	#1,2(a5)
 		bne.s	loc_A9C0
 
 loc_A9B2:
-		move.w	#$800,$2C(a6)
+		move.w	#$800,obInertia(a6)
 		move.b	#6,7(a6)
 		rts
 ; ---------------------------------------------------------------------------
@@ -9712,7 +9713,7 @@ loc_A9C8:
 		bclr	#0,$25(a6)
 		move.w	#$30,$26(a6)
 		clr.b	$2A(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		bsr.w	sub_CBC0
 		jsr	(sub_C49A).l
 		jsr	(sub_C636).l
@@ -9737,7 +9738,7 @@ loc_AA20:
 
 loc_AA22:
 		asr.l	#8,d0
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		tst.w	$32(a6)
 		bmi.s	loc_AA3E
 		move.b	#2,7(a6)
@@ -9753,7 +9754,7 @@ loc_AA3E:
 loc_AA46:
 		andi.b	#8,$20(a6)
 		moveq	#0,d0
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		move.l	d0,$18(a6)
 		move.l	d0,$1C(a6)
 		tst.w	$30(a6)
@@ -9806,7 +9807,7 @@ sub_AAA4:
 		neg.w	d0
 
 loc_AAD4:
-		move.w	$2C(a6),d2
+		move.w	obInertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		move.w	#$680,d2
@@ -9827,14 +9828,15 @@ locret_AAF6:
 
 
 ; =============== S U B	R O U T	I N E =======================================
-
-
-nullsub_2:
+; Leftover Sonic subroutine for smooth physics collision 
+; (causes movement not to be so jagged)
+; ===========================================================================
+Sonic_SlopeResist: 
 		rts
-; End of function nullsub_2
+; End of function Sonic_SlopeResist
 
 ; ---------------------------------------------------------------------------
-		tst.w	$2C(a6)
+		tst.w	obInertia(a6)
 		bne.s	loc_AB02
 
 locret_AB00:
@@ -9858,7 +9860,7 @@ loc_AB02:
 		neg.w	d1
 
 loc_AB2A:
-		add.w	d1,$2C(a6)
+		add.w	d1,obInertia(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -9898,7 +9900,7 @@ loc_AB5C:
 		move.b	($FFFFD89E).w,d0
 		andi.b	#btnABC,d0
 		beq.s	loc_AB92
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		bra.s	loc_AB9A
 ; ---------------------------------------------------------------------------
 
@@ -9908,7 +9910,7 @@ loc_AB92:
 
 loc_AB9A:
 		move.w	#$FFF0,d0
-		move.w	$2C(a6),d1
+		move.w	obInertia(a6),d1
 		beq.s	loc_ABB6
 		bpl.s	loc_ABAA
 		neg.w	d0
@@ -9917,7 +9919,7 @@ loc_AB9A:
 loc_ABAA:
 		cmpi.w	#$10,d1
 		bcc.w	loc_ACE0
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 
 loc_ABB6:
 		btst	#3,$25(a6)
@@ -10012,13 +10014,13 @@ loc_AC98:
 loc_ACA6:
 		move.w	$24(a6),d1
 		eor.w	d0,d1
-		move.w	$2C(a6),d2
+		move.w	obInertia(a6),d2
 		ext.l	d2
 		swap	d2
 		eor.w	d2,d1
 		andi.w	#8,d1
 		beq.s	loc_ACDC
-		move.w	$2C(a6),d0
+		move.w	obInertia(a6),d0
 		bpl.s	loc_ACC4
 		neg.w	d0
 
@@ -10039,10 +10041,10 @@ loc_ACDC:
 		move.w	#$10,d0
 
 loc_ACE0:
-		add.w	$2C(a6),d0
+		add.w	obInertia(a6),d0
 
 loc_ACE4:
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		bpl.s	loc_ACEC
 		neg.w	d0
 
@@ -10105,7 +10107,7 @@ loc_AD66:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.w	#$FF80,d0
-		move.w	$2C(a6),d1
+		move.w	obInertia(a6),d1
 		beq.s	loc_AD92
 		bpl.s	loc_AD88
 		neg.w	d0
@@ -10114,7 +10116,7 @@ loc_AD66:
 loc_AD88:
 		cmpi.w	#$80,d1
 		bcc.s	loc_ADA2
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 
 loc_AD92:
 		move.l	#0,$26(a6)
@@ -10123,8 +10125,8 @@ loc_AD92:
 ; ---------------------------------------------------------------------------
 
 loc_ADA2:
-		add.w	$2C(a6),d0
-		move.w	d0,$2C(a6)
+		add.w	obInertia(a6),d0
+		move.w	d0,obInertia(a6)
 		move.w	#$1A,$26(a6)
 		andi.b	#3,$28(a6)
 		rts
@@ -10149,7 +10151,7 @@ loc_ADD0:
 ; ---------------------------------------------------------------------------
 
 loc_ADE2:
-		bsr.w	nullsub_3
+		bsr.w	Tails_SlopeResist
 		bsr.w	sub_CBC0
 		jsr	(sub_C49A).l
 		jsr	(sub_C29E).l
@@ -10169,7 +10171,7 @@ loc_AE02:
 
 loc_AE1E:
 		jsr	(CalcSine).w
-		move.w	$2C(a6),d2
+		move.w	obInertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		asr.l	#6,d0
@@ -10189,7 +10191,7 @@ loc_AE3A:
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
 		clr.b	$2A(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_AE96
 		move.l	$18(a6),d0
@@ -10270,7 +10272,7 @@ loc_AF08:
 
 loc_AF0A:
 		asr.l	#8,d0
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		move.b	#2,7(a6)
 		move.l	#0,$26(a6)
 		rts
@@ -10289,7 +10291,7 @@ loc_AF2E:
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
 		clr.b	$2A(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_AF80
 		move.l	$18(a6),d0
@@ -10349,7 +10351,7 @@ loc_AFC8:
 
 loc_AFCA:
 		asr.l	#8,d0
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		move.b	#2,7(a6)
 		move.l	#0,$26(a6)
 
@@ -10384,7 +10386,7 @@ loc_B026:
 		move.w	8(a5),d0
 		bne.w	loc_B07C
 		move.w	#$FFF0,d0
-		move.w	$2C(a6),d1
+		move.w	obInertia(a6),d1
 		beq.s	loc_B054
 		bpl.s	loc_B048
 		neg.w	d0
@@ -10393,7 +10395,7 @@ loc_B026:
 loc_B048:
 		cmpi.w	#$10,d1
 		bcc.w	loc_B0B2
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 
 loc_B054:
 		btst	#3,$25(a6)
@@ -10414,11 +10416,11 @@ loc_B07C:
 		eor.w	d0,d1
 		andi.w	#8,d1
 		bne.s	loc_B08E
-		tst.w	$2C(a6)
+		tst.w	obInertia(a6)
 		bpl.s	loc_B0AE
 
 loc_B08E:
-		move.w	$2C(a6),d0
+		move.w	obInertia(a6),d0
 		bpl.s	loc_B096
 		neg.w	d0
 
@@ -10439,10 +10441,10 @@ loc_B0AE:
 		move.w	#$10,d0
 
 loc_B0B2:
-		add.w	$2C(a6),d0
+		add.w	obInertia(a6),d0
 
 loc_B0B6:
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		bpl.s	loc_B0BE
 		neg.w	d0
 
@@ -10505,7 +10507,7 @@ loc_B138:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.w	#$FF80,d0
-		move.w	$2C(a6),d1
+		move.w	obInertia(a6),d1
 		beq.s	loc_B164
 		bpl.s	loc_B15A
 		neg.w	d0
@@ -10514,7 +10516,7 @@ loc_B138:
 loc_B15A:
 		cmpi.w	#$80,d1
 		bcc.s	loc_B174
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 
 loc_B164:
 		move.l	#$1C0000,$26(a6)
@@ -10523,8 +10525,8 @@ loc_B164:
 ; ---------------------------------------------------------------------------
 
 loc_B174:
-		add.w	$2C(a6),d0
-		move.w	d0,$2C(a6)
+		add.w	obInertia(a6),d0
+		move.w	d0,obInertia(a6)
 		andi.b	#3,$28(a6)
 		rts
 ; ---------------------------------------------------------------------------
@@ -10558,7 +10560,7 @@ loc_B1A6:
 		move.b	#2,7(a6)
 
 loc_B1D6:
-		bsr.w	nullsub_3
+		bsr.w	Tails_SlopeResist
 		bsr.w	sub_CBC0
 		jsr	(sub_C49A).l
 		jsr	(sub_C29E).l
@@ -10580,7 +10582,7 @@ loc_B1FC:
 
 loc_B21A:
 		jsr	(CalcSine).w
-		move.w	$2C(a6),d2
+		move.w	obInertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		asr.l	#6,d0
@@ -10608,7 +10610,7 @@ loc_B250:
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
 		moveq	#0,d0
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		move.l	d0,$18(a6)
 		moveq	#-1,d0
 		move.l	d0,$1C(a6)
@@ -10619,13 +10621,13 @@ loc_B274:
 		bclr	#4,$25(a6)
 		move.w	#$2E,$26(a6)
 		addq.b	#1,$28(a6)
-		tst.l	$2C(a6)
+		tst.l	obInertia(a6)
 		bne.s	loc_B292
 		btst	#1,2(a5)
 		bne.s	loc_B2A0
 
 loc_B292:
-		move.w	#$800,$2C(a6)
+		move.w	#$800,obInertia(a6)
 		move.b	#6,7(a6)
 		rts
 ; ---------------------------------------------------------------------------
@@ -10643,7 +10645,7 @@ loc_B2A8:
 		bclr	#0,$25(a6)
 		move.w	#$30,$26(a6)
 		clr.b	$2A(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		bsr.w	sub_CBC0
 		bsr.w	sub_B35A
 		jsr	(sub_C49A).l
@@ -10669,7 +10671,7 @@ loc_B304:
 
 loc_B306:
 		asr.l	#8,d0
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		tst.w	$32(a6)
 		bmi.s	loc_B322
 		move.b	#2,7(a6)
@@ -10685,7 +10687,7 @@ loc_B322:
 loc_B32A:
 		andi.b	#8,$20(a6)
 		moveq	#0,d0
-		move.w	d0,$2C(a6)
+		move.w	d0,obInertia(a6)
 		move.l	d0,$18(a6)
 		move.l	d0,$1C(a6)
 		tst.w	$30(a6)
@@ -10738,7 +10740,7 @@ sub_B388:
 		neg.w	d0
 
 loc_B3B8:
-		move.w	$2C(a6),d2
+		move.w	obInertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		move.w	#$700,d2
@@ -10759,14 +10761,15 @@ locret_B3DA:
 
 
 ; =============== S U B	R O U T	I N E =======================================
-
-
-nullsub_3:
+; Leftover Tails subroutine for smooth physics collision 
+; (causes movement not to be so jagged)
+; ===========================================================================
+Tails_SlopeResist: 
 		rts
-; End of function nullsub_3
+; End of function Tails_SlopeResist
 
 ; ---------------------------------------------------------------------------
-		tst.w	$2C(a6)
+		tst.w	obInertia(a6)
 		bne.s	loc_B3E6
 
 locret_B3E4:
@@ -10790,7 +10793,7 @@ loc_B3E6:
 		neg.w	d1
 
 loc_B40E:
-		add.w	d1,$2C(a6)
+		add.w	d1,obInertia(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -10894,7 +10897,8 @@ loc_B4A2:
 		moveq	#-2,d1
 		bra.w	loc_CA8A
 ; ---------------------------------------------------------------------------
-word_B4CC:	dc.w $9C
+word_B4CC:	
+        dc.w $9C
 		dc.w $98
 		dc.w $94
 		dc.w $90
@@ -12063,7 +12067,7 @@ loc_BE66:
 
 ; =============== S U B	R O U T	I N E =======================================
 
-
+Load_Level_Players:
 sub_BE72:
 		move.w	#0,($FFFFD866).w
 		move.w	#4,($FFFFD868).w
@@ -12850,7 +12854,7 @@ loc_C4CA:
 		tst.w	d5
 		bpl.s	loc_C4FC
 		sub.w	d5,obX(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		clr.l	$18(a6)
 		moveq	#-1,d5
 		rts
@@ -12865,7 +12869,7 @@ loc_C4FC:
 		tst.w	d5
 		bmi.s	loc_C520
 		sub.w	d5,obX(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		clr.l	$18(a6)
 		moveq	#-1,d5
 		rts
@@ -12891,7 +12895,7 @@ loc_C524:
 		tst.w	d5
 		bpl.s	loc_C558
 		sub.w	d5,obY(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		clr.l	$1C(a6)
 		moveq	#-1,d5
 		rts
@@ -12906,7 +12910,7 @@ loc_C558:
 		tst.w	d5
 		bmi.s	loc_C57C
 		sub.w	d5,obY(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		clr.l	$1C(a6)
 		moveq	#-1,d5
 		rts
@@ -12932,7 +12936,7 @@ loc_C580:
 		tst.w	d5
 		bpl.s	loc_C5B4
 		sub.w	d5,obX(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		clr.l	$18(a6)
 		moveq	#-1,d5
 		rts
@@ -12947,7 +12951,7 @@ loc_C5B4:
 		tst.w	d5
 		bmi.s	loc_C5D8
 		sub.w	d5,obX(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		clr.l	$18(a6)
 		moveq	#-1,d5
 		rts
@@ -12972,7 +12976,7 @@ loc_C5DC:
 		tst.w	d5
 		bpl.s	loc_C60E
 		sub.w	d5,obY(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		clr.l	$1C(a6)
 		moveq	#-1,d5
 		rts
@@ -12987,7 +12991,7 @@ loc_C60E:
 		tst.w	d5
 		bmi.s	loc_C632
 		sub.w	d5,obY(a6)
-		clr.w	$2C(a6)
+		clr.w	obInertia(a6)
 		clr.l	$1C(a6)
 		moveq	#-1,d5
 		rts
@@ -13104,18 +13108,18 @@ loc_C714:
 		move.l	#$100000,$1C(a6)
 
 loc_C724:
-		move.w	$2C(a6),d0
+		move.w	obInertia(a6),d0
 		bpl.s	loc_C738
 		cmpi.w	#$F000,d0
 		bge.s	locret_C744
-		move.w	#$F000,$2C(a6)
+		move.w	#$F000,obInertia(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_C738:
 		cmpi.w	#$1000,d0
 		bcs.s	locret_C744
-		move.w	#$1000,$2C(a6)
+		move.w	#$1000,obInertia(a6)
 
 locret_C744:
 		rts
@@ -13282,7 +13286,7 @@ sub_C8CA:
 		move.w	($FFFFD81E).w,d1
 		addi.w	#$C12,d1
 		jsr	(sub_5090).l
-		move.w	$2C(a6),d0
+		move.w	obInertia(a6),d0
 		move.w	($FFFFD81E).w,d1
 		addi.w	#$C92,d1
 		jsr	(sub_5090).l
@@ -13462,7 +13466,7 @@ loc_CAEA:
 		move.w	d0,obX(a0)
 		move.w	d1,obY(a0)
 		moveq	#0,d0
-		move.w	d0,$2C(a0)
+		move.w	d0,obInertia(a0)
 		move.l	d0,$18(a0)
 		move.l	d0,$1C(a0)
 		bset	#0,$25(a0)
@@ -13563,7 +13567,7 @@ sub_CBC0:
 
 loc_CBD8:
 		jsr	(CalcSine).w
-		move.w	$2C(a6),d2
+		move.w	obInertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		tst.w	d2
@@ -13765,7 +13769,7 @@ loc_CDBC:
 
 loc_CDE6:
 		jsr	(CalcSine).w
-		move.w	$2C(a0),d2
+		move.w	obInertia(a0),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		move.l	d0,d4
@@ -13791,12 +13795,12 @@ loc_CE14:
 		swap	d0
 		btst	#3,$25(a0)
 		beq.s	loc_CE2C
-		sub.w	d0,$2C(a0)
+		sub.w	d0,obInertia(a0)
 		bra.s	loc_CE36
 ; ---------------------------------------------------------------------------
 
 loc_CE2C:
-		add.w	d0,$2C(a0)
+		add.w	d0,obInertia(a0)
 		bra.s	loc_CE36
 ; ---------------------------------------------------------------------------
 
@@ -13846,7 +13850,7 @@ loc_CE78:
 
 loc_CEA2:
 		jsr	(CalcSine).w
-		move.w	$2C(a1),d2
+		move.w	obInertia(a1),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		move.l	d0,d4
@@ -13872,12 +13876,12 @@ loc_CED0:
 		swap	d0
 		btst	#3,$25(a1)
 		beq.s	loc_CEE8
-		sub.w	d0,$2C(a1)
+		sub.w	d0,obInertia(a1)
 		bra.s	loc_CEF2
 ; ---------------------------------------------------------------------------
 
 loc_CEE8:
-		add.w	d0,$2C(a1)
+		add.w	d0,obInertia(a1)
 		bra.s	loc_CEF2
 ; ---------------------------------------------------------------------------
 
