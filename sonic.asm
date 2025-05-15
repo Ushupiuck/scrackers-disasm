@@ -7018,7 +7018,8 @@ loc_8CE4:
 		dbf	d7,.load
 		rts
 ; ---------------------------------------------------------------------------
-PAL_TechnoTowerZone:binclude "Palettes/PalTechnoTowerZone.bin"
+PAL_TechnoTowerZone:
+		binclude	"Palettes/PalTechnoTowerZone.bin"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -7621,7 +7622,7 @@ loc_967C:
 		bsr.w	DecEniMapLocs
 		move.l	a1,($FFFFCA46).w
 		bsr.w	sub_9DA2
-		lea	loc_9C4A(pc),a0
+		lea	SSZ_BG_StartLocCam(pc),a0
 		lea	($FFFFCA1E).w,a1
 		move.w	#$104,$1E(a1)
 		lea	($FFFFD818).w,a2
@@ -7824,7 +7825,7 @@ loc_9898:
 		bsr.w	DecEniMapLocs
 		move.l	a1,($FFFFCA46).w
 		bsr.w	sub_9DA2
-		lea	loc_9CD2(pc),a0
+		lea	TTZ_BG_StartLocCam(pc),a0
 		lea	($FFFFCA1E).w,a1
 		move.w	#$104,$1E(a1)
 		lea	($FFFFD818).w,a2
@@ -8198,83 +8199,78 @@ locret_9C1E:
 ; ---------------------------------------------------------------------------
 SSZ_ArtLocs:	dc.l ARTNEM_SSZ8x8_FG
 		dc.l ARTNEM_SSZ8x8_BG
-SSZ_FG_StartLocCam:	dc.b   0
-		dc.b   0
-		dc.b   0
-		dc.b $D0				; �
-		dc.b $80				; �
-		dc.b $10
-		dc.b $80				; �
-		dc.b  $C
-		dc.b   0
-		dc.b $40				; @
-		dc.b $7E				; ~
-		dc.b $C0				; �
-		dc.b   0
-		dc.b   0
-		dc.b   5
-		dc.b $20
-		dc.b   0
-		dc.b   0
+SSZ_FG_StartLocCam:
+		dc.w	$0000		; Start X scroll
+		dc.w	$00D0		; Start Y scroll
+		dc.b	$80		; H scroll base
+		dc.b	$10		; H scroll param
+		dc.b	$80		; V scroll base
+		dc.b	$0C		; V scroll param
+		dc.w	($0800/$20)	; VRAM destination
+		dc.w	$7EC0		; Max X display area
+		dc.w	$0000		; Min X display area
+		dc.w	$0520		; Max Y display area
+		dc.w	$0000		; Min Y display area
 SSZ_MapFGLocs:	dc.l MAPENI_SSZ16x16_FG
 		dc.l MAPENI_SSZ128x128_FG
 		dc.l MAPENI_SSZLayout_FG
 		dc.l COL_SSZPrimary
-loc_9C4A:
-	dc.w $0000	; Start X scroll
-	dc.w $0054	; Start Y scroll
-	dc.b $04	; H scroll base
-	dc.b $08	; H scroll param
-	dc.b $04	; V scroll base
-	dc.b $06	; V scroll param
-	dc.w $0333	; VRAM destination
-	dc.w $00C0	; Max X scroll
-	dc.w $0000	; Min X scroll
-	dc.w $0220	; Max Y scroll
-	dc.w $0000	; Min Y scroll
-
+SSZ_BG_StartLocCam:
+	dc.w $0000		; Start X scroll
+	dc.w $0054		; Start Y scroll
+	dc.b $04		; H scroll base
+	dc.b $08		; H scroll param
+	dc.b $04		; V scroll base
+	dc.b $06		; V scroll param
+	dc.w ($6660/$20)	; VRAM destination
+	dc.w $00C0		; Max X display area
+	dc.w $0000		; Min X display area
+	dc.w $0220		; Max Y display area
+	dc.w $0000		; Min Y display area
 SSZ_MapBGLocs:	dc.l MAPENI_SSZ16x16_BG
 		dc.l MAPENI_SSZ128x128_BG
 		dc.l MAPENI_SSZLayout_BG
 PAL_SpeedSliderZone:
 		binclude	"Palettes/PalSpeedSliderZone.bin"
 		even
+; ---------------------------------------------------------------------------
 TTZ_ArtLocs:	dc.l ARTNEM_TTZ8x8_FG
 		dc.l ARTNEM_TTZ8x8_BG
 TTZ_FG_StartLocCam:
-		dc.w $0015
-		dc.w $0DE0
-		dc.b $10  ; Level Size
-		dc.b $20  ; Level Size
-		dc.b $10
-		dc.b $20
-		dc.w ($0800/$20)				; V-Ram address to write the level art to ($0040)
-		dc.w $06C0  ; Maximum X display area
-		dc.w $0000
-		dc.w $0F20  ; Maximum Y display area
-		dc.w $0000
+		dc.w $0015		; Start X scroll
+		dc.w $0DE0		; Start Y scroll
+		dc.b $10		; H scroll base
+		dc.b $20		; H scroll param
+		dc.b $10		; V scroll base
+		dc.b $20		; V scroll param
+		dc.w ($0800/$20)	; VRAM destination
+		dc.w $06C0		; Max X display area
+		dc.w $0000		; Min X display area
+		dc.w $0F20		; Max Y display area
+		dc.w $0000		; Min Y display area
 TTZ_MapFGLocs:	dc.l MAPENI_TTZ16x16_FG
 		dc.l MAPENI_TTZ128x128_FG
 		dc.l MAPENI_TTZLayout_FG
 		dc.l COL_TTZPrimary
-loc_9CD2:
-	dc.w $0030      ; Start X scroll
-	dc.w $0A60      ; Start Y scroll
-	dc.b $10        ; H scroll base
-	dc.b $20        ; H scroll param
-	dc.b $0C        ; V scroll base
-	dc.b $18        ; V scroll param
-	dc.w $016F      ; VRAM destination
-	dc.w $04C0      ; Max X scroll
-	dc.w $0000      ; Min X scroll
-	dc.w $0B20      ; Max Y scroll
-	dc.w $0000      ; Min Y scroll
+TTZ_BG_StartLocCam:
+		dc.w $0030		; Start X scroll
+		dc.w $0A60		; Start Y scroll
+		dc.b $10		; H scroll base
+		dc.b $20		; H scroll param
+		dc.b $0C		; V scroll base
+		dc.b $18		; V scroll param
+		dc.w ($2DE0/$20)	; VRAM destination
+		dc.w $04C0		; Max X display area
+		dc.w $0000		; Min X display area
+		dc.w $0B20		; Max Y display area
+		dc.w $0000		; Min Y display area
 TTZ_MapBGLocs:	dc.l MAPENI_TTZ16x16_BG
 		dc.l MAPENI_TTZ128x128_BG
 		dc.l MAPENI_TTZLayout_BG
 PAL_TechnoTowerZoneUnused:
-		binclude	"Palettes/PalTechnoTowerZoneUnused.bin"
+		binclude	"Palettes/PalTechnoTowerZoneUnused.bin"	; Misnomer; used in world 2 attraction 1
 		even
+; ---------------------------------------------------------------------------
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -9108,7 +9104,7 @@ loc_A45A:
 		sne	d1
 		andi.w	#6,d0
 		add.w	d2,d0
-		move.w	d0,$26(a6)
+		move.w	d0,$26(a6)	; handles sonic's movement animation when going right
 		andi.b	#$18,d1
 		move.b	d1,$20(a6)
 		rts
@@ -9168,7 +9164,7 @@ loc_A506:
 		beq.s	loc_A51E
 		tst.b	(a5)
 		bmi.s	loc_A530
-		bsr.w	sub_AA76
+		bsr.w	ObjSonic_ThrowPartner
 		bsr.w	ObjSonic_Jump
 		bra.s	loc_A530
 ; ---------------------------------------------------------------------------
@@ -9272,7 +9268,7 @@ locret_A618:
 
 loc_A61A:
 		bsr.w	sub_CBC0
-		bsr.w	sub_AA76
+		bsr.w	ObjSonic_ThrowPartner
 		jsr	(sub_C49A).l
 		jsr	(sub_C636).l
 		bne.s	loc_A632
@@ -9320,7 +9316,7 @@ loc_A67C:
 		addi.l	#$3800,$1C(a6)
 		bclr	#0,$25(a6)
 		bset	#4,$25(a6)
-		move.w	#$12,$26(a6)
+		move.w	#$12,$26(a6)	; force roll anim when in air
 		clr.b	obAngle(a6)
 		clr.w	obInertia(a6)
 		move.w	8(a5),d0
@@ -9362,7 +9358,7 @@ loc_A6DC:
 
 loc_A6E8:
 		bsr.w	sub_CBC0
-		bsr.w	sub_AA76
+		bsr.w	ObjSonic_ThrowPartner
 		jsr	(sub_C49A).l
 		jsr	(sub_C636).l
 		beq.s	locret_A72C
@@ -9724,7 +9720,7 @@ loc_AA6E:
 ; =============== S U B	R O U T	I N E =======================================
 
 
-sub_AA76:
+ObjSonic_ThrowPartner:
 		move.b	3(a5),d0
 		andi.b	#$70,d0
 		beq.s	locret_AAA2
@@ -9738,7 +9734,7 @@ sub_AA76:
 
 locret_AAA2:
 		rts
-; End of function sub_AA76
+; End of function ObjSonic_ThrowPartner
 
 
 ; =============== S U B	R O U T	I N E =======================================
@@ -9822,22 +9818,22 @@ TailsObject:
 		moveq	#0,d0
 		move.b	7(a6),d0
 		pea	loc_C746(pc)
-		move.w	locret_AB48(pc,d0.w),d0
-		jmp	locret_AB48(pc,d0.w)
+		move.w	TailsIndex(pc,d0.w),d0
+		jmp	TailsIndex(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-locret_AB48:		; For some reason, this offset table has been disabled
+TailsIndex:		; For some reason, this offset table has been disabled
 		rts
 ; ---------------------------------------------------------------------------
-		dc.w loc_AB5C-locret_AB48
-		dc.w loc_AE3A-locret_AB48
-		dc.w loc_AF20-locret_AB48
-		dc.w loc_AF2E-locret_AB48
-		dc.w loc_AFE0-locret_AB48
-		dc.w loc_B240-locret_AB48
-		dc.w loc_B274-locret_AB48
-		dc.w loc_B2A8-locret_AB48
-		dc.w loc_B32A-locret_AB48
+		dc.w loc_AB5C-TailsIndex
+		dc.w loc_AE3A-TailsIndex
+		dc.w loc_AF20-TailsIndex
+		dc.w loc_AF2E-TailsIndex
+		dc.w loc_AFE0-TailsIndex
+		dc.w loc_B240-TailsIndex
+		dc.w loc_B274-TailsIndex
+		dc.w loc_B2A8-TailsIndex
+		dc.w loc_B32A-TailsIndex
 ; ---------------------------------------------------------------------------
 
 loc_AB5C:
@@ -10091,7 +10087,7 @@ loc_ADB8:
 		tst.b	(a5)
 		bmi.s	loc_ADE2
 		bsr.w	sub_B35A
-		bsr.w	sub_B388
+		bsr.w	ObjTails_Jump
 		bra.s	loc_ADE2
 ; ---------------------------------------------------------------------------
 
@@ -10677,7 +10673,7 @@ locret_B386:
 ; =============== S U B	R O U T	I N E =======================================
 
 
-sub_B388:
+ObjTails_Jump:
 		move.b	3(a5),d0
 		andi.b	#$70,d0
 		beq.s	locret_B3DA
@@ -10710,7 +10706,7 @@ loc_B3B8:
 
 locret_B3DA:
 		rts
-; End of function sub_B388
+; End of function ObjTails_Jump
 
 
 ; =============== S U B	R O U T	I N E =======================================
@@ -17430,11 +17426,16 @@ sub_EFD4:
 		move.w	#$67,d0
 
 loc_EFF8:
-		move.w	(a1)+,(a2)+
-		dbf	d0,loc_EFF8
-		tst.w	($FFFFD834).w
-		bne.s	loc_F00A
-		move.b	#0,($FFFFDA85).w
+		move.w	(a1)+,(a2)+			; dump sprites
+		dbf	d0,loc_EFF8			; repeat til all sprites are dumped
+; ---------------------------------------------------------------------------
+; The black bar that appears on the left side when pausing, only disappears
+; when unpaused and the leve is SSZ, this routine below makes sure of it so
+; it's intentional, but not sure "why".
+; ---------------------------------------------------------------------------
+		tst.w	($FFFFD834).w			; is World/Zone ID SSZ?
+		bne.s	loc_F00A			; if not, branch
+		move.b	#$0,($FFFFDA85).w		; remove the left Black bar block
 
 loc_F00A:
 		bra.w	loc_F0DE
