@@ -5845,7 +5845,7 @@ locret_8194:
 Load_Field_Players:
 Load_Sonic:
 sub_8196:
-		move.w	#0,($FFFFD866).w
+		move.w	#0,(v_sonic).w
 		move.w	#4,($FFFFD868).w
 		moveq	#4,d0
 		jsr	(sub_1918).w
@@ -6533,7 +6533,7 @@ sub_8736:
 		bne.s	loc_8748
 		lea	($FFFFD87C).w,a4
 		moveq	#1,d2
-		move.w	($FFFFD866).w,d0
+		move.w	(v_sonic).w,d0
 		bra.s	loc_8752
 ; ---------------------------------------------------------------------------
 
@@ -8823,7 +8823,7 @@ loc_A192:
 ; ---------------------------------------------------------------------------
 
 loc_A1AA:
-		move.w	($FFFFD866).w,d0
+		move.w	(v_sonic).w,d0
 		movea.l	off_A1CE(pc,d0.w),a0
 		lea	($FFFFD89C).w,a5
 		movea.w	($FFFFD864).w,a4
@@ -8850,7 +8850,7 @@ off_A1CE:
 ; ---------------------------------------------------------------------------
 
 loc_A1F2:
-		move.w	($FFFFD866).w,d0
+		move.w	(v_sonic).w,d0
 		movea.l	off_A206(pc,d0.w),a0
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
@@ -8872,7 +8872,7 @@ off_A206:	dc.l loc_B422
 ; ---------------------------------------------------------------------------
 
 loc_A22A:
-		move.w	($FFFFD866).w,d0
+		move.w	(v_sonic).w,d0
 		movea.l	off_A23E(pc,d0.w),a0
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
@@ -12039,7 +12039,7 @@ loc_BE66:
 
 Load_Level_Players:
 sub_BE72:
-		move.w	#0,($FFFFD866).w
+		move.w	#0,(v_sonic).w
 		move.w	#4,($FFFFD868).w
 		moveq	#4,d0
 		jsr	(sub_1918).w
@@ -13146,7 +13146,7 @@ loc_C7BC:
 		bne.s	loc_C7D6
 		lea	($FFFFD87C).w,a4
 		moveq	#1,d2
-		move.w	($FFFFD866).w,d0
+		move.w	(v_sonic).w,d0
 		bra.s	loc_C7E0
 ; ---------------------------------------------------------------------------
 

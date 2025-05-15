@@ -26,6 +26,7 @@ unk_C936:	ds.b 1
 unk_C937:	ds.b 1
 unk_C938:	ds.b 1
 v_ngfx_buffer:	equ ramaddr($FFFFD59A)
+v_sonic: equ ramaddr($FFFFD866)
 v_gamemode:	equ ramaddr($FFFFD822)			; (2 bytes)
 v_subgamemode =	v_gamemode+2
 
