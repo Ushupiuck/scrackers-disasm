@@ -2459,7 +2459,7 @@ data_197A:
 ;
 ; ---------------------------------------------------------------------------
 
-sub_1980:
+DeleteObject:
 		move.l	a1,-(sp)
 		tst.w	(a6)
 		bpl.s	loc_198E
@@ -5485,12 +5485,12 @@ loc_74FC:
 		addi.w	#$120,d0
 		move.w	d0,($FFFFD832).w
 		tst.b	($FFFFC93D).w
-		bmi.s	loc_7512
+		bmi.s	TitleStartMenu
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7512:
-		clr.w	($FFFFD83A).w
+TitleStartMenu:
+		clr.w	($FFFFD83A).w	; reset time of day for all levels
 		clr.w	(v_subgamemode).w
 		move.w	(v_titleselect).w,d0
 		beq.s	TitleScrn_PlayLevel
@@ -9783,6 +9783,9 @@ ObjSonic_Jump:
 		btst	#3,$25(a6)
 		beq.s	loc_AAD4
 		neg.w	d0
+	if fixBugs
+		neg.w	d1	; jumping to the left is broken without this
+	endif
 
 loc_AAD4:
 		move.w	obInertia(a6),d2
@@ -10115,7 +10118,7 @@ loc_ADB8:
 		beq.s	loc_ADD0
 		tst.b	(a5)
 		bmi.s	loc_ADE2
-		bsr.w	sub_B35A
+		bsr.w	ObjTails_ThrowPartner
 		bsr.w	ObjTails_Jump
 		bra.s	loc_ADE2
 ; ---------------------------------------------------------------------------
@@ -10219,7 +10222,7 @@ locret_AECA:
 
 loc_AECC:
 		bsr.w	sub_CBC0
-		bsr.w	sub_B35A
+		bsr.w	ObjTails_ThrowPartner
 		jsr	(sub_C49A).l
 		jsr	(sub_C636).l
 		bne.s	loc_AEE4
@@ -10309,7 +10312,7 @@ loc_AF8E:
 
 loc_AF9A:
 		bsr.w	sub_CBC0
-		bsr.w	sub_B35A
+		bsr.w	ObjTails_ThrowPartner
 		jsr	(sub_C49A).l
 		jsr	(sub_C636).l
 		beq.s	locret_AFDE
@@ -10625,7 +10628,7 @@ loc_B2A8:
 		clr.b	obAngle(a6)
 		clr.w	obInertia(a6)
 		bsr.w	sub_CBC0
-		bsr.w	sub_B35A
+		bsr.w	ObjTails_ThrowPartner
 		jsr	(sub_C49A).l
 		jsr	(sub_C636).l
 		bne.s	loc_B2EC
@@ -10682,7 +10685,7 @@ loc_B352:
 ; =============== S U B	R O U T	I N E =======================================
 
 
-sub_B35A:
+ObjTails_ThrowPartner:
 		move.b	3(a5),d0
 		andi.b	#$70,d0
 		beq.s	locret_B386
@@ -10696,7 +10699,7 @@ sub_B35A:
 
 locret_B386:
 		rts
-; End of function sub_B35A
+; End of function ObjTails_ThrowPartner
 
 
 ; =============== S U B	R O U T	I N E =======================================
@@ -10716,6 +10719,9 @@ ObjTails_Jump:
 		btst	#3,$25(a6)
 		beq.s	loc_B3B8
 		neg.w	d0
+	if fixBugs
+		neg.w	d1	; jumping to the left is broken without this
+	endif
 
 loc_B3B8:
 		move.w	obInertia(a6),d2
@@ -14656,7 +14662,7 @@ loc_D362:
 loc_D388:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D392
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_D392:
 		rts
@@ -14735,7 +14741,7 @@ loc_D452:
 loc_D478:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D482
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_D482:
 		rts
@@ -14814,7 +14820,7 @@ loc_D542:
 loc_D568:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D572
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_D572:
 		rts
@@ -14890,7 +14896,7 @@ loc_D62E:
 loc_D654:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D65E
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_D65E:
 		rts
@@ -14977,7 +14983,7 @@ loc_D73E:
 loc_D764:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D76E
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_D76E:
 		rts
@@ -15066,7 +15072,7 @@ loc_D852:
 loc_D878:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D882
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_D882:
 		rts
@@ -15151,7 +15157,7 @@ loc_D95E:
 loc_D984:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D98E
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_D98E:
 		rts
@@ -15238,7 +15244,7 @@ loc_DA6E:
 loc_DA94:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DA9E
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_DA9E:
 		rts
@@ -15315,7 +15321,7 @@ loc_DB5A:
 loc_DB80:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DB8A
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_DB8A:
 		rts
@@ -15395,7 +15401,7 @@ loc_DC4A:
 loc_DC70:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DC7A
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_DC7A:
 		rts
@@ -15474,7 +15480,7 @@ loc_DD3A:
 loc_DD60:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DD6A
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_DD6A:
 		rts
@@ -15551,7 +15557,7 @@ loc_DE26:
 loc_DE4C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DE56
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_DE56:
 		rts
@@ -15638,7 +15644,7 @@ loc_DF36:
 loc_DF5C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DF66
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_DF66:
 		rts
@@ -15727,7 +15733,7 @@ loc_E04A:
 loc_E070:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E07A
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_E07A:
 		rts
@@ -15812,7 +15818,7 @@ loc_E156:
 loc_E17C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E186
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_E186:
 		rts
@@ -15899,7 +15905,7 @@ loc_E266:
 loc_E28C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E296
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_E296:
 		rts
@@ -15931,7 +15937,7 @@ Obj24:
 Scattering_Rings:
 		subq.w	#1,$26(a6)
 		bne.s	loc_E2C8
-		jmp	(sub_1980).w
+		jmp	(DeleteObject).w
 ; ---------------------------------------------------------------------------
 
 loc_E2C8:
@@ -16013,7 +16019,7 @@ word_E376:
 loc_E37C:
 		jsr	(loc_F2D0).l
 		bcc.s	loc_E38A
-		jmp	(DeleteObject).l
+		jmp	(DeleteSprite).l
 ; ---------------------------------------------------------------------------
 
 loc_E38A:
@@ -16154,7 +16160,7 @@ word_E47A:
 loc_E480:
 		jsr	(loc_F2D0).l
 		bcc.s	loc_E48E
-		jmp	(DeleteObject).l
+		jmp	(DeleteSprite).l
 ; ---------------------------------------------------------------------------
 
 loc_E48E:
@@ -16288,7 +16294,7 @@ loc_E592:
 loc_E59A:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E5A4
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_E5A4:
 		rts
@@ -16349,7 +16355,7 @@ loc_E63A:
 loc_E642:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E64C
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_E64C:
 		rts
@@ -16410,7 +16416,7 @@ loc_E6E2:
 loc_E6EA:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E6F4
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_E6F4:
 		rts
@@ -16471,7 +16477,7 @@ loc_E78A:
 loc_E792:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E79C
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_E79C:
 		rts
@@ -16532,7 +16538,7 @@ loc_E832:
 loc_E83A:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E844
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_E844:
 		rts
@@ -16593,7 +16599,7 @@ loc_E8DA:
 loc_E8E2:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E8EC
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_E8EC:
 		rts
@@ -16654,7 +16660,7 @@ loc_E982:
 loc_E98A:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E994
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_E994:
 		rts
@@ -16715,7 +16721,7 @@ loc_EA2A:
 loc_EA32:
 		bsr.w	loc_F2D0
 		bcc.s	locret_EA3C
-		bsr.w	DeleteObject
+		bsr.w	DeleteSprite
 
 locret_EA3C:
 		rts
@@ -16995,31 +17001,31 @@ loc_EBC8:
 
 loc_EBE0:
 		tst.w	($FFFFD834).w
-		beq.s	loc_EC02
+		beq.s	SomethingCheckTime
 		movea.w	($FFFFD862).w,a0
 		cmpi.w	#$8F,obY(a0)
-		bcs.s	loc_EBFE
+		bcs.s	Goto_GameOver
 		movea.w	($FFFFD864).w,a0
 		cmpi.w	#$8F,obY(a0)
-		bcc.s	loc_EC02
+		bcc.s	SomethingCheckTime
 
-loc_EBFE:
-		bra.w	loc_EC20
+Goto_GameOver:
+		bra.w	GameOver
 ; ---------------------------------------------------------------------------
 
-loc_EC02:
+SomethingCheckTime:
 		tst.w	$26(a6)
-		bne.s	loc_EBFE
+		bne.s	Goto_GameOver
 		move.w	$24(a6),d7
 		addq.w	#1,d7
 		cmpi.w	#$2D00,d7
-		bhi.s	loc_EC20
+		bhi.s	GameOver
 		tst.w	($FFFFD834).w
 		bne.s	loc_EC62
 		cmpi.w	#$F00,d7
 		bls.s	loc_EC62
 
-loc_EC20:
+GameOver:
 		move.b	#bgm_GameOver,d0
 		jsr	(PlayMusic).l
 		move.w	#$300,d0			; this basically performs a spinlock for 12 seconds
@@ -17771,13 +17777,13 @@ locret_F284:
 ; =============== S U B	R O U T	I N E =======================================
 
 
-DeleteObject:
+DeleteSprite:
 		move.w	$24(a6),d0
 		lea	($FFFFD8F2).w,a0
 		move.b	#2,(a0,d0.w)
-		jsr	(sub_1980).w
+		jsr	(DeleteObject).w
 		rts
-; End of function DeleteObject
+; End of function DeleteSprite
 
 
 ; =============== S U B	R O U T	I N E =======================================
@@ -17807,7 +17813,7 @@ loc_F2A8:
 		move.b	(a1,d0.w),d1
 		andi.b	#$F0,d1
 		move.b	d1,(a1,d0.w)
-		jsr	(sub_1980).w
+		jsr	(DeleteObject).w
 		rts
 
 ; =============== S U B	R O U T	I N E =======================================
