@@ -53,6 +53,9 @@ bitUp:		equ 0
 
 ; Object variables
 obMap:		equ $10					; mappings address (4 bytes)
+obX:        equ 8
+obY:        equ $C
+ObjectPointer equ 6
 
 ; Background music
 bgm_First:	equ $81
