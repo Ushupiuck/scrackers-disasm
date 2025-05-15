@@ -5875,8 +5875,8 @@ locret_8194:
 Load_Field_Players:
 Load_Sonic:
 sub_8196:
-		move.w	#0,($FFFFD866).w
-		move.w	#4,($FFFFD868).w
+		move.w	#0,(v_sonic).w
+		move.w	#4,(v_tails).w
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	Load_Tails
@@ -6563,14 +6563,14 @@ sub_8736:
 		bne.s	loc_8748
 		lea	($FFFFD87C).w,a4
 		moveq	#1,d2
-		move.w	($FFFFD866).w,d0
+		move.w	(v_sonic).w,d0
 		bra.s	loc_8752
 ; ---------------------------------------------------------------------------
 
 loc_8748:
 		lea	($FFFFD888).w,a4
 		moveq	#8,d2
-		move.w	($FFFFD868).w,d0
+		move.w	(v_tails).w,d0
 
 loc_8752:
 		lea	CharacterDataTable(pc,d0.w),a3
@@ -7842,7 +7842,7 @@ loc_9898:
 		lea	PAL_TechnoTowerZoneUnused(pc),a0
 		lea	($FFFFD424).w,a2
 		bsr.w	sub_9E6E
-		lea	loc_9CB0(pc),a0
+		lea	TTZ_FG_StartLocCam(pc),a0
 		lea	($FFFFD816).w,a2
 		bsr.w	sub_9E84
 		movea.l	a1,a0
@@ -8276,24 +8276,18 @@ PAL_SpeedSliderZone:
 		even
 TTZ_ArtLocs:	dc.l ARTNEM_TTZ8x8_FG
 		dc.l ARTNEM_TTZ8x8_BG
-loc_9CB0:	dc.b   0
-		dc.b $15
-		dc.b  $D
-		dc.b $E0				; �
-		dc.b $10
-		dc.b $20
-		dc.b $10
-		dc.b $20
-		dc.b   0
-		dc.b $40				; @
-		dc.b   6
-		dc.b $C0				; �
-		dc.b   0
-		dc.b   0
-		dc.b  $F
-		dc.b $20
-		dc.b   0
-		dc.b   0
+TTZ_FG_StartLocCam:	
+        dc.w  $0015               ; X starting location
+		dc.w  $0DE0               ; Y starting location
+		dc.b  $10
+		dc.b  $20
+		dc.b  $10
+		dc.b  $20
+		dc.w  ($0800/$20)		  ; V-Ram address to write the level art to
+		dc.w  $06C0               ; Maximum X display area
+		dc.w  $0000
+		dc.w  $0F20               ; Maximum Y display area
+		dc.w  $0000
 TTZ_MapFGLocs:	dc.l MAPENI_TTZ16x16_FG
 		dc.l MAPENI_TTZ128x128_FG
 		dc.l MAPENI_TTZLayout_FG
@@ -8853,21 +8847,21 @@ loc_A192:
 ; ---------------------------------------------------------------------------
 
 loc_A1AA:
-		move.w	($FFFFD866).w,d0
-		movea.l	off_A1CE(pc,d0.w),a0
+		move.w	(v_sonic).w,d0
+		movea.l	CharacterTable(pc,d0.w),a0
 		lea	($FFFFD89C).w,a5
 		movea.w	($FFFFD864).w,a4
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
 
 loc_A1BC:
-		move.w	($FFFFD868).w,d0
-		movea.l	off_A1CE(pc,d0.w),a0
+		move.w	(v_tails).w,d0
+		movea.l	CharacterTable(pc,d0.w),a0
 		lea	($FFFFD8AC).w,a5
 		movea.w	($FFFFD862).w,a4
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
-off_A1CE:	
+CharacterTable:	
         dc.l SonicObject	; Load Sonic			; something to do with stopping reflexes
 		dc.l TailsObject       ; Load Tails
 		dc.l locret_B414
@@ -8880,13 +8874,13 @@ off_A1CE:
 ; ---------------------------------------------------------------------------
 
 loc_A1F2:
-		move.w	($FFFFD866).w,d0
+		move.w	(v_sonic).w,d0
 		movea.l	off_A206(pc,d0.w),a0
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
 
 loc_A1FC:
-		move.w	($FFFFD868).w,d0
+		move.w	(v_tails).w,d0
 		movea.l	off_A206(pc,d0.w),a0
 		jmp	(a0)		; A dynamic call... to entries on a table right next line?
 ; ---------------------------------------------------------------------------
@@ -8902,13 +8896,13 @@ off_A206:	dc.l loc_B422
 ; ---------------------------------------------------------------------------
 
 loc_A22A:
-		move.w	($FFFFD866).w,d0
+		move.w	(v_sonic).w,d0
 		movea.l	off_A23E(pc,d0.w),a0
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
 
 loc_A234:
-		move.w	($FFFFD868).w,d0
+		move.w	(v_tails).w,d0
 		movea.l	off_A23E(pc,d0.w),a0
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
@@ -12069,8 +12063,8 @@ loc_BE66:
 
 Load_Level_Players:
 sub_BE72:
-		move.w	#0,($FFFFD866).w
-		move.w	#4,($FFFFD868).w
+		move.w	#0,(v_sonic).w
+		move.w	#4,(v_tails).w
 		moveq	#4,d0
 		jsr	(sub_1918).w
 		bmi.s	loc_BE9C
@@ -13176,17 +13170,17 @@ loc_C7BC:
 		bne.s	loc_C7D6
 		lea	($FFFFD87C).w,a4
 		moveq	#1,d2
-		move.w	($FFFFD866).w,d0
+		move.w	(v_sonic).w,d0
 		bra.s	loc_C7E0
 ; ---------------------------------------------------------------------------
 
 loc_C7D6:
 		lea	($FFFFD880).w,a4
 		moveq	#2,d2
-		move.w	($FFFFD868).w,d0
+		move.w	(v_tails).w,d0
 
 loc_C7E0:
-		lea	off_C84A(pc,d0.w),a3
+		lea	CharacterDataTable_Levels(pc,d0.w),a3
 		movea.l	(a3),a0
 		movea.l	$20(a3),a1
 		movea.l	$40(a3),a2
@@ -13225,7 +13219,8 @@ loc_C832:
 		move.l	a3,obMap(a6)
 		rts
 ; ---------------------------------------------------------------------------
-off_C84A:	dc.l ANI_Sonic
+CharacterDataTable_Levels:	
+        dc.l ANI_Sonic
 		dc.l ANI_Tails
 		dc.l 0
 		dc.l 0
