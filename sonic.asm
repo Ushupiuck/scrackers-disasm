@@ -10764,7 +10764,7 @@ locret_B3DA:
 ; Leftover Tails subroutine for smooth physics collision 
 ; (causes movement not to be so jagged)
 ; ===========================================================================
-Tails_SlopeResist: 
+Tails_SlopeResist:
 		rts
 ; End of function Tails_SlopeResist
 
