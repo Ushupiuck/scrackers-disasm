@@ -52,10 +52,11 @@ bitDn:		equ 1
 bitUp:		equ 0
 
 ; Object variables
-obMap:		equ $10					; mappings address (4 bytes)
+ObjectPointer: equ 6
 obX:        equ 8
 obY:        equ $C
-ObjectPointer equ 6
+obMap:		equ $10					; mappings address (4 bytes)
+obInertia:   equ $2C
 
 ; Background music
 bgm_First:	equ $81
