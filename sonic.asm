@@ -259,14 +259,14 @@ loc_336:
 		dbf	d7,.loop
 		lea	(unk_C800).w,a0
 		move.w	#$4EF9,d0			; machine code for 'jmp'
-		lea	UnknownRout001(pc),a1		; routine used here just has an 'rts'...
+		lea	RTS_code(pc),a1		; routine used here just has an 'rts'...
 		moveq	#2,d7
 
 loc_360:
 		move.w	d0,(a0)+
 		move.l	a1,(a0)+
-		dbf	d7,loc_360			; the result from this is 'jmp	UnknownRout001'
-		lea	UnknownRout000(pc),a1		; routine used here just has 'rte'...
+		dbf	d7,loc_360			; the result from this is 'jmp	RTS_code'
+		lea	RTE_code(pc),a1		; routine used here just has 'rte'...
 		moveq	#6,d7
 
 loc_36E:
@@ -325,10 +325,10 @@ MAINPROGLOOP:
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
-UnknownRout000:
+RTE_code:
 		rte
 ; ---------------------------------------------------------------------------
-UnknownRout001:
+RTS_code:
 		rts
 ; ---------------------------------------------------------------------------
 ErrorTrap:
@@ -362,10 +362,10 @@ InitialVDPSetupArray:
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
-; subroutine to setup the VDP (Palettes, etc) via DMA
+; subroutine to transfer palette via DMA
 ; ---------------------------------------------------------------------------
 
-VDPSetup_01:
+DMAToCRAM:
 		stopZ80
 		waitZ80
 		move.w	#$8F02,(vdp_control_port).l	; set VDP Increment
@@ -373,11 +373,11 @@ VDPSetup_01:
 		lea	(vdp_control_port).l,a0		; load VDP address port to a0
 		ori.w	#$8114,($FFFFC9BA).w
 		move.w	($FFFFC9BA).w,(a0)
-		lea	VDPClearArr_01(pc),a1		; load VDP values address to a1
+		lea	DMAValues(pc),a1		; load VDP values address to a1
 		move.w	(a1)+,(a0)			; dump DMA values to VDP
 		move.w	(a1),(a0)
 		move.w	#$9500,d0			; prepare VDP DMA register value in d0
-		lea	VDPClearArr_02(pc),a1		; load location just after VDP values to a1
+		lea	DMAValues_End(pc),a1		; load location just after VDP values to a1
 		moveq	#2,d1				; set repeat times
 
 .setDMA:
@@ -397,9 +397,10 @@ VDPSetup_01:
 
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
-VDPClearArr_01:	dc.w $9340,$9400			; DMA Transfer Size (0040 x 2 = 0080)
-		dc.l $7FE9F2				; DMA Transfer "From" location  (7FE9F2 x 2 = FFD3E4)
-VDPClearArr_02: even
+DMAValues:
+		dc.w $9340,$9400			; DMA Transfer Size (Lower and Upper bytes, in order: XX00, 00XX)
+		dc.l ($00FFD3E4/$02)			; DMA Transfer Source (7FE9F2 x 2 = FFD3E4)
+DMAValues_End: even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -533,7 +534,7 @@ loc_5C0:
 ;
 ; ---------------------------------------------------------------------------
 
-sub_5E8:
+DMA_WriteData:
 		moveq	#0,d3
 		move.w	d2,d3
 		add.w	d2,d3
@@ -5280,8 +5281,8 @@ loc_6EB4:
 		move.l	#$FFFFD164,d0
 		move.w	($FFFFD81A).w,d1
 		move.w	#$140,d2
-		jsr	(sub_5E8).w
-		jsr	(VDPSetup_01).w
+		jsr	(DMA_WriteData).w
+		jsr	(DMAToCRAM).w
 		move.w	($FFFFD81C).w,d0
 		lsl.l	#2,d0
 		lsr.w	#2,d0
@@ -5450,7 +5451,7 @@ TitleLoad_Continue:
 .loadpalette:
 		move.l	(a0)+,(a1)+
 		dbf	d0,.loadpalette
-		jsr	(VDPSetup_01).w
+		jsr	(DMAToCRAM).w
 		move.l	#$78000003,(vdp_control_port).l
 		move.l	#0,(vdp_data_port).l
 		move.l	#$1E00D0,(vdp_data_port).l
@@ -5543,7 +5544,7 @@ loc_7576:
 		bsr.s	sub_75BC
 		move.w	d1,($FFFFC944).w
 		move.w	d2,($FFFFC946).w
-		jsr	(VDPSetup_01).w
+		jsr	(DMAToCRAM).w
 		ori.b	#$80,(v_lagger).w
 		movem.l	(sp)+,d0-a6
 		rte
@@ -5588,7 +5589,7 @@ MAPUNC_TitleMenu_3:
 
 Fields:
 		pea	(a0)
-		lea	Vint_Level(pc),a0
+		lea	Vint_Fields(pc),a0
 		move.l	a0,(v_vdpindex).w
 		movem.l	(sp)+,a0
 		lea	Fields_VDPSettings(pc),a0
@@ -5744,20 +5745,20 @@ byte_8000:	dc.b $00,$C0,$40,$C0
 		dc.b $80,$A0,$60,$A0
 ; ---------------------------------------------------------------------------
 
-Vint_Level:
+Vint_Fields:
 		movem.l	d0-a6,-(sp)
 		move.l	#$FFFFCA5E,d0
 		move.w	($FFFFD81C).w,d1
 		move.w	#$1C0,d2
-		jsr	(sub_5E8).w
+		jsr	(DMA_WriteData).w
 		move.l	#$40000010,(vdp_control_port).l
 		move.l	($FFFFCDDE).w,(vdp_data_port).l
-		jsr	(VDPSetup_01).w
+		jsr	(DMAToCRAM).w
 		jsr	(sub_C9DE).l
 		move.l	#$FFFFD164,d0
 		move.w	($FFFFD81A).w,d1
 		move.w	#$140,d2
-		jsr	(sub_5E8).w
+		jsr	(DMA_WriteData).w
 		ori.b	#$80,(v_lagger).w
 		addq.w	#1,($FFFFF000).w
 		movem.l	(sp)+,d0-a6
@@ -6510,7 +6511,7 @@ loc_86BC:
 		lsl.w	#4,d2
 		jsr	(CracDec).l			; run through Crackers Decompression
 		move.l	a0,-(sp)
-		jsr	(sub_5E8).w
+		jsr	(DMA_WriteData).w
 		movea.l	(sp)+,a0
 		enable_ints
 		move.w	(sp)+,d7
@@ -6859,12 +6860,12 @@ loc_8B1C:
 		movem.l	d0-a6,-(sp)
 		jsr	(sub_9F7C).l
 		jsr	(VDPSetup_02).w
-		jsr	(VDPSetup_01).w
+		jsr	(DMAToCRAM).w
 		jsr	(sub_C9DE).l
 		move.l	#$FFFFD164,d0
 		move.w	($FFFFD81A).w,d1
 		move.w	#$140,d2
-		jsr	(sub_5E8).w
+		jsr	(DMA_WriteData).w
 		lea	(unk_0A00&$FFFFFF).l,a3
 		lea	(unk_0B02&$FFFFFF).l,a4
 		lea	($FFFFC9DE).w,a5
@@ -7100,7 +7101,7 @@ LevelSelect_Init:
 		move.w	#0,($FFFFD836).w
 		move.l	#cWhite,($FFFFD3E4).w
 		move.l	#cWhite,($FFFFD404).w
-		jsr	(VDPSetup_01).w
+		jsr	(DMAToCRAM).w
 		enable_ints
 		addq.w	#4,(v_subgamemode).w
 		rts
@@ -7269,7 +7270,7 @@ loc_903C:
 		bsr.s	sub_9098
 		move.w	d1,($FFFFC944).w
 		move.w	d2,($FFFFC946).w
-		jsr	(VDPSetup_01).w
+		jsr	(DMAToCRAM).w
 		ori.b	#$80,(v_lagger).w
 		movem.l	(sp)+,d0-a6
 		rte
@@ -8322,7 +8323,7 @@ sub_9D30:
 		sub.l	a4,d2
 		neg.w	d2
 		lsr.w	#1,d2
-		jsr	(sub_5E8).w
+		jsr	(DMA_WriteData).w
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -17590,7 +17591,7 @@ loc_F0DE:
 		move.l	#ArtUnc_HUD,d0
 		move.w	#$A000,d1
 		move.w	#$800,d2
-		jsr	(sub_5E8).w
+		jsr	(DMA_WriteData).w
 		move.l	#$7F000003,(vdp_control_port).l
 		move.l	#$DDDDDDDD,d0
 		moveq	#$3F,d1
@@ -17870,7 +17871,7 @@ sub_F328:
 		adda.l	2(a0),a0
 		move.l	a0,d0
 		movem.l	d7/a6,-(sp)
-		jsr	(sub_5E8).w
+		jsr	(DMA_WriteData).w
 		movem.l	(sp)+,d7/a6
 		moveq	#8,d0
 		moveq	#$13,d1
@@ -18663,7 +18664,7 @@ loc_FA4C:
 		move.l	(a0)+,d0			; load art location to d0
 		move.w	(a0)+,d2			; load size of art to d2
 		movem.l	d7-a0,-(sp)			; store all register data to the stack pointer
-		jsr	(sub_5E8).w			; dump art
+		jsr	(DMA_WriteData).w			; dump art
 		movem.l	(sp)+,d7-a0			; reload art from stack
 		dbf	d7,loc_FA4C			; repeat til all uncompressed art is loaded to their respected locations
 		rts
