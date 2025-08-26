@@ -52,7 +52,14 @@ bitDn:		equ 1
 bitUp:		equ 0
 
 ; Object variables
-obMap:		equ $10					; mappings address (4 bytes)
+obj	STRUCT DOTS
+	ds.b $10
+Map:	ds.l 1	; mappings address (4 bytes)
+	ds.b $C
+Gfx:	ds.w 1	; vram address (2 bytes)
+	ds.b $1E
+obj	ENDSTRUCT
+	!org 0
 
 ; Background music
 bgm_First:	equ $81

@@ -33,6 +33,8 @@ v_titleselect:	equ ramaddr($FFFFD826)
 
 v_menu_soundid:	equ ramaddr($FFFFD82A)
 
+unk_FDC1:	equ	ramaddr($FFFFFDC1)
+
 v_lagger:	equ ramaddr($FFFFFFC9)
 
 v_text:		equ ramaddr($FFFFFFC0)
