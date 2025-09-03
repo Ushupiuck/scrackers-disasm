@@ -172,7 +172,16 @@ bankswitch macro
 		endm
 	endm
 
-bankswitch_2 macro addr68k
+bankswitch2 macro addr68k
+	if OptimiseDriver
+		ld	hl,zBankRegister+1
+.cnt	:= 0
+		rept 9
+			; this is either ld (hl),h or ld (hl),l
+			db 74h|(((addr68k)&(1<<(15+.cnt)))<>0)
+.cnt		:= .cnt+1
+		endm
+	else
 		ld	hl,zBankRegister
 		xor	a	; a = 0
 		ld	e,1	; e = 1
@@ -182,6 +191,7 @@ bankswitch_2 macro addr68k
 			db 73h|((((addr68k)&(1<<(15+.cnt)))=0)<<2)
 .cnt		:= .cnt+1
 		endm
+	endif
 	endm
 
 ; macro to make a certain error message clearer should you happen to get it...
@@ -193,6 +203,15 @@ rsttarget macro {INTLABEL}
 __LABEL__ label $
 	endif
 	endm
+; ---------------------------------------------------------------------------
+; turn a sample rate into a djnz loop counter
+; ---------------------------------------------------------------------------
+pcmLoopCounter function sampleRate,baseCycles, 1+(53693175/15/(sampleRate)-(baseCycles)+(13/2))/13
+	if OptimiseDriver
+dpcmLoopCounter function sampleRate, pcmLoopCounter(sampleRate,262/2) ; 262 is the number of cycles zPlayPCMLoop takes.
+	else
+dpcmLoopCounter function sampleRate, pcmLoopCounter(sampleRate,268/2) ; 268 is the number of cycles zPlayPCMLoop takes.
+	endif
 
 ; function to turn a 68k address into a word the Z80 can use to access it
 zmake68kPtr function addr,zROMWindow+(addr&7FFFh)
@@ -307,7 +326,11 @@ VInt:		rsttarget
 		jp	m, loc_95
 		ld	a, 2Bh
 		ld	c, 80h
+	if OptimiseDriver
+		rst	WriteFMI
+	else
 		call	WriteFMI
+	endif
 		ld	hl, zDACIndex
 		ld	a, (hl)
 		dec	a
@@ -433,7 +456,7 @@ UpdateAll:
 UpdateSFXTracks:
 		ld	a, 1
 		ld	(zUpdateSound), a		; 01 - SFX Mode
-		bankswitch_2 SoundBank
+		bankswitch2 SoundBank
 		ld	ix, zTracksSFXStart
 		ld	b, (zTracksSFXEnd-zTracksSFXStart)/zTrack.len
 		call	TrkUpdateLoop
@@ -465,7 +488,11 @@ TrkUpdateLoop:
 UpdateTrack:
 		bit	7, (ix+zTrack.VoiceControl)
 		jp	nz, UpdatePSGTrk
+	if OptimiseDriver
+		dec	(ix+zTrack.DurationTimeout)
+	else
 		call	TrackTimeout
+	endif
 		jr	nz, loc_181
 		call	TrkUpdate_Proc
 		bit	4, (ix+zTrack.PlaybackControl)
@@ -503,11 +530,7 @@ SendFMFreq:
 		bit	2, (ix+zTrack.PlaybackControl)
 		ret	nz
 		bit	0, (ix+zTrack.PlaybackControl)
-	if OptimiseDriver
-		jr	nz, loc_1B8
-	else
 		jp	nz, loc_1B8
-	endif
 
 loc_1AF:
 		ld	a, 0A4h
@@ -547,11 +570,19 @@ loc_1C7:
 		add	hl, bc
 		push	af
 		ld	c, h
+	if OptimiseDriver
+		rst	WriteFMI
+	else
 		call	WriteFMI
+	endif
 		pop	af
 		sub	4
 		ld	c, l
+	if OptimiseDriver
+		rst	WriteFMI
+	else
 		call	WriteFMI
+	endif
 		pop	hl
 		pop	bc
 		djnz	loc_1C7
@@ -623,7 +654,7 @@ GetNote:
 		jr	nz, loc_257
 		push	de
 		ld	d, 8
-		ld	e, 0Ch
+		ld	e, 12
 		ex	af, af'
 		xor	a
 
@@ -689,6 +720,12 @@ DoRawFreqMode:
 		or	h
 		jr	z, loc_28A
 		ld	a, (ix+zTrack.Transpose)
+	if FixDriverBugs
+		ld	c, a
+		rla
+		sbc a, a
+		ld	b, a
+	else
 		ld	b, 0
 		or	a
 		jp	p, loc_288
@@ -696,6 +733,7 @@ DoRawFreqMode:
 
 loc_288:
 		ld	c, a
+	endif
 		add	hl, bc
 
 loc_28A:
@@ -752,12 +790,13 @@ loc_2CB:
 
 ; =============== S U B	R O U T	I N E =======================================
 
-
+	if ~~OptimiseDriver
 TrackTimeout:
 		ld	a, (ix+zTrack.DurationTimeout)
 		dec	a
 		ld	(ix+zTrack.DurationTimeout), a
 		ret
+	endif
 ; End of function TrackTimeout
 
 ; ---------------------------------------------------------------------------
@@ -767,7 +806,11 @@ DoNoteOn:
 		or	(ix+zTrack.FreqHigh)
 		ret	z
 		ld	a, (ix+zTrack.PlaybackControl)
+	if FixDriverBugs
+		and	16h
+	else
 		and	6
+	endif
 		ret	nz
 		ld	a, (ix+zTrack.VoiceControl)
 		or	0F0h
@@ -796,9 +839,14 @@ SendNoteOff:
 
 FMNoteOff:
 		ld	a, 28h
+	if OptimiseDriver
+		res	6, (ix+zTrack.PlaybackControl)
+		jp	WriteFMI
+	else
 		call	WriteFMI
 		res	6, (ix+zTrack.PlaybackControl)
 		ret
+	endif
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -896,7 +944,9 @@ loc_382:
 		push	bc
 		jr	nc, loc_38E
 		add	a, (hl)
+	if ~~OptimiseDriver
 		and	7Fh
+	endif
 		ld	c, a
 		ld	a, (de)
 		rst	WriteFMIorII
@@ -965,9 +1015,14 @@ DoModulation:
 		ld	(ix+zTrack.ModEnvIndex), a
 		ld	a, (ix+zTrack.ModulationDelta)
 		ld	c, a
+	if FixDriverBugs
+		rla
+		sbc	a, a
+	else
 		and	80h
 		rlca
 		neg
+	endif
 		ld	b, a
 		add	hl, bc
 		ld	(ix+zTrack.ModulationValLow), l
@@ -1010,7 +1065,13 @@ loc_41C:
 		ld	c, (ix+zTrack.ModEnvIndex)
 		ld	b, 0
 		add	hl, bc
+	if FixDriverBugs
+		ld	c, l
+		ld	b, h
+		ld	a, (bc)
+	else
 		ld	a, (hl)
+	endif
 		pop	hl
 		bit	7, a
 	if OptimiseDriver
@@ -1252,22 +1313,16 @@ PlaySoundID:
 	if FixDriverBugs
 		cp	bgm_Last			; is the ID music?
 		jp	c, zPlayMusic			; if so, play music
-
 		cp	sfx_First			; is the ID after music but before SFX?
 		ret	c				; do nothing if so
-
 		cp	sfx_Last			; is the ID SFX?
 		jp	c, PlaySFX			; if so, play SFX
-
 		cp	spec_First			; is the ID after SFX but before special SFX?
 		ret	c				; do nothing if so
-
 		cp	spec_Last			; is the ID special SFX?
 		jp	c, PlaySpcSFX			; if so, play special SFX
-
 		cp	flg_First			; is the ID after special SFX but before command flags?
 		ret	c				; do nothing if so
-
 		cp	flg_Last			; is the ID after the command flags?
 		ret	nc				; do nothing...
 	else
@@ -1428,7 +1483,7 @@ PSGInitBytes:	db  80h, 80h
 
 PlaySpcSFX:
 		ex	af, af'
-		bankswitch_2 SoundBank
+		bankswitch2 SoundBank
 		ex	af, af'
 		sub	spec_First
 		ex	af, af'
@@ -1443,7 +1498,7 @@ PlaySpcSFX:
 
 PlaySFX:
 		ex	af, af'
-		bankswitch_2 SoundBank
+		bankswitch2 SoundBank
 		ex	af, af'
 		sub	sfx_First
 		ex	af, af'
@@ -1460,8 +1515,10 @@ loc_652:
 		ld	h, (hl)
 		ld	l, a
 		ld	(zSFXVoiceTblPtr), hl
+	if ~~OptimiseDriver
 		xor	a
 		ld	(zUnk_1C15), a
+	endif
 		pop	hl
 		push	hl
 		pop	iy
@@ -1521,7 +1578,12 @@ loc_6C4:
 		ld	(ix+zTrack.VoicesLow), l
 		ld	(ix+zTrack.VoicesHigh), h
 		call	DoNoteOff
+	if FixDriverBugs
+		bit	7, (ix+zTrack.VoiceControl)
+		call	z, DisableSSGEG
+	else
 		call	DisableSSGEG
+	endif
 		pop	hl
 		pop	bc
 		djnz	loc_674
@@ -1801,14 +1863,22 @@ loc_849:
 		call	SilencePSG
 		ld	c, 0
 		ld	a, 2Bh
+	if OptimiseDriver
+		rst	WriteFMI
+	else
 		call	WriteFMI
+	endif
 
 ResetSpcFM3Mode:
 		xor	a
 		ld	(zFM3Settings), a
 		ld	c, a
 		ld	a, 27h
+	if OptimiseDriver
+		rst	WriteFMI
+	else
 		call	WriteFMI
+	endif
 		jp	ClearSoundID
 ; End of function StopAllSound
 
@@ -1825,7 +1895,9 @@ DisableSSGEG:
 ; ---------------------------------------------------------------------------
 
 SilenceAll:
+	if ~~OptimiseDriver
 		call	SilencePSG
+	endif
 		push	bc
 		push	af
 		ld	b, 3
@@ -1834,7 +1906,11 @@ SilenceAll:
 
 loc_88C:
 		push	af
+	if OptimiseDriver
+		rst	WriteFMI
+	else
 		call	WriteFMI
+	endif
 		pop	af
 		inc	a
 		djnz	loc_88C
@@ -1857,7 +1933,11 @@ loc_898:
 
 loc_8A6:
 		push	af
+	if OptimiseDriver
+		rst	WriteFMI
+	else
 		call	WriteFMI
+	endif
 		inc	c
 		pop	af
 		djnz	loc_8A6
@@ -1917,11 +1997,7 @@ loc_8E0:
 		bit	7, a
 		jr	z, loc_905
 		sub	bgm_Last-1
-	if OptimiseDriver
-		jr	c, loc_90B
-	else
 		jp	c, loc_90B
-	endif
 		sub	1Ah
 		ld	hl, SndPriorities
 		add	a, l
@@ -2014,9 +2090,14 @@ FMFreqs:	dw  284h, 2ABh,	2D3h, 2FEh, 32Dh, 35Ch,	38Fh, 3C5h, 3FFh, 43Ch,	47Ch, 4
 
 
 DrumUpdateTrack:
+	if OptimiseDriver
+		dec	(ix+zTrack.DurationTimeout)
+		ret	nz
+	else
 		call	TrackTimeout
 		call	z, DrumUpdate_Proc
 		ret
+	endif
 ; End of function DrumUpdateTrack
 
 
@@ -2181,7 +2262,11 @@ loc_AC1:
 cfE9_SetLFO:
 		ld	c, a
 		ld	a, 22h
+	if OptimiseDriver
+		rst	WriteFMI
+	else
 		call	WriteFMI
+	endif
 		inc	de
 		ld	c, 0C0h
 	if OptimiseDriver
@@ -2444,8 +2529,10 @@ cfF4_ModType:
 
 cfF2_StopTrk:
 		res	7, (ix+zTrack.PlaybackControl)
+	if ~~OptimiseDriver
 		ld	a, 1Fh
 		ld	(zUnk_1C15), a
+	endif
 		call	DoNoteOff
 		ld	c, (ix+zTrack.VoiceControl)
 		push	ix
@@ -2514,7 +2601,7 @@ loc_C54:
 		call	JumpToInsData
 		call	SendFMIns
 		push	hl
-		bankswitch_2 SoundBank
+		bankswitch2 SoundBank
 		pop	hl
 		ld	a, (ix+zTrack.FMVolEnv)
 		or	a
@@ -2599,11 +2686,7 @@ cfF7_Loop:
 loc_CE9:
 		inc	de
 		dec	(hl)
-	if OptimiseDriver
-		jr	nz, cfF6_GoTo
-	else
 		jp	nz, cfF6_GoTo
-	endif
 		inc	de
 		ret
 ; ---------------------------------------------------------------------------
@@ -2655,8 +2738,13 @@ cfFB_ChgTransp:
 ; ---------------------------------------------------------------------------
 
 cfFC_PitchSlide:
+	if OptimiseDriver
+		or	a
+		jr	z, loc_D31
+	else
 		cp	1
 		jr	nz, loc_D31
+	endif
 		set	5, (ix+zTrack.PlaybackControl)
 		ret
 ; ---------------------------------------------------------------------------
@@ -2670,8 +2758,13 @@ loc_D31:
 ; ---------------------------------------------------------------------------
 
 cfFD_RawFrqMode:
+	if OptimiseDriver
+		or	a
+		jr	z, loc_D47
+	else
 		cp	1
 		jr	nz, loc_D47
+	endif
 		set	3, (ix+zTrack.PlaybackControl)
 		ret
 ; ---------------------------------------------------------------------------
@@ -2856,7 +2949,11 @@ cf06_FMVolEnv:
 ; ---------------------------------------------------------------------------
 
 UpdatePSGTrk:
+	if OptimiseDriver
+		dec	(ix+zTrack.DurationTimeout)
+	else
 		call	TrackTimeout
+	endif
 		jr	nz, loc_E31
 		call	TrkUpdate_Proc
 		bit	4, (ix+zTrack.PlaybackControl)
@@ -2917,6 +3014,14 @@ loc_E7D:
 		or	(ix+zTrack.VoiceControl)
 		add	a, 10h
 		bit	0, (ix+zTrack.PlaybackControl)
+	if OptimiseDriver
+		jr	z, loc_E8C
+		add	a, 20h
+
+loc_E8C:
+		ld	(zPSG), a
+		ret
+	else
 		jr	nz, loc_E8C
 		ld	(zPSG), a
 		ret
@@ -2926,6 +3031,7 @@ loc_E8C:
 		add	a, 20h
 		ld	(zPSG), a
 		ret
+	endif
 ; ---------------------------------------------------------------------------
 
 loc_E92:
@@ -2939,7 +3045,13 @@ DoPSGVolEnv:
 		ld	c, (ix+zTrack.VolEnv)
 		ld	b, 0
 		add	hl, bc
+	if FixDriverBugs
+		ld	c, l
+		ld	b, h
+		ld	a, (bc)
+	else
 		ld	a, (hl)
+	endif
 		pop	hl
 		bit	7, a
 		jr	z, VolEnv_Next
@@ -3004,8 +3116,13 @@ SilencePSGChn:
 		or	a
 		ret	p
 		ld	(zPSG), a
+	if FixDriverBugs
+		cp	0DFh
+		ret	nz
+	else
 		bit	0, (ix+zTrack.PlaybackControl)
 		ret	z
+	endif
 		ld	a, 0FFh
 		ld	(zPSG), a
 		ret
@@ -3076,11 +3193,10 @@ loc_F1C:
 		inc	hl				; 6
 		ld	a, h				; 4
 		or	l				; 4
-	if OptimiseDriver
-		jr	nz, .loc_F52			; 7
-							; 259 cycles in total
-	else
 		jp	nz, .loc_F52			; 10
+	if OptimiseDriver
+							; 262 cycles in total
+	else
 							; 268 cycles in total
 	endif
 		ld	hl, zROMWindow

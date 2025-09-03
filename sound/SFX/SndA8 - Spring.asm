@@ -20,6 +20,7 @@ Snd08_FM5:
 	dc.b	nRst, $01
 	smpsModSet          $03, $01, $5D, $0F
 	dc.b	nB3, $0A
+	; This could also be smpsModOff
 	smpsModSet          $00, $00, $00, $00
 	smpsSetvoice        $01
 
@@ -27,7 +28,11 @@ Snd08_Loop00:
 	dc.b	nC5, $02
 	smpsFMAlterVol      $01
 	dc.b	smpsNoAttack
+	if ~~fixBugs
 	smpsLoop            $00, $19, Snd08_Loop00+$4000
+	else
+	smpsLoop            $00, $19, Snd08_Loop00
+	endif
 	; This line appears bugged, as this didn't exist in Sonic 3 & Knuckles.
 	smpsFMAlterVol      $E7
 	smpsStop
