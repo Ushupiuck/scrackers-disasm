@@ -6011,7 +6011,7 @@ loc_837C:
 		swap	d0
 		move.w	d1,d0
 		lea	($FFFFCA5E).w,a0
-		move.w	#$380/4-1,d1
+		move.w	#bytesToLcnt($380),d1
 
 .loop:
 		move.l	d0,(a0)+
@@ -6572,7 +6572,7 @@ loc_88C2:
 		jsr	(PlayMusic).l
 		lea	PAL_PrimaryColours(pc),a1
 		lea	($FFFFD3E4).w,a0
-		moveq	#$40/4-1,d1
+		moveq	#bytesToLcnt($40),d1
 
 loc_88D2:
 		move.l	(a1)+,(a0)+
@@ -6879,7 +6879,7 @@ Level_LoadObjectArt:
 loc_8C86:
 		moveq	#0,d0
 		move.w	(a1)+,d0
-		cmpi.w	#$FFFF,d0
+		cmpi.w	#-1,d0
 		beq.s	locret_8CB8
 		movem.l	d0-a6,-(sp)
 		movea.l	(a1)+,a0
@@ -6898,13 +6898,14 @@ loc_8C86:
 locret_8CB8:
 		rts
 ; ---------------------------------------------------------------------------
-word_8CBA:	dc.w $80E0
+word_8CBA:
+		dc.w $407*$20
 		dc.l ARTNEM_Springs
-		dc.w $7EE0
+		dc.w $3F7*$20
 		dc.l ARTNEM_SpikesVer
-		dc.w $77E0
+		dc.w $3BF*$20
 		dc.l ARTNEM_SpikesHoz
-		dc.w $FFFF
+		dc.w -1
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -6937,7 +6938,7 @@ loc_8CE4:
 		lea	(PAL_TechnoTowerZone).l,a1
 		adda.l	d0,a1
 		lea	($FFFFD424).w,a0
-		move.b	#$40/2-1,d7
+		move.b	#bytesToWcnt($40),d7
 
 .load:
 		move.w	(a1)+,(a0)+
