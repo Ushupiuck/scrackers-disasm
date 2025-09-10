@@ -8289,14 +8289,14 @@ DecEniMapLocs:
 sub_9DA2:
 		movea.l	(a2)+,a1
 		lea	(unk_0200&$FFFFFF).l,a2
-		moveq	#$7F,d0
+		moveq	#bytesToXcnt($400,8),d0
 
 loc_9DAC:
 		move.l	(a1)+,(a2)+
 		move.l	(a1)+,(a2)+
 		dbf	d0,loc_9DAC
 		lea	(unk_0600&$FFFFFF).l,a2
-		moveq	#$7F,d0
+		moveq	#bytesToXcnt($400,8),d0
 
 loc_9DBC:
 		move.l	(a1)+,(a2)+
@@ -9555,7 +9555,7 @@ loc_A94E:
 		move.b	$2A(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_A96C
-		addi.b	#-$80,d2
+		addi.b	#$80,d2
 
 loc_A96C:
 		jsr	(CalcSine).w
@@ -10471,7 +10471,7 @@ loc_B1FC:
 		move.b	$2A(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_B21A
-		addi.b	#-$80,d2
+		addi.b	#$80,d2
 
 loc_B21A:
 		jsr	(CalcSine).w
@@ -10979,7 +10979,7 @@ loc_B626:
 sub_B632:
 		ori.w	#$80,4(a6)
 		moveq	#$FFFFFFF3,d0
-		moveq	#$FFFFFFF8,d1
+		moveq	#-8,d1
 		btst	#0,$28(a5)
 		beq.s	loc_B646
 		moveq	#$FFFFFFF9,d1
@@ -12546,7 +12546,7 @@ loc_C326:
 
 loc_C334:
 		moveq	#0,d2
-		cmpi.w	#$FF80,d0
+		cmpi.w	#-$80,d0
 		bne.s	loc_C326
 		addq.l	#6,sp
 		rts
@@ -12647,7 +12647,7 @@ loc_C40E:
 ; ---------------------------------------------------------------------------
 
 loc_C41C:
-		moveq	#$FFFFFF80,d2
+		moveq	#-$80,d2
 		cmpi.w	#$7F,d0
 		bne.s	loc_C40E
 		addq.l	#6,sp
@@ -13454,7 +13454,7 @@ sub_CBC0:
 		move.b	$2A(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_CBD8
-		addi.b	#-$80,d2
+		addi.b	#$80,d2
 
 loc_CBD8:
 		jsr	(CalcSine).w
@@ -13594,7 +13594,7 @@ sub_CCCA:
 		move.w	$C(a1),d4
 		jsr	(sub_41AA).w
 		move.b	d0,$2B(a0)
-		addi.b	#-$80,d0
+		addi.b	#$80,d0
 		move.b	d0,$2B(a1)
 		sub.w	d3,d1
 		sub.w	d4,d2
@@ -13611,7 +13611,7 @@ sub_CCCA:
 		bcs.s	loc_CD80
 		move.w	2(a2),d3
 		move.b	$2B(a0),d2
-		addi.b	#-$80,d2
+		addi.b	#$80,d2
 		jsr	(CalcSine).w
 		move.w	(a2),d2
 		add.w	2(a2),d2
@@ -13655,7 +13655,7 @@ loc_CDBC:
 		move.b	$2A(a0),d2
 		btst	#3,$25(a0)
 		beq.s	loc_CDE6
-		addi.b	#-$80,d2
+		addi.b	#$80,d2
 
 loc_CDE6:
 		jsr	(CalcSine).w
@@ -13734,7 +13734,7 @@ loc_CE78:
 		move.b	$2A(a1),d2
 		btst	#3,$25(a1)
 		beq.s	loc_CEA2
-		addi.b	#-$80,d2
+		addi.b	#$80,d2
 
 loc_CEA2:
 		jsr	(CalcSine).w
@@ -16954,7 +16954,7 @@ loc_EC62:
 		move.w	d7,d0
 		lsr.w	#6,d0
 		ext.l	d0
-		divu.w	#$A,d0
+		divu.w	#10,d0
 		swap	d0
 		move.b	d0,d6
 		add.b	d6,d6
@@ -17358,7 +17358,7 @@ sub_EFD4:
 		move.l	#0,$24(a0)
 		lea	loc_F00E(pc),a1
 		lea	($FFFFD9F2).w,a2
-		move.w	#$D0/2-1,d0
+		move.w	#bytesToWcnt($D0),d0
 
 loc_EFF8:
 		move.w	(a1)+,(a2)+
@@ -17485,7 +17485,7 @@ loc_F0DE:
 		jsr	(sub_5E8).w
 		move.l	#$7F000003,(vdp_control_port).l
 		move.l	#$DDDDDDDD,d0
-		moveq	#$3F,d1
+		moveq	#bytesToLcnt($100),d1
 
 loc_F106:
 		move.l	d0,(vdp_data_port).l
