@@ -236,7 +236,7 @@ GameProgram:
 		bne.s	loc_336
 
 loc_326:
-		moveq	#$F,d0
+		moveq	#bytesToLcnt($40),d0
 		lea	(a0),a1
 
 loc_32A:
@@ -253,7 +253,7 @@ loc_336:
 		moveq	#0,d5
 		moveq	#0,d6
 		movea.w	d0,a2
-		move.w	#$7FE-1,d7
+		move.w	#bytesToXcnt($FFC0,$20),d7
 
 .loop:
 		movem.l	d0-d6/a2,-(a0)
@@ -261,14 +261,14 @@ loc_336:
 		lea	(unk_C800).w,a0
 		move.w	#$4EF9,d0			; machine code for 'jmp'
 		lea	UnknownRout001(pc),a1		; routine used here just has an 'rts'...
-		moveq	#3-1,d7
+		moveq	#bytesToXcnt($12,6),d7
 
 loc_360:
 		move.w	d0,(a0)+
 		move.l	a1,(a0)+
 		dbf	d7,loc_360			; the result from this is 'jmp	UnknownRout001'
 		lea	UnknownRout000(pc),a1		; routine used here just has 'rte'...
-		moveq	#7-1,d7
+		moveq	#bytesToXcnt($2A,6),d7
 
 loc_36E:
 		move.w	d0,(a0)+
@@ -289,7 +289,7 @@ loc_36E:
 
 		moveq	#0,d0				; clear d0
 		move.l	#$40000000,(vdp_control_port).l	; set VDP in VRAM write mode
-		move.w	#$10000/$10-1,d1			; set repeat times
+		move.w	#bytesToXcnt($10000,$10),d1			; set repeat times
 
 .clrVRAM:
 		move.l	d0,(a0)				; clear VRAM
@@ -299,7 +299,7 @@ loc_36E:
 		dbf	d1,.clrVRAM			; repeat til VRAM is cleared
 
 		move.l	#$C0000000,(vdp_control_port).l	; set VDP in CRAM write mode
-		move.w	#$80/$10-1,d1				; set repeat times
+		move.w	#bytesToXcnt($80,$10),d1				; set repeat times
 
 .clrCRAM:
 		move.l	d0,(a0)				; clear CRAM
@@ -309,7 +309,7 @@ loc_36E:
 		dbf	d1,.clrCRAM			; repeat til CRAM is cleared
 
 		move.l	#$40000010,(vdp_control_port).l	; set VDP mode
-		move.w	#$50/$10-1,d1				; set repeat times
+		move.w	#bytesToXcnt($50,$10),d1				; set repeat times
 
 .clrVSRAM:
 		move.l	d0,(a0)				; clear VSRAM
@@ -390,7 +390,7 @@ VDPSetup_01:
 		addi.w	#$100,d0			; increase to next register value
 		dbf	d1,.setDMA			; repeat 2 more times
 		move.w	#$C000,(a0)
-		move.w	#$0080,-(sp)
+		move.w	#$80,-(sp)
 		move.w	(sp)+,(a0)
 		andi.w	#$FFEF,($FFFFC9BA).w
 		move.w	($FFFFC9BA).w,(a0)
@@ -529,7 +529,6 @@ loc_5C0:
 		move.l	d1,(a0)
 		addq.w	#1,($FFFFD4F8).w
 		rts
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ;
@@ -613,7 +612,6 @@ sub_626:
 		move.w	d4,(a0)
 		startZ80
 		rts
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ;
@@ -672,12 +670,10 @@ sub_72C:
 
 locret_734:
 		rts
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Unused subroutine
 ; ---------------------------------------------------------------------------
-
 		move.b	($FFFFD4E7).w,d1
 		bne.s	loc_750
 		move.b	d0,($FFFFD4E7).w
@@ -741,7 +737,6 @@ loc_7B0:
 ; ---------------------------------------------------------------------------
 ; Unused subroutine
 ; ---------------------------------------------------------------------------
-
 		move.b	($FFFFD4EC).w,d2
 		bne.s	loc_7DC
 		move.b	d0,($FFFFD4EC).w
@@ -941,7 +936,6 @@ SetupVDPUsingTable:
 		move.w	d0,($FFFFD81C).w
 		cmp.w	d0,d0
 		rts
-
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Unused subroutine to initialize the control ports,
@@ -1435,7 +1429,7 @@ locret_F20:
 
 ClearPLC:
 		lea	($FFFFD79A).w,a1
-		moveq	#$60/6-1,d0
+		moveq	#bytesToXcnt($60,6),d0
 
 .loop:
 		clr.l	(a1)+
@@ -1938,13 +1932,13 @@ sub_15D0:
 		move.l	d0,(a0)+
 		move.w	#$7FFF,(a0)+
 		lea	($FFAD08).l,a0
-		move.w	#$1004/4-1,d1
+		move.w	#bytesToLcnt($1004),d1
 
 loc_15EE:
 		move.l	d0,(a0)+
 		dbf	d1,loc_15EE
 		lea	($FFAD08).l,a0
-		moveq	#$40-1,d7
+		moveq	#bytesToXcnt($180,6),d7
 		move.w	a0,($FFFFD84C).w
 
 loc_1600:
@@ -1954,7 +1948,7 @@ loc_1600:
 		dbf	d7,loc_1600
 		clr.w	-$40(a0)
 		lea	($FFFFD164).w,a0
-		moveq	#$280/8-1,d1
+		moveq	#bytesToXcnt($280,8),d1
 
 loc_1616:
 		move.l	d0,(a0)+
@@ -2699,7 +2693,7 @@ locret_1BC6:	rts
 ; ---------------------------------------------------------------------------
 		bra.s	loc_1BE8
 ; ---------------------------------------------------------------------------
-		addi.b	#-$80,d2
+		addi.b	#$80,d2
 		neg.w	d1
 		addi.w	#$F,d1
 		neg.w	d0
@@ -2717,7 +2711,7 @@ loc_1BDE:
 
 loc_1BE8:
 		neg.b	d2
-		addi.b	#-$80,d2
+		addi.b	#$80,d2
 		neg.w	d1
 		addi.w	#$F,d1
 		rts
@@ -4003,38 +3997,22 @@ loc_5144:
 		movem.l	(sp)+,d2-d6/a0-a1
 		rts
 ; ---------------------------------------------------------------------------
-loc_5152:	dc.b $27
-		dc.b $10
-		dc.b   3
-		dc.b $E8				; �
-		dc.b   0
-		dc.b $64				; d
-		dc.b   0
-		dc.b  $A
-		dc.b   0
-		dc.b   1
-		dc.b $74				; t
-		dc.b   0
-		dc.b $34				; 4
-		dc.b   0
-		dc.b $E5				; �
-		dc.b $8A				; �
-		dc.b $E4				; �
-		dc.b $4A				; J
-		dc.b   0
-		dc.b $42				; B
-		dc.b $40				; @
-		dc.b   0
-		dc.b $48				; H
-		dc.b $42				; B
-		dc.b $23				; #
-		dc.b $C2				; �
-		dc.b   0
-		dc.b $C0				; �
-		dc.b   0
-		dc.b   4
-		dc.b $70				; p
-		dc.b   0
+loc_5152:
+		dc.w 10000
+		dc.w 1000
+		dc.w 100
+		dc.w 10
+		dc.w 1
+
+		moveq	#0,d2
+		move.w	d0,d2
+		lsl.l	#2,d2
+		lsr.w	#2,d2
+		ori.w	#$4000,d2
+		swap	d2
+		move.l	d2,(vdp_control_port).l
+
+		moveq	#0,d0
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Unknown subroutine
@@ -18294,7 +18272,6 @@ loc_F720:
 		addq.w	#4,($FFFFFDC4).w
 
 locret_F7E6:
-							; sub_F4FE+2E2j
 		rts
 ; END OF FUNCTION CHUNK	FOR sub_F4FE
 ; ---------------------------------------------------------------------------
@@ -18312,7 +18289,7 @@ loc_F7F8:
 		moveq	#6,d0
 		sub.w	($FFFFFDCC).w,d0
 		move.w	($FFFFD816).w,d3
-		addi.w	#$44,d3				; "D"
+		addi.w	#$44,d3
 		moveq	#5,d1
 		move.w	#$8004,d2
 		movem.w	d0/d3,-(sp)
@@ -18363,7 +18340,7 @@ loc_F884:
 		addi.w	#$380,d3
 		add.w	($FFFFD816).w,d3
 		jsr	(sub_86E).w
-		cmpi.w	#$21,($FFFFFDCE).w		; "!"
+		cmpi.w	#$21,($FFFFFDCE).w
 		blt.s	locret_F8B0
 		addq.w	#4,($FFFFFDC4).w
 
@@ -18411,7 +18388,6 @@ loc_F8F8:
 
 
 sub_F904:
-							; sub_F4FE+1A8p ...
 		btst	#7,d3
 		beq.s	loc_F90C
 		swap	d0
