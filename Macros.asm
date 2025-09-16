@@ -17,7 +17,7 @@ bytesToXcnt function n,x,n/x-1
 
 FillRAM:	macro start,end
 		lea	(start).w,a1
-		move.w	#((end)-(start))/4-1,d1
+		move.w	#bytesToLcnt((end)-(start)),d1
 
 .loop:
 		move.l	d0,(a1)+
@@ -98,7 +98,7 @@ soundBankStart := __LABEL__
 soundBankName := "__LABEL__"
     endm
 
-DebugSoundbanks := 1
+DebugSoundbanks := 0
 
 finishBank macro
 	if * > soundBankStart + $8000
@@ -107,14 +107,7 @@ finishBank macro
 		message "soundBank \{soundBankName} has $\{$8000+soundBankStart-*} bytes free at end."
 	endif
     endm
-    
+
 ; sign-extends a 32-bit integer to 64-bit
 ; all RAM addresses are run through this function to allow them to work in both 16-bit and 32-bit addressing modes
-ramaddr function x,(-(x&$80000000)<<1)|x   
-    
-; ---------------------------------------------------------------------------
-; turn a sample rate into a djnz loop counter
-; ---------------------------------------------------------------------------
-
-pcmLoopCounter function sampleRate,baseCycles, 1+(53693175/15/(sampleRate)-(baseCycles)+(13/2))/13
-dpcmLoopCounter function sampleRate, pcmLoopCounter(sampleRate,268/2) ; 268 is the number of cycles zPlayPCMLoop takes.
+ramaddr function x,(-(x&$80000000)<<1)|x

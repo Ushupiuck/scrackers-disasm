@@ -18,7 +18,7 @@ CracDec:
 
 loc_8856:
 		move.b	(a0)+,d5
-		moveq	#7,d6
+		moveq	#8-1,d6
 
 loc_885A:
 		add.b	d5,d5
