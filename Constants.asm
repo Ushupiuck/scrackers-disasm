@@ -52,10 +52,12 @@ bitDn:		equ 1
 bitUp:		equ 0
 
 ; Object variables
-ObjectPointer: equ 6
-obX:        equ 8
-obY:        equ $C
+ObjectPointer: equ 6				; object pointer (2 bytes)
+obX:        equ 8					; x position (4 bytes)
+obY:        equ $C					; y position (4 bytes)
 obMap:		equ $10					; mappings address (4 bytes)
+obVelX:		equ $18					; x velocity (4 bytes)
+obVelY:		equ	$1C					; y velocity (4 bytes)
 obAngle:    equ $2A
 obInertia:   equ $2C
 

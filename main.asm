@@ -140,7 +140,7 @@ EntryPoint:
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 SetupValues:	dc.w $8000				; VDP register Start
-		dc.w $10000/4-1		; Repeat times for clearing 68k ram
+		dc.w bytesToLcnt($10000)		; Repeat times for clearing 68k ram
 		dc.w $100				; VDP register Number increase (Used for Z80 functioning too)
 
 		dc.l z80_ram				; Z80 Ram start
@@ -402,7 +402,7 @@ DMAToCRAM:
 ; ---------------------------------------------------------------------------
 DMAValues:
 		dc.w $9340,$9400			; DMA Transfer Size (Lower and Upper bytes, in order: XX00, 00XX)
-		dc.l ($00FFD3E4/$02)			; DMA Transfer Source (7FE9F2 x 2 = FFD3E4)
+		dc.l $FFD3E4/2			; DMA Transfer Source (7FE9F2 x 2 = FFD3E4)
 DMAValues_End: even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
@@ -955,10 +955,10 @@ ControlInit_Unused:
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
-;
+; Read controller inputs
 ; ---------------------------------------------------------------------------
 
-sub_96E:
+ReadCtrlInput:
 		lea	(unk_C938).w,a1
 		lea	($A10003).l,a0
 		lea	(unk_C936).w,a2
@@ -1976,7 +1976,7 @@ BuildSprites:
 		lea	($FFFFD164).w,a6
 		moveq	#0,d6
 		lea	($FFFFD3E4).w,a5
-		moveq	#$4F,d5
+		moveq	#80-1,d5	; sprite limit
 		lea	($FFFFD9F2).w,a4
 
 loc_1650:
@@ -1993,8 +1993,8 @@ loc_1664:
 		move.w	(a4)+,d0
 		bmi.s	loc_1684
 		beq.s	loc_1664
-		move.b	#$4F,-5(a6)
-		cmpi.w	#$4F,d5
+		move.b	#80-1,-5(a6)
+		cmpi.w	#80-1,d5
 		bne.s	loc_167E
 		moveq	#0,d0
 		move.l	d0,-(a5)
@@ -2437,9 +2437,9 @@ loc_19B0:
 ; ---------------------------------------------------------------------------
 ; Unused subroutine
 ; ---------------------------------------------------------------------------
-		move.l	$18(a6),d0
+		move.l	obVelX(a6),d0
 		add.l	d0,obX(a6)
-		move.l	$1C(a6),d0
+		move.l	obVelY(a6),d0
 		add.l	d0,obY(a6)
 		rts
 ; ===========================================================================
@@ -2451,7 +2451,7 @@ sub_19DA:
 		moveq	#0,d1
 		move.w	8(a0),d2
 		sub.w	($FFFFC9DE).w,d2
-		cmpi.w	#$FFC0,d2
+		cmpi.w	#-$40,d2
 		bge.s	loc_19EC
 		moveq	#$40,d1
 
@@ -2464,7 +2464,7 @@ loc_19F4:
 		addi.w	#$80,d2
 		move.w	obY(a0),d3
 		sub.w	($FFFFC9EE).w,d3
-		cmpi.w	#$FFC0,d3
+		cmpi.w	#-$40,d3
 		bge.s	loc_1A08
 		moveq	#$40,d1
 
@@ -2981,7 +2981,7 @@ loc_1DF4:
 		cmpi.b	#$10,d0
 		beq.s	loc_1E0C
 		move.w	d6,d0
-		move.w	#$FFF0,d1
+		move.w	#-$10,d1
 		and.w	d7,d1
 		subq.w	#1,d1
 		cmp.w	d1,d7
@@ -3943,9 +3943,9 @@ loc_50CA:
 		ori.w	#$4000,d3
 		swap	d3
 		move.l	d3,(vdp_control_port).l
-		cmpi.w	#$FFFF,d0
+		cmpi.w	#-1,d0
 		bcs.s	loc_50FC
-		move.w	#$FFFF,d0
+		move.w	#-1,d0
 
 loc_50FC:
 		lea	loc_5152(pc),a0
@@ -4134,7 +4134,7 @@ SegaContin:
 		move.l	#$F01,d0
 		moveq	#1,d1
 		lea	($FFFFD164).w,a0
-		moveq	#$38/8-1,d7
+		moveq	#bytesToXcnt($38,8),d7
 
 loc_64AA:
 		move.l	d0,(a0)+
@@ -4556,7 +4556,7 @@ loc_67BC:
 
 Sega_MapTiles:
 		lea	(vdp_data_port).l,a3		; load VDP address to a3
-		moveq	#$F,d7				; set repeat times
+		moveq	#bytesToXcnt($200,$20),d7				; set repeat times
 		disable_ints				; set the stack register (Stopping VBlank)
 		move.l	#$5E000000,4(a3)		; set VDP to VRAM write mode
 		moveq	#0,d0				; clear d0
@@ -4616,7 +4616,7 @@ loc_6864:
 		moveq	#4-1,d6				; set repeat times
 
 loc_68B8:
-		moveq	#$20-1,d7
+		moveq	#bytesToXcnt($200,$10),d7
 
 loc_68BA:
 		move.l	(a0)+,(a1)+
@@ -5180,7 +5180,7 @@ loc_6E66:
 
 loc_6EB4:
 		movem.l	d0-a6,-(sp)
-		jsr	(sub_96E).w
+		jsr	(ReadCtrlInput).w
 		move.l	#$FFFFD164,d0
 		move.w	($FFFFD81A).w,d1
 		move.w	#$140,d2
@@ -5437,7 +5437,7 @@ loc_7576:
 		movem.l	d0-a6,-(sp)
 		move.l	#$78000003,(vdp_control_port).l
 		move.w	($FFFFD832).w,(vdp_data_port).l
-		jsr	(sub_96E).w
+		jsr	(ReadCtrlInput).w
 		move.b	($FFFFC93C).w,d0
 		bsr.s	sub_75BC
 		move.w	d1,($FFFFC940).w
@@ -5560,7 +5560,7 @@ Fields_MainLoop:
 ; =============== S U B	R O U T	I N E =======================================
 
 Field_ReadController:
-		jsr	(sub_96E).w
+		jsr	(ReadCtrlInput).w
 		lea	(unk_C938).w,a3
 		moveq	#0,d1
 		move.b	($FFFFD89C).w,d1
@@ -6669,7 +6669,7 @@ Level_MainLoop:
 
 
 Level_ReadController:
-		jsr	(sub_96E).w
+		jsr	(ReadCtrlInput).w
 		lea	(unk_C938).w,a3
 		moveq	#0,d1
 		move.b	($FFFFD89C).w,d1
@@ -7166,7 +7166,7 @@ loc_903C:
 		move.w	d0,(vdp_data_port).l
 		move.l	#$78000003,(vdp_control_port).l
 		move.w	($FFFFD832).w,(vdp_data_port).l
-		jsr	(sub_96E).w
+		jsr	(ReadCtrlInput).w
 		move.b	($FFFFC93C).w,d0
 		bsr.s	sub_9098
 		move.w	d1,($FFFFC940).w
@@ -7311,7 +7311,7 @@ loc_94B4:
 		movem.l	d0-a6,-(sp)
 		move.l	#$78000003,(vdp_control_port).l
 		move.w	($FFFFD832).w,(vdp_data_port).l
-		jsr	(sub_96E).w
+		jsr	(ReadCtrlInput).w
 		move.b	($FFFFC93C).w,d0
 		bsr.s	sub_94F6
 		move.w	d1,($FFFFC940).w
@@ -18006,7 +18006,7 @@ sub_F538:
 .wait:
 		tst.b	(v_lagger).w
 		bpl.s	.wait
-		jsr	(sub_96E).w
+		jsr	(ReadCtrlInput).w
 		jsr	(BuildSprites).w
 		tst.b	($FFFFFDC2).w
 		beq.s	loc_F562
