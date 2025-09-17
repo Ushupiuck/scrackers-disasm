@@ -64,9 +64,9 @@ ROM_Finish:	dc.l (EndofROM*2)-1
 ; ---------------------------------------------------------------------------
 
 EntryPoint:
-		tst.l	(z80_port_1_control).l
+		tst.l	(port_1_control-1).l
 		bne.s	.port1okay
-		tst.w	(z80_expansion_control).l
+		tst.w	(expansion_port_control-1).l
 
 .port1okay:
 		bne.s	.skipsetup
@@ -113,14 +113,14 @@ EntryPoint:
 		move.l	(a5)+,(a4)
 		move.l	(a5)+,(a4)
 
-		moveq	#$80/4-1,d3
+		moveq	#bytesToLcnt($80),d3
 
 .clearCRAM:
 		move.l	d0,(a3)
 		dbf	d3,.clearCRAM
 		move.l	(a5)+,(a4)
 
-		moveq	#$50/4-1,d4
+		moveq	#bytesToLcnt($50),d4
 
 .clearVSRAM:
 		move.l	d0,(a3)
@@ -215,8 +215,7 @@ Z80StartupCodeEnd:
 		dc.l $C0000000				; VDP CRAM address
 		dc.l $40000010
 PSGInitValues:	dc.b $9F,$BF,$DF,$FF			; PSG Values
-PSGInitValues_End:
-		even
+PSGInitValues_End
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -229,9 +228,9 @@ GameProgram:
 		move.l	(a0),d0
 		cmpi.l	#'SEGA',d0
 		bne.s	loc_326
-		move.b	($A10009).l,d0
-		and.b	($A1000B).l,d0
-		and.b	($A1000D).l,d0
+		move.b	(port_1_control).l,d0
+		and.b	(port_2_control).l,d0
+		and.b	(expansion_port_control).l,d0
 		btst	#6,d0
 		bne.s	loc_336
 
@@ -275,9 +274,9 @@ loc_36E:
 		move.l	a1,(a0)+
 		dbf	d7,loc_36E
 		moveq	#$40,d0
-		move.b	d0,($A10009).l
-		move.b	d0,($A1000B).l
-		move.b	d0,($A1000D).l
+		move.b	d0,(port_1_control).l
+		move.b	d0,(port_2_control).l
+		move.b	d0,(expansion_port_control).l
 
 .waitfordma:
 		move.w	(vdp_control_port).l,d0
@@ -948,9 +947,9 @@ ControlInit_Unused:
 		stopZ80
 		waitZ80
 		moveq	#$40,d0				; prepare init value
-		move.b	d0,($A10009).l			; ...dump to control port A
-		move.b	d0,($A1000B).l			; ...and port B
-		move.b	d0,($A1000D).l			; ...and extra port
+		move.b	d0,(port_1_control).l			; ...dump to control port A
+		move.b	d0,(port_2_control).l			; ...and port B
+		move.b	d0,(expansion_port_control).l			; ...and extra port
 		startZ80
 		rts
 ; ===========================================================================
@@ -960,10 +959,10 @@ ControlInit_Unused:
 
 ReadCtrlInput:
 		lea	(unk_C938).w,a1
-		lea	($A10003).l,a0
+		lea	(port_1_data).l,a0
 		lea	(unk_C936).w,a2
 		bsr.w	sub_9D4
-		lea	($A10005).l,a0
+		lea	(port_2_data).l,a0
 		lea	(unk_C937).w,a2
 		bsr.w	sub_9D4
 		bsr.s	sub_992
@@ -1035,7 +1034,7 @@ loc_9E6:	nop
 
 sub_A06:
 		stopZ80
-		move.b	#$40,obj.Pointer(a0)
+		move.b	#$40,6(a0)
 		move.b	#$40,(a0)
 		moveq	#0,d0
 		moveq	#0,d1
@@ -1068,7 +1067,7 @@ loc_A5A:
 		_move.b	#2,0(a1)
 		move.w	#$FF,d7
 		stopZ80
-		move.b	#$60,obj.Pointer(a0)
+		move.b	#$60,6(a0)
 		move.b	#$20,(a0)
 		btst	#4,(a0)
 		beq.s	loc_AAC
@@ -1122,14 +1121,14 @@ sub_ACA:
 		bsr.w	sub_C2E
 		bcs.w	loc_C5C
 		andi.w	#$F,d0
-		move.b	d0,obj.Pointer(a1)
+		move.b	d0,6(a1)
 		lea	$10(a1),a1
 		rts
 ; ===========================================================================
 
 loc_B30:
 		stopZ80
-		move.b	#$40,obj.Pointer(a0)
+		move.b	#$40,6(a0)
 		moveq	#2,d3
 
 loc_B40:
@@ -1182,13 +1181,13 @@ loc_BBA:
 		clr.w	2(a1)
 		clr.l	4(a1)
 		clr.l	8(a1)
-		clr.l	obj.Ypos(a1)
+		clr.l	$C(a1)
 		lea	$10(a1),a1
 		rts
 
 loc_BDA:
 		_clr.b	0(a1)
-		move.b	#$40,obj.Pointer(a0)
+		move.b	#$40,6(a0)
 		move.w	d1,d0
 		swap	d1
 		move.b	#$40,(a0)
@@ -1216,7 +1215,7 @@ sub_C1C:
 		eor.b	d0,d1
 		move.b	d0,3(a1)
 		and.b	d0,d1
-		move.b	d1,obj.Pointer(a1)
+		move.b	d1,6(a1)
 		rts
 
 sub_C2E:
@@ -1258,7 +1257,7 @@ loc_C62:
 loc_C70:
 		stopZ80
 		move.b	#$20,(a0)
-		move.b	#$60,obj.Pointer(a0)
+		move.b	#$60,6(a0)
 		move.w	#$FF,d7
 		btst	#4,(a0)
 		beq.w	loc_D10
@@ -1343,7 +1342,7 @@ loc_D58:
 		clr.w	2(a1)
 		clr.l	4(a1)
 		clr.l	8(a1)
-		clr.l	obj.Ypos(a1)
+		clr.l	$C(a1)
 		lea	$10(a1),a1
 		rts
 ; ===========================================================================
@@ -3916,7 +3915,7 @@ sub_50B4:
 		move.w	d1,d2
 		andi.w	#$F,d2
 		move.w	#0,d3
-		add.b	loc_50CA(pc,d2.w),d3
+		add.b	unk_50CA(pc,d2.w),d3
 		move.w	d3,(vdp_data_port).l
 		rts
 ; ===========================================================================
@@ -3924,15 +3923,9 @@ sub_50B4:
 ;
 ; ---------------------------------------------------------------------------
 
-loc_50CA:
-		move.b	(a1),d0
-		move.b	(a3),d1
-		move.b	(a5),d2
-		move.b	(sp),d3
-		move.b	(a1)+,d4
-		move.l	-(a2),-(a0)
-		move.l	-(a4),-(a1)
-		move.l	-(a6),-(a2)
+unk_50CA:
+		dc.b $10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$21,$22,$23,$24,$25,$26
+
 		movem.l	d2-d6/a0-a1,-(sp)
 		moveq	#0,d3
 		move.w	d1,d3
@@ -3946,7 +3939,7 @@ loc_50CA:
 		move.w	#-1,d0
 
 loc_50FC:
-		lea	loc_5152(pc),a0
+		lea	unk_5152(pc),a0
 		moveq	#4,d1
 		move.w	#0,d4
 		move.w	#$10,d5
@@ -3999,7 +3992,7 @@ loc_5144:
 		movem.l	(sp)+,d2-d6/a0-a1
 		rts
 ; ---------------------------------------------------------------------------
-loc_5152:
+unk_5152:
 		dc.w 10000
 		dc.w 1000
 		dc.w 100
@@ -4292,7 +4285,7 @@ Sega_GotoTitle:
 ; ---------------------------------------------------------------------------
 
 SegaScrn_CheckRegion:
-		move.b	(z80_version).l,d0		; load Z80 version number
+		move.b	(region_version).l,d0		; load Z80 version number
 		rol.b	#2,d0				; roll left 2 bits
 		andi.w	#2,d0				; get only the original 1st bit that was in version number
 		move.w	SegaTM_Palette(pc,d0.w),($FFFFD402).w	; color a specific part of the palette depending on if you have a domestic or overseas model
