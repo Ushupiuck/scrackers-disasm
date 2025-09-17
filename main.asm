@@ -5354,7 +5354,11 @@ TitleLoad_Continue:
 		jsr	(DMAToCRAM).w
 		move.l	#$78000003,(vdp_control_port).l
 		move.l	#0,(vdp_data_port).l
-		move.l	#$1E00D0,(vdp_data_port).l
+
+		charset '>', $1E
+		move.l	#(">")<<16+$D0,(vdp_data_port).l	; load '>' symbol and x position
+		charset
+
 		clr.w	(v_titleselect).w
 		clr.w	($FFFFD832).w
 		enable_ints				; set the stack register
