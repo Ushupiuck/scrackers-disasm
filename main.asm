@@ -7246,8 +7246,8 @@ OptionSoundTest_Main:
 		move.w	#$C000,d3
 		jsr	(sub_86E).w
 		move.l	#$44200003,d0
-		lea	loc_9440(pc),a1
-		moveq	#5,d1
+		lea	OptionText(pc),a1
+		moveq	#bytesToWcnt(OptionText_End-OptionText),d1
 		moveq	#0,d2
 		move.w	#0,d3
 		jsr	(MapScreen).w
@@ -7259,12 +7259,12 @@ OptionSoundTest_Main:
 		addq.w	#4,(v_subgamemode).w
 		rts
 ; ---------------------------------------------------------------------------
-loc_9440:	dc.w $2F
-		dc.w $30
-		dc.w $34
-		dc.w $29
-		dc.w $2F
-		dc.w $2E
+		charset 'A', "\x21\x22\x23\x24\x25\x26\x27\x28\x29\x2A\x2B\x2C\x2D\x2E\x2F\x30\x31\x32\x33\x34\x35\x36\x37\x38"
+
+OptionText:
+		dc.w "OPTION"
+OptionText_End
+		charset
 ; ---------------------------------------------------------------------------
 
 OptionSoundTest_Exit:
