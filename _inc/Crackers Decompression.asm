@@ -12,10 +12,10 @@ CracDec:
 		move.w	(a0)+,d7	; get first word and move it into d7
 		move.w	d7,d2		; move first word value to d2
 		andi.w	#$3FFF,d7	; AND first word by $3FFF
-		eor.w	d7,d2		; XOR the AND'd word with the original word, resulting in 0 for d2...
-		rol.w	#2,d2		; bit rotate d2 left twice (multiply by 4, still results in 0...)
+		eor.w	d7,d2		; XOR the AND'd word with the original word, resulting in 0 for d2 if $3FFF or below
+		rol.w	#2,d2		; bit rotate d2 left twice (multiply by 4 and wrap around)
 		moveq	#4,d1		; set d1 to 4
-		sub.w	d2,d1		; subtract d2 from d1
+		sub.w	d2,d1		; subtract d2 from d1 (redundant if d2 = 0)
 		moveq	#1,d2		; set d2 to 1
 		lsl.w	d1,d2		; logical shift left d2 by d1
 		subq.w	#1,d2		; subtract 1 from d2
