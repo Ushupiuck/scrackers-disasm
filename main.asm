@@ -1741,8 +1741,6 @@ loc_1426:
 		btst	#$B,d4
 		bne.s	loc_1480
 		andi.w	#$3FF,d4
-
-loc_1430:
 		lsl.w	#3,d4
 		move.w	(a6,d4.w),d5
 		swap	d5
@@ -4831,7 +4829,7 @@ loc_6AB6:
 		move.w	d0,($FFFFCA60).w
 		move.w	#$118,($FFFFCDDE).w
 		move.w	#$114,($FFFFCDE0).w
-		lea	(loc_1430).w,a4
+		lea	($1430).w,a4
 		move.w	#$80,d4
 		moveq	#3,d6
 		moveq	#$F,d7
