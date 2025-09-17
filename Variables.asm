@@ -25,6 +25,8 @@ unk_C836:	ds.b 6
 unk_C936:	ds.b 1
 unk_C937:	ds.b 1
 unk_C938:	ds.b 1
+
+v_pal:	equ ramaddr($FFFFD3E4)
 v_ngfx_buffer:	equ ramaddr($FFFFD59A)
 v_sonic: equ ramaddr($FFFFD866)
 v_tails: equ ramaddr($FFFFD868)

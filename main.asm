@@ -396,14 +396,14 @@ DMAToCRAM:
 		move.w	($FFFFC9BA).w,(a0)
 		startZ80
 		move.l	#$C0000000,(vdp_control_port).l	; set VDP in CRAM write mode
-		move.w	($FFFFD3E4).w,-4(a0)		; move colour value in ram to VDP
+		move.w	(v_pal).w,-4(a0)		; move colour value in ram to VDP
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 DMAValues:
 		dc.w $9340,$9400			; DMA Transfer Size (Lower and Upper bytes, in order: XX00, 00XX)
-		dc.l $FFD3E4/2			; DMA Transfer Source (7FE9F2 x 2 = FFD3E4)
-DMAValues_End: even
+		dc.l (v_pal&$FFFFFF)/2			; DMA Transfer Source (7FE9F2 x 2 = FFD3E4)
+DMAValues_End
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -641,7 +641,7 @@ locret_6FC:
 		rts
 
 sub_6FE:
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		move.w	#$40,d3
 		subq.w	#1,d3
 
@@ -698,7 +698,7 @@ locret_76C:
 		rts
 
 sub_76E:
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		lea	($FFFFD464).w,a1
 		move.w	($FFFFD4EA).w,d2
 		move.w	#$40-1,d7
@@ -1973,7 +1973,7 @@ loc_1616:
 BuildSprites:
 		lea	($FFFFD164).w,a6
 		moveq	#0,d6
-		lea	($FFFFD3E4).w,a5
+		lea	(v_pal).w,a5
 		moveq	#80-1,d5	; sprite limit
 		lea	($FFFFD9F2).w,a4
 
@@ -4122,7 +4122,7 @@ SegaContin:
 		move.w	($FFFFD818).w,d3
 		jsr	(sub_86E).w
 		lea	PAL_Segalogo(pc),a0		; load Sega Palette address to a0
-		lea	($FFFFD3E4).w,a1
+		lea	(v_pal).w,a1
 		movem.l	(a0)+,d0-d7
 		movem.l	d0-d7,(a1)
 		lea	$20(a1),a1
@@ -5345,7 +5345,7 @@ TitleLoad_Continue:
 		jsr	(MapScreen).w			; map it on screen correctly
 		move.w	#$80,($FFFFD820).w
 		lea	PAL_MainMenus(pc),a0
-		lea	($FFFFD3E4).w,a1
+		lea	(v_pal).w,a1
 		moveq	#bytesToLcnt($40),d0
 
 .loadpalette:
@@ -5538,7 +5538,7 @@ Fields:
 		move.b	#bgm_Electoria,d0		; load BGM 81
 		jsr	(PlayMusic).l			; Play BGM
 		lea	PAL_PrimaryColours_Field(pc),a0	; load primary Field palettes address to a0
-		lea	($FFFFD3E4).w,a1
+		lea	(v_pal).w,a1
 		movem.l	(a0)+,d0-d7
 		movem.l	d0-d7,(a1)
 		lea	$20(a1),a1
@@ -6618,7 +6618,7 @@ Levels:
 loc_88C2:
 		jsr	(PlayMusic).l
 		lea	PAL_PrimaryColours(pc),a1
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		moveq	#bytesToLcnt($40),d1
 
 loc_88D2:
@@ -7043,7 +7043,7 @@ LevelSelect_Init:
 		move.l	#$600110,(vdp_data_port).l
 		move.w	#0,($FFFFD834).w
 		move.w	#0,($FFFFD836).w
-		move.l	#cWhite,($FFFFD3E4).w
+		move.l	#cWhite,(v_pal).w
 		move.l	#cWhite,($FFFFD404).w
 		jsr	(DMAToCRAM).w
 		enable_ints
@@ -17188,7 +17188,7 @@ loc_ED7C:
 		moveq	#0,d2
 		move.w	$26(a6),d2
 		lsl.l	#1,d2
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		move.w	word_EDE4(pc,d2.w),d0
 		move.w	d0,$7A(a0)
 
@@ -17206,7 +17206,7 @@ loc_EDC6:
 		moveq	#0,d2
 		move.w	obj.Angle(a6),d2
 		lsl.l	#1,d2
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		move.w	word_EDF4(pc,d2.w),d0
 		move.w	d0,$7C(a0)
 		move.w	word_EE00(pc,d2.w),d0
@@ -17238,7 +17238,7 @@ word_EE00:	dc.w $C88
 ; ---------------------------------------------------------------------------
 
 loc_EE0C:
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		move.w	#6,d0
 		move.w	d0,$7A(a0)
 		addq.w	#1,$28(a6)
@@ -17249,7 +17249,7 @@ loc_EE0C:
 		moveq	#0,d2
 		move.w	obj.Angle(a6),d2
 		lsl.l	#1,d2
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		move.w	word_EE4C(pc,d2.w),d0
 		move.w	d0,$7C(a0)
 		move.w	word_EE54(pc,d2.w),d0
@@ -17277,7 +17277,7 @@ loc_EE5C:
 		moveq	#0,d2
 		move.w	$26(a6),d2
 		lsl.l	#1,d2
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		move.w	word_EEBA(pc,d2.w),d0
 		move.w	d0,$7A(a0)
 
@@ -17290,7 +17290,7 @@ loc_EE86:
 		moveq	#0,d2
 		move.w	obj.Angle(a6),d2
 		lsl.l	#1,d2
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		move.w	word_EECA(pc,d2.w),d0
 		move.w	d0,$7C(a0)
 		move.w	word_EED2(pc,d2.w),d0
@@ -17326,7 +17326,7 @@ loc_EEDA:
 		moveq	#0,d2
 		move.w	$26(a6),d2
 		lsl.l	#1,d2
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		move.w	word_EF38(pc,d2.w),d0
 		move.w	d0,$7A(a0)
 
@@ -17339,7 +17339,7 @@ loc_EF04:
 		moveq	#0,d2
 		move.w	obj.Angle(a6),d2
 		lsl.l	#1,d2
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		move.w	word_EF48(pc,d2.w),d0
 		move.w	d0,$7C(a0)
 		move.w	word_EF50(pc,d2.w),d0
@@ -17381,7 +17381,7 @@ loc_EF7E:
 		moveq	#0,d2
 		move.w	obj.Angle(a6),d2
 		lsl.l	#1,d2
-		lea	($FFFFD3E4).w,a0
+		lea	(v_pal).w,a0
 		move.w	word_EFA4(pc,d2.w),d0
 		move.w	d0,$54(a0)
 		move.w	word_EFB4(pc,d2.w),d0
