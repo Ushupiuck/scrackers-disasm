@@ -5324,29 +5324,29 @@ TitleLoad_Continue:
 		jsr	(NemDec).w			; decompress
 		move.l	#$41040003,d0			; prepare VDP settings
 		lea	MAPUNC_TitleMenu_1(pc),a1	; load uncompressed title mappings to a1 (Title Screen "Banner")
-		moveq	#$25,d1				; set X loop
-		moveq	#$F,d2				; set Y loop
+		moveq	#38-1,d1				; set X loop
+		moveq	#16-1,d2				; set Y loop
 		move.w	#0,d3				; set to use palette line 0 (and to map behind object plane)
 		jsr	(MapScreen).w			; map it on screen correctly
 		move.l	#$4A180003,d0			; prepare VDP settings
 		lea	MAPUNC_TitleMenu_2(pc),a1	; load uncompressed title mappings to a1 (Title Screen "Main Menu Selection")
-		moveq	#7,d1				; set X loop
-		moveq	#3,d2				; set Y loop
+		moveq	#8-1,d1				; set X loop
+		moveq	#4-1,d2				; set Y loop
 		move.w	#0,d3				; set to use palette line 0 (and to map behind object plane)
 		move.w	#$100,($FFFFD820).w
 		jsr	(MapScreen).w			; map it on screen correctly
 		move.w	#$80,($FFFFD820).w
 		move.l	#$4BBC0003,d0
 		lea	MAPUNC_TitleMenu_3(pc),a1	; load uncompressed title mappings to a1 (Title Screen "1ST	ROM 19940401")
-		moveq	#7,d1				; set X loop
-		moveq	#1,d2				; set Y loop
+		moveq	#8-1,d1				; set X loop
+		moveq	#2-1,d2				; set Y loop
 		move.w	#0,d3				; set to use palette line 0 (and to map behind object plane)
 		move.w	#$100,($FFFFD820).w
 		jsr	(MapScreen).w			; map it on screen correctly
 		move.w	#$80,($FFFFD820).w
 		lea	PAL_MainMenus(pc),a0
 		lea	($FFFFD3E4).w,a1
-		moveq	#$F,d0
+		moveq	#bytesToLcnt($40),d0
 
 .loadpalette:
 		move.l	(a0)+,(a1)+
@@ -5472,15 +5472,52 @@ sub_75BC:
 ARTNEM_MainMenusText:
 		binclude	"artnem/Main Menu Text.bin"
 		even
+
+		charset ' ', 0
+		charset '!', 1
+		charset '"', 2
+		charset	'#', "\x03\x04\x05"
+		charset '&', 6
+;		charset "'", 7
+		charset '(', "\x08\x09"
+		charset '*', $A
+		charset '+', $B
+		charset ',', $C
+		charset '-', $D
+		charset '.', "\x0E\x0F"
+		charset	'0', "\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19"
+		charset ':', $1A
+		charset ';', $1B
+		charset '<', $1C
+		charset '=', $1D
+		charset '>', $1E
+		charset '?', $1F
+		charset '@', $20
+		charset 'A', "\x21\x22\x23\x24\x25\x26\x27\x28\x29\x2A\x2B\x2C\x2D\x2E\x2F\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x3A"
+		charset '[', $3B
+;		charset '\', $3C
+		charset ']', $3D
+		charset '^', $3E
+		charset '_', $3F
+		charset '`', $40
+		charset 'a', "\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4A\x4B\x4C\x4D\x4E\x4F\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5A"
+		charset '{', $57
+		charset '|', $58
+		charset '}', $59
+		charset '~', $5A
+
 MAPUNC_TitleMenu_1:
 		binclude	"Uncompressed/MapuncTitleMenu01.bin" ; Uncompressed screen map for the title screen - banner
 		even
 MAPUNC_TitleMenu_2:
-		binclude	"Uncompressed/MapuncTitleMenu02.bin" ; Uncompressed screen map for the title screen - menu selection
-		even
+		dc.w	"1P START"
+		dc.w	"2P START"
+		dc.w	"OPTION  "
+		dc.w	"SELECT  "
 MAPUNC_TitleMenu_3:
-		binclude	"Uncompressed/MapuncTitleMenu03.bin" ; Uncompressed screen map for the title menu - "1ST ROM 19940401"
-		even
+		dc.w	"1ST ROM "
+		dc.w	"19940401"
+		charset
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
