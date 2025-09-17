@@ -4759,7 +4759,7 @@ loc_6A02:
 		move.w	#$FFA0,($FFFFCA60).w
 		move.w	#$18,($FFFFCDDE).w
 		move.w	#$14,($FFFFCDE0).w
-		lea	(RomStart).w,a4
+		lea	(0).w,a4
 		move.w	#$80,d4
 		moveq	#3,d6
 		moveq	#$F,d7
