@@ -14,7 +14,7 @@ CracDec:
 		andi.w	#$3FFF,d7	; AND first word by $4000
 		eor.w	d7,d2		; XOR the AND'd word with the original word
 		rol.w	#2,d2		; bit rotate the original word left twice (multiply by 4)
-							; example: $0068 => $01A0 | bits: 01101000 => 0110100000 (move the whole bit up by 2 bits)
+							; example: $0068 => $01A0 | bits: 01101000 => 0110100000 (move the whole bit left by 2 bits)
 		moveq	#4,d1		; set d1 to 4
 		sub.w	d2,d1		; subtract the word from d1 (Example: $01A0 (d2) - $0004 (d1) = $019C (d1))
 		moveq	#1,d2		; set d2 to 1
