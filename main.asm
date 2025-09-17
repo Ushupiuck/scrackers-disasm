@@ -2345,7 +2345,7 @@ locret_1916:
 ;
 ; ---------------------------------------------------------------------------
 
-sub_1918:
+ProcessObject:
 		move.l	d7,-(sp)
 		lea	($FFFFD83C).w,a0
 		move.w	-4(a0,d0.w),d7
@@ -2358,9 +2358,9 @@ sub_1918:
 		moveq	#-1,d7
 
 loc_1934:
-		tst.w	(a0)
+		tst.w	obj.ID(a0)
 		beq.s	loc_1946
-		movea.w	(a0),a0
+		movea.w	obj.ID(a0),a0
 		dbf	d7,loc_1934
 
 loc_193E:
@@ -2397,7 +2397,7 @@ data_197A:
 
 DeleteObject:
 		move.l	a1,-(sp)
-		tst.w	(a6)
+		tst.w	obj.ID(a6)
 		bpl.s	loc_198E
 		movea.w	(a6),a1
 		move.w	2(a6),2(a1)
@@ -2415,7 +2415,7 @@ loc_198E:
 ; Unused subroutine
 ; ---------------------------------------------------------------------------
 		move.l	a1,-(sp)
-		tst.w	(a6)
+		tst.w	obj.ID(a6)
 		bpl.s	loc_19B0
 		movea.w	(a6),a1
 		move.w	2(a6),2(a1)
@@ -5817,7 +5817,7 @@ sub_8196:
 		move.w	#0,(v_sonic).w
 		move.w	#4,(v_tails).w
 		moveq	#4,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.s	Load_Tails
 		move.w	#$80,4(a0)
 		move.w	#2,obj.Pointer(a0)       ; Load Sonic Object Pointer?
@@ -5829,7 +5829,7 @@ sub_8196:
 Load_Tails:
 loc_81CC:
 		moveq	#4,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.s	locret_81F6
 		move.w	#$80,4(a0)
 		move.w	#$802,obj.Pointer(a0)    ; Load Tails Object Pointer?
@@ -8199,17 +8199,17 @@ SSZ_ArtLocs:
 		dc.l ARTNEM_SSZ8x8_FG
 		dc.l ARTNEM_SSZ8x8_BG
 SSZ_FG_StartLocCam:
-		dc.w	$0000		; Start X scroll
-		dc.w	$00D0		; Start Y scroll
-		dc.b	$80		; H scroll base
-		dc.b	$10		; H scroll param
-		dc.b	$80		; V scroll base
-		dc.b	$0C		; V scroll param
-		dc.w	$0800/$20	; VRAM destination
-		dc.w	$7EC0		; Max X display area
-		dc.w	$0000		; Min X display area
-		dc.w	$0520		; Max Y display area
-		dc.w	$0000		; Min Y display area
+		dc.w $0000		; Start X scroll
+		dc.w $00D0		; Start Y scroll
+		dc.b $80		; H scroll base
+		dc.b $10		; H scroll param
+		dc.b $80		; V scroll base
+		dc.b $0C		; V scroll param
+		dc.w $0800/$20	; VRAM destination
+		dc.w $7EC0		; Max X display area
+		dc.w $0000		; Min X display area
+		dc.w $0520		; Max Y display area
+		dc.w $0000		; Min Y display area
 SSZ_MapFGLocs:
 		dc.l MAPENI_SSZ16x16_FG
 		dc.l MAPENI_SSZ128x128_FG
@@ -8926,7 +8926,7 @@ loc_A2CC:
 		bne.w	loc_A3D2
 
 loc_A2D4:
-		move.w	#$FFF4,d0
+		move.w	#-$C,d0
 		move.w	obj.Inertia(a6),d1
 		beq.s	loc_A2F0
 		bpl.s	loc_A2E4
@@ -8948,14 +8948,14 @@ loc_A2F0:
 		addi.b	#$10,d0
 		cmpi.b	#$20,d0
 		bcc.s	loc_A38A
-		move.w	8(a6),d0
+		move.w	obj.Xpos(a6),d0
 		moveq	#0,d1
 		move.b	$23(a6),d1
 		add.w	obj.Ypos(a6),d1
 		move.w	$24(a6),d4
 		andi.w	#2,d4
 		bsr.w	sub_BF84
-		cmpi.w	#$FF80,d5
+		cmpi.w	#-$80,d5
 		bne.s	loc_A38A
 		btst	#3,$25(a6)
 		bne.s	loc_A356
@@ -8964,7 +8964,7 @@ loc_A2F0:
 		move.b	$22(a6),d3
 		add.w	d3,d0
 		bsr.w	sub_BF84
-		cmpi.w	#$FF80,d5
+		cmpi.w	#-$80,d5
 		bne.s	loc_A37C
 		bra.s	loc_A36E
 ; ---------------------------------------------------------------------------
@@ -8975,7 +8975,7 @@ loc_A356:
 		move.b	$22(a6),d3
 		sub.w	d3,d0
 		bsr.w	sub_BF84
-		cmpi.w	#$FF80,d5
+		cmpi.w	#-$80,d5
 		bne.s	loc_A37C
 
 loc_A36E:
@@ -9137,7 +9137,7 @@ loc_A4B4:
 		not.b	d0
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
-		move.w	#$FF80,d0
+		move.w	#-$80,d0
 		move.w	obj.Inertia(a6),d1
 		beq.s	loc_A4E0
 		bpl.s	loc_A4D6
@@ -9175,7 +9175,7 @@ loc_A506:
 
 loc_A51E:
 		move.b	3(a5),d0
-		andi.b	#$70,d0
+		andi.b	#btnABC,d0
 		beq.s	loc_A530
 		move.b	#$E,7(a6)
 		rts
@@ -9260,7 +9260,7 @@ loc_A5F2:
 
 loc_A5FC:
 		move.b	2(a5),d0
-		andi.b	#$70,d0
+		andi.b	#btnABC,d0
 		bne.s	locret_A618
 		cmpi.l	#$FFFC8000,$1C(a6)
 		bge.s	locret_A618
@@ -9421,7 +9421,7 @@ loc_A778:
 		beq.w	loc_A88A
 		move.w	8(a5),d0
 		bne.w	loc_A7CE
-		move.w	#$FFF4,d0
+		move.w	#-$C,d0
 		move.w	obj.Inertia(a6),d1
 		beq.s	loc_A7A6
 		bpl.s	loc_A79A
@@ -9542,7 +9542,7 @@ loc_A88A:
 		not.b	d0
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
-		move.w	#$FF80,d0
+		move.w	#-$80,d0
 		move.w	obj.Inertia(a6),d1
 		beq.s	loc_A8B6
 		bpl.s	loc_A8AC
@@ -9570,7 +9570,7 @@ loc_A8C6:
 loc_A8D6:
 		move.b	2(a5),d0
 		move.b	d0,d1
-		andi.b	#$70,d0
+		andi.b	#btnABC,d0
 		bne.s	loc_A928
 		move.b	5(a5),d2
 		andi.b	#$F,d1
@@ -9644,7 +9644,7 @@ SonicSpindash:
 		addq.b	#1,$28(a6)
 		tst.l	obj.Inertia(a6)
 		bne.s	loc_A9B2
-		btst	#1,2(a5)
+		btst	#bitDn,2(a5)
 		bne.s	loc_A9C0
 
 loc_A9B2:
@@ -9726,7 +9726,7 @@ loc_AA6E:
 
 ObjSonic_ThrowPartner:
 		move.b	3(a5),d0
-		andi.b	#$70,d0
+		andi.b	#btnABC,d0
 		beq.s	locret_AAA2
 		move.w	($FFFFFAE0).w,d0
 		cmpi.w	#$18,d0
@@ -9746,7 +9746,7 @@ locret_AAA2:
 
 ObjSonic_Jump:
 		move.b	3(a5),d0
-		andi.b	#$70,d0
+		andi.b	#btnABC,d0
 		beq.s	locret_AAF6
 		move.b	#4,7(a6)
 		clr.w	$28(a6)
@@ -9773,8 +9773,8 @@ loc_AAD4:
 		sub.l	d3,d1
 		asr.l	#6,d0
 		asr.l	#6,d1
-		move.l	d0,$18(a6)
-		move.l	d1,$1C(a6)
+		move.l	d0,obj.VelX(a6)
+		move.l	d1,obj.VelY(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -10062,7 +10062,7 @@ loc_AD66:
 		not.b	d0
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
-		move.w	#$FF80,d0
+		move.w	#-$80,d0
 		move.w	obj.Inertia(a6),d1
 		beq.s	loc_AD92
 		bpl.s	loc_AD88
@@ -10322,7 +10322,7 @@ loc_AFE0:
 ; ---------------------------------------------------------------------------
 
 loc_AFEA:
-		move.w	8(a6),obj.Xpos(a4)
+		move.w	obj.Xpos(a6),obj.Xpos(a4)
 		move.w	obj.Ypos(a6),d0
 		subi.w	#$20,d0
 		move.w	d0,obj.Ypos(a4)
@@ -10462,7 +10462,7 @@ loc_B138:
 		not.b	d0
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
-		move.w	#$FF80,d0
+		move.w	#-$80,d0
 		move.w	obj.Inertia(a6),d1
 		beq.s	loc_B164
 		bpl.s	loc_B15A
@@ -11089,9 +11089,9 @@ sub_B67C:
 		move.w	word_B69A(pc,d0.w),$26(a6)
 		rts
 ; ---------------------------------------------------------------------------
-word_B69A:	dc.w word_B69A-word_B69A
+word_B69A:	dc.w 0
 		dc.w 4
-		dc.w sub_B6A2-word_B69A
+		dc.w 8
 		dc.w 4
 ; ---------------------------------------------------------------------------
 
@@ -12031,7 +12031,7 @@ sub_BE72:
 		move.w	#0,(v_sonic).w
 		move.w	#4,(v_tails).w
 		moveq	#4,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.s	loc_BE9C
 		move.w	#$80,4(a0)
 		move.w	#$800,obj.Pointer(a0) ; Load Sonic Hands Object Pointer?
@@ -12040,7 +12040,7 @@ sub_BE72:
 
 loc_BE9C:
 		moveq	#4,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.s	loc_BEE0
 		move.w	#$80,4(a0)
 		move.w	#2,obj.Pointer(a0) ; Load Sonic Object Pointer?
@@ -12058,7 +12058,7 @@ loc_BE9C:
 
 loc_BEE0:
 		moveq	#4,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.s	loc_BF00
 		move.w	#$80,4(a0)
 		move.w	#$1000,obj.Pointer(a0) ; Load Unknown Object Pointer?
@@ -12067,7 +12067,7 @@ loc_BEE0:
 
 loc_BF00:
 		moveq	#4,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.s	loc_BF1E
 		move.w	#$80,4(a0)
 		move.w	#$C00,obj.Pointer(a0) ; Load Tails Hands Object Pointer?
@@ -12076,7 +12076,7 @@ loc_BF00:
 
 loc_BF1E:
 		moveq	#4,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.s	loc_BF62
 		move.w	#$80,4(a0)
 		move.w	#$402,obj.Pointer(a0) ; Load Tails Object Pointer?
@@ -12094,7 +12094,7 @@ loc_BF1E:
 
 loc_BF62:
 		moveq	#4,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.s	locret_BF82
 		move.w	#$80,4(a0)
 		move.w	#$1400,obj.Pointer(a0) ; Load Tails Tail Object Pointer?
@@ -13593,7 +13593,7 @@ sub_CC5C:
 
 loc_CC62:
 		moveq	#$C,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.s	locret_CCC8
 		move.w	#$80,4(a0)
 		move.w	#$28,obj.Pointer(a0)
@@ -14483,7 +14483,7 @@ sub_D1E0:
 
 loc_D1E2:
 		moveq	#8,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.s	locret_D202
 		move.w	#$80,4(a0)
 		move.w	#$800,obj.Pointer(a0)
@@ -17155,7 +17155,7 @@ locret_ED34:
 
 loc_ED36:
 		moveq	#$10,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.w	loc_ED5E
 		moveq	#0,d7
 		move.w	($FFFFD83A).w,d7
@@ -17168,7 +17168,7 @@ loc_ED36:
 
 loc_ED5E:
 		moveq	#$10,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.w	locret_ED7A
 		move.b	#$14,obj.Pointer(a0)
 		move.w	#0,$26(a0)
@@ -17421,7 +17421,7 @@ word_EFC4:	dc.w $2E
 
 sub_EFD4:
 		moveq	#$10,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.w	loc_F0DE
 		move.w	#0,4(a0)
 		move.l	#0,$24(a0)
@@ -17624,7 +17624,7 @@ loc_F140:
 		movea.l	a0,a5
 		movea.l	a1,a6
 		moveq	#$C,d0
-		jsr	(sub_1918).w
+		jsr	(ProcessObject).w
 		bmi.s	loc_F1B8
 		move.w	4(a5),obj.Pointer(a0)
 		_move.w	0(a5),obj.Xpos(a0)
@@ -19007,95 +19007,95 @@ DAC_Sample5_End:even
 ; ---------------------------------------------------------------------------
 ; Align to $00030000, Used Multiple Data
 ; ---------------------------------------------------------------------------
-	align $3000
+	align $8000
 ; ---------------------------------------------------------------------------
 ArtUnc_HUD:
-	binclude	"artunc/Hud.bin"		; Hud Patterns
-	even
+		binclude	"artunc/Hud.bin"		; Hud Patterns
+		even
 ; ---------------------------------------------------------------------------
 ARTNEM_RingTetherStarsUnused:
-	binclude	"artnem/Unused - Ring Tether Stars.nem" ; unused Ring tether stars
-	even
+		binclude	"artnem/Unused - Ring Tether Stars.nem" ; unused Ring tether stars
+		even
 ; ---------------------------------------------------------------------------
 ARTNEM_SSZ8x8_FG:
-	binclude	"artnem/8x8 - SSZ FG.nem"	; 8x8 tiles for SSZ FG
-	even
+		binclude	"artnem/8x8 - SSZ FG.nem"	; 8x8 tiles for SSZ FG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZ16x16_FG:
-	binclude	"map16/SSZ FG.eni"		; 16x16 blocks for SSZ FG
-	even
+		binclude	"map16/SSZ FG.eni"		; 16x16 blocks for SSZ FG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZ128x128_FG:
-	binclude	"map128/SSZ FG.eni"		; 128x128 chunks for SSZ FG
-	even
+		binclude	"map128/SSZ FG.eni"		; 128x128 chunks for SSZ FG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZLayout_FG:
-	binclude	"levels/SSZ FG.eni"		; Layout for SSZ FG
-	even
+		binclude	"levels/SSZ FG.eni"		; Layout for SSZ FG
+		even
 ; ---------------------------------------------------------------------------
 COL_SSZPrimary:
-	binclude	"collide/ColSSZPrimary.bin"	; Primary Collisions for SSZ
-	even
+		binclude	"collide/ColSSZPrimary.bin"	; Primary Collisions for SSZ
+		even
 ; ---------------------------------------------------------------------------
 COL_SSZSecondary:
-	binclude	"collide/ColSSZSecondary.bin"	; Secondary Collisions for SSZ
-	even
+		binclude	"collide/ColSSZSecondary.bin"	; Secondary Collisions for SSZ
+		even
 ; ---------------------------------------------------------------------------
 ARTNEM_SSZ8x8_BG:
-	binclude	"artnem/8x8 - SSZ BG.nem"	; 8x8 tiles for SSZ BG
-	even
+		binclude	"artnem/8x8 - SSZ BG.nem"	; 8x8 tiles for SSZ BG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZ16x16_BG:
-	binclude	"map16/SSZ BG.eni"		; 16x16 blocks for SSZ BG
-	even
+		binclude	"map16/SSZ BG.eni"		; 16x16 blocks for SSZ BG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZ128x128_BG:
-	binclude	"map128/SSZ BG.eni"		; 128x128 chunks for SSZ BG
-	even
+		binclude	"map128/SSZ BG.eni"		; 128x128 chunks for SSZ BG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZLayout_BG:
-	binclude	"levels/SSZ BG.eni"		; Layout for SSZ BG
-	even
+		binclude	"levels/SSZ BG.eni"		; Layout for SSZ BG
+		even
 ; ---------------------------------------------------------------------------
 ARTNEM_TTZ8x8_FG:
-	binclude	"artnem/8x8 - TTZ FG.nem"	; 8x8 tiles for TTZ FG
-	even
+		binclude	"artnem/8x8 - TTZ FG.nem"	; 8x8 tiles for TTZ FG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZ16x16_FG:
-	binclude	"map16/TTZ FG.eni"		; 16x16 blocks for TTZ FG
-	even
+		binclude	"map16/TTZ FG.eni"		; 16x16 blocks for TTZ FG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZ128x128_FG:
-	binclude	"map128/TTZ FG.eni"		; 128x128 chunks for TTZ FG
-	even
+		binclude	"map128/TTZ FG.eni"		; 128x128 chunks for TTZ FG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZLayout_FG:
-	binclude	"levels/TTZ FG.eni"		; Layout for TTZ FG
-	even
+		binclude	"levels/TTZ FG.eni"		; Layout for TTZ FG
+		even
 ; ---------------------------------------------------------------------------
 COL_TTZPrimary:
-	binclude	"collide/ColTTZPrimary.bin"	; Primary Collisions for TTZ
-	even
+		binclude	"collide/ColTTZPrimary.bin"	; Primary Collisions for TTZ
+		even
 ; ---------------------------------------------------------------------------
 COL_TTZSecondary:
-	binclude	"collide/ColTTZSecondary.bin"	; Secondary Collisions for TTZ
-	even
+		binclude	"collide/ColTTZSecondary.bin"	; Secondary Collisions for TTZ
+		even
 ; ---------------------------------------------------------------------------
 ARTNEM_TTZ8x8_BG:
-	binclude	"artnem/8x8 - TTZ BG.nem"	; 8x8 tiles for TTZ BG
-	even
+		binclude	"artnem/8x8 - TTZ BG.nem"	; 8x8 tiles for TTZ BG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZ16x16_BG:
-	binclude	"map16/TTZ BG.eni"		; 16x16 blocks for TTZ BG
-	even
+		binclude	"map16/TTZ BG.eni"		; 16x16 blocks for TTZ BG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZ128x128_BG:
-	binclude	"map128/TTZ BG.eni"		; 128x128 chunks for TTZ BG
-	even
+		binclude	"map128/TTZ BG.eni"		; 128x128 chunks for TTZ BG
+		even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZLayout_BG:
-	binclude	"levels/TTZ BG.eni"		; Layout for TTZ BG
-	even
+		binclude	"levels/TTZ BG.eni"		; Layout for TTZ BG
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19411,7 +19411,7 @@ MAPUNC_ElectricFieldBG:
 ; ---------------------------------------------------------------------------
 ; Align to $00060000, Sonic's Arms
 ; ---------------------------------------------------------------------------
-	align $6000
+	align $8000
 ; ---------------------------------------------------------------------------
 ARTUNC_SonicArms:
 		binclude	"artunc/SonicArms.bin"		; Sonic's Arms
@@ -19421,7 +19421,7 @@ ARTUNC_SonicArms:
 ; ---------------------------------------------------------------------------
 ; Align to $00064000, Tails' Arms
 ; ---------------------------------------------------------------------------
-	align $1000
+	align $4000
 ; ---------------------------------------------------------------------------
 ARTUNC_TailsArms:
 		binclude	"artunc/TailsArms.bin"		; Tails' Arms
