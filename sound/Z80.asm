@@ -58,10 +58,7 @@ ModulationSteps	ds.b 1
 LoopCounters	ds.w 1
 VoicesLow	ds.b 1
 VoicesHigh	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
+		ds.b 4
 zTrack ENDSTRUCT
 
 	phase $1C00

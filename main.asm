@@ -995,7 +995,7 @@ loc_9B2:
 		clr.w	2(a1)
 		clr.l	4(a1)
 		clr.l	8(a1)
-		clr.l	obY(a1)
+		clr.l	obj.Ypos(a1)
 		lea	$10(a1),a1
 		dbf	d0,loc_9B2
 
@@ -1035,7 +1035,7 @@ loc_9E6:	nop
 
 sub_A06:
 		stopZ80
-		move.b	#$40,ObjectPointer(a0)
+		move.b	#$40,obj.Pointer(a0)
 		move.b	#$40,(a0)
 		moveq	#0,d0
 		moveq	#0,d1
@@ -1068,7 +1068,7 @@ loc_A5A:
 		_move.b	#2,0(a1)
 		move.w	#$FF,d7
 		stopZ80
-		move.b	#$60,ObjectPointer(a0)
+		move.b	#$60,obj.Pointer(a0)
 		move.b	#$20,(a0)
 		btst	#4,(a0)
 		beq.s	loc_AAC
@@ -1122,14 +1122,14 @@ sub_ACA:
 		bsr.w	sub_C2E
 		bcs.w	loc_C5C
 		andi.w	#$F,d0
-		move.b	d0,ObjectPointer(a1)
+		move.b	d0,obj.Pointer(a1)
 		lea	$10(a1),a1
 		rts
 ; ===========================================================================
 
 loc_B30:
 		stopZ80
-		move.b	#$40,ObjectPointer(a0)
+		move.b	#$40,obj.Pointer(a0)
 		moveq	#2,d3
 
 loc_B40:
@@ -1182,13 +1182,13 @@ loc_BBA:
 		clr.w	2(a1)
 		clr.l	4(a1)
 		clr.l	8(a1)
-		clr.l	obY(a1)
+		clr.l	obj.Ypos(a1)
 		lea	$10(a1),a1
 		rts
 
 loc_BDA:
 		_clr.b	0(a1)
-		move.b	#$40,ObjectPointer(a0)
+		move.b	#$40,obj.Pointer(a0)
 		move.w	d1,d0
 		swap	d1
 		move.b	#$40,(a0)
@@ -1216,7 +1216,7 @@ sub_C1C:
 		eor.b	d0,d1
 		move.b	d0,3(a1)
 		and.b	d0,d1
-		move.b	d1,ObjectPointer(a1)
+		move.b	d1,obj.Pointer(a1)
 		rts
 
 sub_C2E:
@@ -1258,7 +1258,7 @@ loc_C62:
 loc_C70:
 		stopZ80
 		move.b	#$20,(a0)
-		move.b	#$60,ObjectPointer(a0)
+		move.b	#$60,obj.Pointer(a0)
 		move.w	#$FF,d7
 		btst	#4,(a0)
 		beq.w	loc_D10
@@ -1343,7 +1343,7 @@ loc_D58:
 		clr.w	2(a1)
 		clr.l	4(a1)
 		clr.l	8(a1)
-		clr.l	obY(a1)
+		clr.l	obj.Ypos(a1)
 		lea	$10(a1),a1
 		rts
 ; ===========================================================================
@@ -2382,8 +2382,8 @@ loc_1946:
 		move.l	#data_197A,$10(a0)
 		moveq	#0,d7
 		move.l	d7,$20(a0)
-		move.l	d7,obX(a0)
-		move.l	d7,obY(a0)
+		move.l	d7,obj.Xpos(a0)
+		move.l	d7,obj.Ypos(a0)
 		movem.l	(sp)+,d7
 		rts
 ; ===========================================================================
@@ -2437,10 +2437,10 @@ loc_19B0:
 ; ---------------------------------------------------------------------------
 ; Unused subroutine
 ; ---------------------------------------------------------------------------
-		move.l	obVelX(a6),d0
-		add.l	d0,obX(a6)
-		move.l	obVelY(a6),d0
-		add.l	d0,obY(a6)
+		move.l	obj.VelX(a6),d0
+		add.l	d0,obj.Xpos(a6)
+		move.l	obj.VelY(a6),d0
+		add.l	d0,obj.Ypos(a6)
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -2462,7 +2462,7 @@ loc_19EC:
 
 loc_19F4:
 		addi.w	#$80,d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		sub.w	($FFFFC9EE).w,d3
 		cmpi.w	#-$40,d3
 		bge.s	loc_1A08
@@ -5007,7 +5007,7 @@ loc_6C70:
 		bsr.w	sub_6CF0
 		lea	(unk_0400&$FFFFFF).l,a0
 		movea.w	($FFFFD818).w,a6
-		lea	obInertia(a6),a6
+		lea	obj.Inertia(a6),a6
 		bsr.w	sub_6CF0
 		lea	(unk_0600&$FFFFFF).l,a0
 		movea.w	($FFFFD816).w,a6
@@ -5128,7 +5128,7 @@ loc_6DFE:
 		add.w	d0,(a1)
 		move.b	(a0)+,d0
 		ext.w	d0
-		add.w	d0,obX(a1)
+		add.w	d0,obj.Xpos(a1)
 		move.b	(a0)+,d0
 		ext.w	d0
 		add.w	d0,$10(a1)
@@ -5617,7 +5617,7 @@ sub_7FB0:
 		clr.b	6(a4)
 
 loc_7FC6:
-		addq.b	#1,ObjectPointer(a4)
+		addq.b	#1,obj.Pointer(a4)
 		and.b	d0,d1
 		move.b	d1,3(a4)
 		andi.w	#$F,d0
@@ -5636,7 +5636,7 @@ loc_7FC6:
 		move.w	d0,d1
 		swap	d0
 		or.w	d0,d1
-		move.w	d1,obX(a4)
+		move.w	d1,obj.Xpos(a4)
 		rts
 ; End of function sub_7FB0
 
@@ -5759,11 +5759,11 @@ loc_814C:
 		add.w	d1,d1
 		add.w	d1,d1
 		movea.w	($FFFFD862).w,a0
-		add.w	d0,obX(a0)
-		add.w	d1,obY(a0)
+		add.w	d0,obj.Xpos(a0)
+		add.w	d1,obj.Ypos(a0)
 		movea.w	($FFFFD864).w,a0
-		add.w	d0,obX(a0)
-		add.w	d1,obY(a0)
+		add.w	d0,obj.Xpos(a0)
+		add.w	d1,obj.Ypos(a0)
 		jsr	(sub_CCCA).l
 		jsr	(sub_82B2).l
 		jsr	(BuildSprites).w
@@ -5788,9 +5788,9 @@ sub_8196:
 		jsr	(sub_1918).w
 		bmi.s	Load_Tails
 		move.w	#$80,4(a0)
-		move.w	#2,ObjectPointer(a0)       ; Load Sonic Object Pointer?
-		move.w	#$70,obX(a0)               ; Set starting X position
-		move.w	#$70,obY(a0)               ; Set starting Y position
+		move.w	#2,obj.Pointer(a0)       ; Load Sonic Object Pointer?
+		move.w	#$70,obj.Xpos(a0)               ; Set starting X position
+		move.w	#$70,obj.Ypos(a0)               ; Set starting Y position
 		move.w	#$8000,$20(a0)
 		move.w	a0,($FFFFD862).w
 
@@ -5800,9 +5800,9 @@ loc_81CC:
 		jsr	(sub_1918).w
 		bmi.s	locret_81F6
 		move.w	#$80,4(a0)
-		move.w	#$802,ObjectPointer(a0)    ; Load Tails Object Pointer?
-		move.w	#$B0,obX(a0)               ; Set starting X position
-		move.w	#$70,obY(a0)               ; Set starting Y position
+		move.w	#$802,obj.Pointer(a0)    ; Load Tails Object Pointer?
+		move.w	#$B0,obj.Xpos(a0)               ; Set starting X position
+		move.w	#$70,obj.Ypos(a0)               ; Set starting Y position
 		move.w	#$8000,$20(a0)
 		move.w	a0,($FFFFD864).w
 
@@ -5855,7 +5855,7 @@ loc_8236:
 		move.w	8(a5),d0
 		beq.s	loc_8260
 		add.w	d0,d0
-		add.w	d0,obX(a6)
+		add.w	d0,obj.Xpos(a6)
 		tst.w	d0
 		bpl.s	loc_8254
 		move.w	#4,$26(a6)
@@ -5871,7 +5871,7 @@ loc_8260:
 		move.w	$A(a5),d1
 		beq.s	loc_828C
 		add.w	d1,d1
-		add.w	d1,obY(a6)
+		add.w	d1,obj.Ypos(a6)
 		tst.w	d1
 		bpl.s	loc_827E
 		move.w	#6,$26(a6)
@@ -6726,7 +6726,7 @@ sub_8ABC:
 		clr.b	6(a4)
 
 loc_8AD2:
-		addq.b	#1,ObjectPointer(a4)
+		addq.b	#1,obj.Pointer(a4)
 		and.b	d0,d1
 		move.b	d1,3(a4)
 		andi.w	#$F,d0
@@ -6745,7 +6745,7 @@ loc_8AD2:
 		move.w	d0,d1
 		swap	d0
 		or.w	d0,d1
-		move.w	d1,obX(a4)
+		move.w	d1,obj.Xpos(a4)
 		rts
 ; End of function sub_8ABC
 
@@ -6813,11 +6813,11 @@ loc_8BA4:
 		add.w	d1,d1
 		add.w	d1,d1
 		movea.w	($FFFFD862).w,a0
-		add.w	d0,obX(a0)
-		add.w	d1,obY(a0)
+		add.w	d0,obj.Xpos(a0)
+		add.w	d1,obj.Ypos(a0)
 		movea.w	($FFFFD864).w,a0
-		add.w	d0,obX(a0)
-		add.w	d1,obY(a0)
+		add.w	d0,obj.Xpos(a0)
+		add.w	d1,obj.Ypos(a0)
 		jsr	(sub_CCCA).l
 		jsr	(sub_9514).l
 		jsr	(BuildSprites).w
@@ -7641,13 +7641,13 @@ locret_97B2:
 sub_97B4:
 		move.w	$10(a1),d0
 		move.w	d0,$12(a1)
-		move.w	obY(a0),d1
+		move.w	obj.Ypos(a0),d1
 		subi.w	#$80,d1
 		mulu.w	#2,d1
 		ext.l	d1
 		divu.w	#5,d1
 		move.w	d1,$10(a1)
-		move.w	obY(a1),d0
+		move.w	obj.Ypos(a1),d0
 		cmp.w	d0,d1
 		bgt.s	loc_97E2
 		move.w	$E(a1),d0
@@ -8403,9 +8403,9 @@ sub_9E84:
 		move.b	(a0)+,5(a1)
 		move.b	(a0)+,$15(a1)
 		move.w	(a0)+,$1C(a1)
-		move.w	(a0)+,obX(a1)
+		move.w	(a0)+,obj.Xpos(a1)
 		move.w	(a0)+,$A(a1)
-		move.w	(a0)+,obY(a1)
+		move.w	(a0)+,obj.Ypos(a1)
 		move.w	(a0)+,$E(a1)
 		moveq	#0,d0
 		move.b	4(a1),d0
@@ -8414,7 +8414,7 @@ sub_9E84:
 loc_9EDA:
 		add.w	d0,d0
 		dbcs	d2,loc_9EDA
-		move.b	d2,ObjectPointer(a1)
+		move.b	d2,obj.Pointer(a1)
 		moveq	#0,d0
 		move.b	$14(a1),d0
 		moveq	#$10-1,d2
@@ -8488,7 +8488,7 @@ loc_9F56:
 loc_9F60:
 		add.w	d1,d0
 		move.w	d0,$10(a1)
-		move.w	obY(a1),d1
+		move.w	obj.Ypos(a1),d1
 		cmp.w	d1,d0
 		bgt.s	loc_9F76
 		move.w	$E(a1),d1
@@ -8848,7 +8848,7 @@ loc_A296:
 		move.b	($FFFFD89E).w,d0
 		andi.b	#btnABC,d0
 		beq.s	loc_A2CC
-		clr.w	obInertia(a6)
+		clr.w	obj.Inertia(a6)
 		bra.s	loc_A2D4
 ; ---------------------------------------------------------------------------
 
@@ -8858,7 +8858,7 @@ loc_A2CC:
 
 loc_A2D4:
 		move.w	#$FFF4,d0
-		move.w	obInertia(a6),d1
+		move.w	obj.Inertia(a6),d1
 		beq.s	loc_A2F0
 		bpl.s	loc_A2E4
 		neg.w	d0
@@ -8867,7 +8867,7 @@ loc_A2D4:
 loc_A2E4:
 		cmpi.w	#$C,d1
 		bcc.w	loc_A42E
-		clr.w	obInertia(a6)
+		clr.w	obj.Inertia(a6)
 
 loc_A2F0:
 		btst	#3,$25(a6)
@@ -8875,14 +8875,14 @@ loc_A2F0:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.b	#$A,($FFFFFAE8).w
-		move.b	obAngle(a6),d0
+		move.b	obj.Angle(a6),d0
 		addi.b	#$10,d0
 		cmpi.b	#$20,d0
 		bcc.s	loc_A38A
 		move.w	8(a6),d0
 		moveq	#0,d1
 		move.b	$23(a6),d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		move.w	$24(a6),d4
 		andi.w	#2,d4
 		bsr.w	sub_BF84
@@ -8962,7 +8962,7 @@ loc_A3D2:
 loc_A3E0:
 		move.w	$24(a6),d1
 		eor.w	d0,d1
-		move.w	obInertia(a6),d2
+		move.w	obj.Inertia(a6),d2
 		ext.l	d2
 		swap	d2
 	if fixBugs
@@ -8975,14 +8975,14 @@ loc_A3E0:
 		bne.s	loc_A40A
 		andi.w	#8,d1
 		eor.w	d1,$24(a6)
-		tst.w	obInertia(a6)
+		tst.w	obj.Inertia(a6)
 		bpl.s	loc_A42A
-		neg.w	obInertia(a6)
+		neg.w	obj.Inertia(a6)
 		bra.s	loc_A42A
 ; ---------------------------------------------------------------------------
 
 loc_A40A:
-		move.w	obInertia(a6),d0
+		move.w	obj.Inertia(a6),d0
 		bpl.s	loc_A412
 		neg.w	d0
 
@@ -9003,10 +9003,10 @@ loc_A42A:
 		move.w	#$C,d0
 
 loc_A42E:
-		add.w	obInertia(a6),d0
+		add.w	obj.Inertia(a6),d0
 
 loc_A432:
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		bpl.s	loc_A43A
 		neg.w	d0
 
@@ -9029,7 +9029,7 @@ loc_A454:
 		moveq	#2,d2
 
 loc_A45A:
-		move.b	obAngle(a6),d0
+		move.b	obj.Angle(a6),d0
 		btst	#3,$25(a6)
 		bne.s	loc_A488
 		subi.b	#$10,d0
@@ -9069,7 +9069,7 @@ loc_A4B4:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.w	#$FF80,d0
-		move.w	obInertia(a6),d1
+		move.w	obj.Inertia(a6),d1
 		beq.s	loc_A4E0
 		bpl.s	loc_A4D6
 		neg.w	d0
@@ -9078,7 +9078,7 @@ loc_A4B4:
 loc_A4D6:
 		cmpi.w	#$80,d1
 		bcc.s	loc_A4F0
-		clr.w	obInertia(a6)
+		clr.w	obj.Inertia(a6)
 
 loc_A4E0:
 		move.l	#0,$26(a6)
@@ -9087,8 +9087,8 @@ loc_A4E0:
 ; ---------------------------------------------------------------------------
 
 loc_A4F0:
-		add.w	obInertia(a6),d0
-		move.w	d0,obInertia(a6)
+		add.w	obj.Inertia(a6),d0
+		move.w	d0,obj.Inertia(a6)
 		move.w	#$1A,$26(a6)
 		andi.b	#3,$28(a6)
 		rts
@@ -9126,14 +9126,14 @@ loc_A530:
 loc_A550:
 		bclr	#0,$25(a6)
 		move.b	#8,7(a6)
-		move.b	obAngle(a6),d2
+		move.b	obj.Angle(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_A56C
 		addi.b	#$80,d2
 
 loc_A56C:
 		jsr	(CalcSine).w
-		move.w	obInertia(a6),d2
+		move.w	obj.Inertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		asr.l	#6,d0
@@ -9152,8 +9152,8 @@ loc_A588:
 		bclr	#0,$25(a6)
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
-		clr.b	obAngle(a6)
-		clr.w	obInertia(a6)
+		clr.b	obj.Angle(a6)
+		clr.w	obj.Inertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_A5E4
 		move.l	$18(a6),d0
@@ -9234,7 +9234,7 @@ loc_A656:
 
 loc_A658:
 		asr.l	#8,d0
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		move.b	#2,7(a6)
 		move.l	#0,$26(a6)
 		rts
@@ -9252,8 +9252,8 @@ loc_A67C:
 		bclr	#0,$25(a6)
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)	; force roll anim when in air
-		clr.b	obAngle(a6)
-		clr.w	obInertia(a6)
+		clr.b	obj.Angle(a6)
+		clr.w	obj.Inertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_A6CE
 		move.l	$18(a6),d0
@@ -9313,7 +9313,7 @@ loc_A716:
 
 loc_A718:
 		asr.l	#8,d0
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		move.b	#2,7(a6)
 		move.l	#0,$26(a6)
 
@@ -9335,10 +9335,10 @@ loc_A738:
 
 loc_A744:
 		add.w	8(a6),d0
-		move.w	d0,obX(a4)
-		move.w	obY(a6),d0
+		move.w	d0,obj.Xpos(a4)
+		move.w	obj.Ypos(a6),d0
 		subi.w	#$A,d0
-		move.w	d0,obY(a4)
+		move.w	d0,obj.Ypos(a4)
 		move.b	#$C,7(a4)
 		pea	loc_A8D6(pc)
 		bclr	#4,$25(a6)
@@ -9353,7 +9353,7 @@ loc_A778:
 		move.w	8(a5),d0
 		bne.w	loc_A7CE
 		move.w	#$FFF4,d0
-		move.w	obInertia(a6),d1
+		move.w	obj.Inertia(a6),d1
 		beq.s	loc_A7A6
 		bpl.s	loc_A79A
 		neg.w	d0
@@ -9362,7 +9362,7 @@ loc_A778:
 loc_A79A:
 		cmpi.w	#$C,d1
 		bcc.w	loc_A804
-		clr.w	obInertia(a6)
+		clr.w	obj.Inertia(a6)
 
 loc_A7A6:
 		btst	#3,$25(a6)
@@ -9383,11 +9383,11 @@ loc_A7CE:
 		eor.w	d0,d1
 		andi.w	#8,d1
 		bne.s	loc_A7E0
-		tst.w	obInertia(a6)
+		tst.w	obj.Inertia(a6)
 		bpl.s	loc_A800
 
 loc_A7E0:
-		move.w	obInertia(a6),d0
+		move.w	obj.Inertia(a6),d0
 		bpl.s	loc_A7E8
 		neg.w	d0
 
@@ -9408,10 +9408,10 @@ loc_A800:
 		move.w	#$C,d0
 
 loc_A804:
-		add.w	obInertia(a6),d0
+		add.w	obj.Inertia(a6),d0
 
 loc_A808:
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		bpl.s	loc_A810
 		neg.w	d0
 
@@ -9434,7 +9434,7 @@ loc_A82A:
 		moveq	#$1E,d2
 
 loc_A830:
-		move.b	obAngle(a6),d0
+		move.b	obj.Angle(a6),d0
 		btst	#3,$25(a6)
 		bne.s	loc_A85E
 		subi.b	#$10,d0
@@ -9474,7 +9474,7 @@ loc_A88A:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.w	#$FF80,d0
-		move.w	obInertia(a6),d1
+		move.w	obj.Inertia(a6),d1
 		beq.s	loc_A8B6
 		bpl.s	loc_A8AC
 		neg.w	d0
@@ -9483,7 +9483,7 @@ loc_A88A:
 loc_A8AC:
 		cmpi.w	#$80,d1
 		bcc.s	loc_A8C6
-		clr.w	obInertia(a6)
+		clr.w	obj.Inertia(a6)
 
 loc_A8B6:
 		move.l	#$1C0000,$26(a6)
@@ -9492,8 +9492,8 @@ loc_A8B6:
 ; ---------------------------------------------------------------------------
 
 loc_A8C6:
-		add.w	obInertia(a6),d0
-		move.w	d0,obInertia(a6)
+		add.w	obj.Inertia(a6),d0
+		move.w	d0,obj.Inertia(a6)
 		andi.b	#3,$28(a6)
 		rts
 ; ---------------------------------------------------------------------------
@@ -9517,8 +9517,8 @@ loc_A8F8:
 		ext.l	d1
 		asl.l	#5,d0
 		asl.l	#5,d1
-		add.l	d0,obX(a4)
-		add.l	d1,obY(a4)
+		add.l	d0,obj.Xpos(a4)
+		add.l	d1,obj.Ypos(a4)
 		add.l	$18(a6),d0
 		add.l	$1C(a6),d1
 		move.l	d0,$18(a4)
@@ -9542,14 +9542,14 @@ loc_A94E:
 		bclr	#0,$25(a6)
 		beq.s	loc_A988
 		move.b	#8,7(a6)
-		move.b	obAngle(a6),d2
+		move.b	obj.Angle(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_A96C
 		addi.b	#$80,d2
 
 loc_A96C:
 		jsr	(CalcSine).w
-		move.w	obInertia(a6),d2
+		move.w	obj.Inertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		asr.l	#6,d0
@@ -9573,13 +9573,13 @@ SonicSpindash:
 		bclr	#4,$25(a6)
 		move.w	#$2E,$26(a6)
 		addq.b	#1,$28(a6)
-		tst.l	obInertia(a6)
+		tst.l	obj.Inertia(a6)
 		bne.s	loc_A9B2
 		btst	#1,2(a5)
 		bne.s	loc_A9C0
 
 loc_A9B2:
-		move.w	#$800,obInertia(a6)
+		move.w	#$800,obj.Inertia(a6)
 		move.b	#6,7(a6)
 		rts
 ; ---------------------------------------------------------------------------
@@ -9596,8 +9596,8 @@ loc_A9C8:
 		addi.l	#$3800,$1C(a6)
 		bclr	#0,$25(a6)
 		move.w	#$30,$26(a6)
-		clr.b	obAngle(a6)
-		clr.w	obInertia(a6)
+		clr.b	obj.Angle(a6)
+		clr.w	obj.Inertia(a6)
 		bsr.w	sub_CBC0
 		jsr	(sub_C49A).l
 		jsr	(sub_C636).l
@@ -9622,7 +9622,7 @@ loc_AA20:
 
 loc_AA22:
 		asr.l	#8,d0
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		tst.w	$32(a6)
 		bmi.s	loc_AA3E
 		move.b	#2,7(a6)
@@ -9638,7 +9638,7 @@ loc_AA3E:
 loc_AA46:
 		andi.b	#8,$20(a6)
 		moveq	#0,d0
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		move.l	d0,$18(a6)
 		move.l	d0,$1C(a6)
 		tst.w	$30(a6)
@@ -9682,7 +9682,7 @@ ObjSonic_Jump:
 		move.b	#4,7(a6)
 		clr.w	$28(a6)
 		bclr	#0,$25(a6)
-		move.b	obAngle(a6),d2
+		move.b	obj.Angle(a6),d2
 		jsr	(CalcSine).w
 		move.w	d0,d3
 		move.w	d1,d4
@@ -9694,7 +9694,7 @@ ObjSonic_Jump:
 	endif
 
 loc_AAD4:
-		move.w	obInertia(a6),d2
+		move.w	obj.Inertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		move.w	#$680,d2
@@ -9723,7 +9723,7 @@ Sonic_SlopeResist:
 ; End of function Sonic_SlopeResist
 
 ; ---------------------------------------------------------------------------
-		tst.w	obInertia(a6)
+		tst.w	obj.Inertia(a6)
 		bne.s	loc_AB02
 
 locret_AB00:
@@ -9731,7 +9731,7 @@ locret_AB00:
 ; ---------------------------------------------------------------------------
 
 loc_AB02:
-		move.b	obAngle(a6),d0
+		move.b	obj.Angle(a6),d0
 		move.b	d0,d2
 		subi.b	#$20,d0
 		cmpi.b	#$C0,d0
@@ -9747,7 +9747,7 @@ loc_AB02:
 		neg.w	d1
 
 loc_AB2A:
-		add.w	d1,obInertia(a6)
+		add.w	d1,obj.Inertia(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -9787,7 +9787,7 @@ loc_AB5C:
 		move.b	($FFFFD89E).w,d0
 		andi.b	#btnABC,d0
 		beq.s	loc_AB92
-		clr.w	obInertia(a6)
+		clr.w	obj.Inertia(a6)
 		bra.s	loc_AB9A
 ; ---------------------------------------------------------------------------
 
@@ -9797,7 +9797,7 @@ loc_AB92:
 
 loc_AB9A:
 		move.w	#-$10,d0
-		move.w	obInertia(a6),d1
+		move.w	obj.Inertia(a6),d1
 		beq.s	loc_ABB6
 		bpl.s	loc_ABAA
 		neg.w	d0
@@ -9806,7 +9806,7 @@ loc_AB9A:
 loc_ABAA:
 		cmpi.w	#$10,d1
 		bcc.w	loc_ACE0
-		clr.w	obInertia(a6)
+		clr.w	obj.Inertia(a6)
 
 loc_ABB6:
 		btst	#3,$25(a6)
@@ -9814,14 +9814,14 @@ loc_ABB6:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.b	#$A,($FFFFFAE8).w
-		move.b	obAngle(a6),d0
+		move.b	obj.Angle(a6),d0
 		addi.b	#$10,d0
 		cmpi.b	#$20,d0
 		bcc.s	loc_AC50
 		move.w	8(a6),d0
 		moveq	#0,d1
 		move.b	$23(a6),d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		move.w	$24(a6),d4
 		andi.w	#2,d4
 		bsr.w	sub_BF84
@@ -9901,13 +9901,13 @@ loc_AC98:
 loc_ACA6:
 		move.w	$24(a6),d1
 		eor.w	d0,d1
-		move.w	obInertia(a6),d2
+		move.w	obj.Inertia(a6),d2
 		ext.l	d2
 		swap	d2
 		eor.w	d2,d1
 		andi.w	#8,d1
 		beq.s	loc_ACDC
-		move.w	obInertia(a6),d0
+		move.w	obj.Inertia(a6),d0
 		bpl.s	loc_ACC4
 		neg.w	d0
 
@@ -9928,10 +9928,10 @@ loc_ACDC:
 		move.w	#$10,d0
 
 loc_ACE0:
-		add.w	obInertia(a6),d0
+		add.w	obj.Inertia(a6),d0
 
 loc_ACE4:
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		bpl.s	loc_ACEC
 		neg.w	d0
 
@@ -9954,7 +9954,7 @@ loc_AD06:
 		moveq	#2,d2
 
 loc_AD0C:
-		move.b	obAngle(a6),d0
+		move.b	obj.Angle(a6),d0
 		btst	#3,$25(a6)
 		bne.s	loc_AD3A
 		subi.b	#$10,d0
@@ -9994,7 +9994,7 @@ loc_AD66:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.w	#$FF80,d0
-		move.w	obInertia(a6),d1
+		move.w	obj.Inertia(a6),d1
 		beq.s	loc_AD92
 		bpl.s	loc_AD88
 		neg.w	d0
@@ -10003,7 +10003,7 @@ loc_AD66:
 loc_AD88:
 		cmpi.w	#$80,d1
 		bcc.s	loc_ADA2
-		clr.w	obInertia(a6)
+		clr.w	obj.Inertia(a6)
 
 loc_AD92:
 		move.l	#0,$26(a6)
@@ -10012,8 +10012,8 @@ loc_AD92:
 ; ---------------------------------------------------------------------------
 
 loc_ADA2:
-		add.w	obInertia(a6),d0
-		move.w	d0,obInertia(a6)
+		add.w	obj.Inertia(a6),d0
+		move.w	d0,obj.Inertia(a6)
 		move.w	#$1A,$26(a6)
 		andi.b	#3,$28(a6)
 		rts
@@ -10051,14 +10051,14 @@ loc_ADE2:
 loc_AE02:
 		bclr	#0,$25(a6)
 		move.b	#8,7(a6)
-		move.b	obAngle(a6),d2
+		move.b	obj.Angle(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_AE1E
 		addi.b	#$80,d2
 
 loc_AE1E:
 		jsr	(CalcSine).w
-		move.w	obInertia(a6),d2
+		move.w	obj.Inertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		asr.l	#6,d0
@@ -10077,8 +10077,8 @@ loc_AE3A:
 		bclr	#0,$25(a6)
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
-		clr.b	obAngle(a6)
-		clr.w	obInertia(a6)
+		clr.b	obj.Angle(a6)
+		clr.w	obj.Inertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_AE96
 		move.l	$18(a6),d0
@@ -10159,7 +10159,7 @@ loc_AF08:
 
 loc_AF0A:
 		asr.l	#8,d0
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		move.b	#2,7(a6)
 		move.l	#0,$26(a6)
 		rts
@@ -10177,8 +10177,8 @@ loc_AF2E:
 		bclr	#0,$25(a6)
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
-		clr.b	obAngle(a6)
-		clr.w	obInertia(a6)
+		clr.b	obj.Angle(a6)
+		clr.w	obj.Inertia(a6)
 		move.w	8(a5),d0
 		bne.s	loc_AF80
 		move.l	$18(a6),d0
@@ -10238,7 +10238,7 @@ loc_AFC8:
 
 loc_AFCA:
 		asr.l	#8,d0
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		move.b	#2,7(a6)
 		move.l	#0,$26(a6)
 
@@ -10253,10 +10253,10 @@ loc_AFE0:
 ; ---------------------------------------------------------------------------
 
 loc_AFEA:
-		move.w	8(a6),obX(a4)
-		move.w	obY(a6),d0
+		move.w	8(a6),obj.Xpos(a4)
+		move.w	obj.Ypos(a6),d0
 		subi.w	#$20,d0
-		move.w	d0,obY(a4)
+		move.w	d0,obj.Ypos(a4)
 		clr.l	$1C(a4)
 		move.b	#$C,7(a4)
 		move.w	#$12,$26(a4)
@@ -10273,7 +10273,7 @@ loc_B026:
 		move.w	8(a5),d0
 		bne.w	loc_B07C
 		move.w	#-$10,d0
-		move.w	obInertia(a6),d1
+		move.w	obj.Inertia(a6),d1
 		beq.s	loc_B054
 		bpl.s	loc_B048
 		neg.w	d0
@@ -10282,7 +10282,7 @@ loc_B026:
 loc_B048:
 		cmpi.w	#$10,d1
 		bcc.w	loc_B0B2
-		clr.w	obInertia(a6)
+		clr.w	obj.Inertia(a6)
 
 loc_B054:
 		btst	#3,$25(a6)
@@ -10303,11 +10303,11 @@ loc_B07C:
 		eor.w	d0,d1
 		andi.w	#8,d1
 		bne.s	loc_B08E
-		tst.w	obInertia(a6)
+		tst.w	obj.Inertia(a6)
 		bpl.s	loc_B0AE
 
 loc_B08E:
-		move.w	obInertia(a6),d0
+		move.w	obj.Inertia(a6),d0
 		bpl.s	loc_B096
 		neg.w	d0
 
@@ -10328,10 +10328,10 @@ loc_B0AE:
 		move.w	#$10,d0
 
 loc_B0B2:
-		add.w	obInertia(a6),d0
+		add.w	obj.Inertia(a6),d0
 
 loc_B0B6:
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		bpl.s	loc_B0BE
 		neg.w	d0
 
@@ -10354,7 +10354,7 @@ loc_B0D8:
 		moveq	#$1E,d2
 
 loc_B0DE:
-		move.b	obAngle(a6),d0
+		move.b	obj.Angle(a6),d0
 		btst	#3,$25(a6)
 		bne.s	loc_B10C
 		subi.b	#$10,d0
@@ -10394,7 +10394,7 @@ loc_B138:
 		andi.b	#8,d0
 		move.b	d0,$20(a6)
 		move.w	#$FF80,d0
-		move.w	obInertia(a6),d1
+		move.w	obj.Inertia(a6),d1
 		beq.s	loc_B164
 		bpl.s	loc_B15A
 		neg.w	d0
@@ -10403,7 +10403,7 @@ loc_B138:
 loc_B15A:
 		cmpi.w	#$80,d1
 		bcc.s	loc_B174
-		clr.w	obInertia(a6)
+		clr.w	obj.Inertia(a6)
 
 loc_B164:
 		move.l	#$1C0000,$26(a6)
@@ -10412,8 +10412,8 @@ loc_B164:
 ; ---------------------------------------------------------------------------
 
 loc_B174:
-		add.w	obInertia(a6),d0
-		move.w	d0,obInertia(a6)
+		add.w	obj.Inertia(a6),d0
+		move.w	d0,obj.Inertia(a6)
 		andi.b	#3,$28(a6)
 		rts
 ; ---------------------------------------------------------------------------
@@ -10437,8 +10437,8 @@ loc_B1A6:
 		ext.l	d1
 		asl.l	#5,d0
 		asl.l	#5,d1
-		add.l	d0,obX(a4)
-		add.l	d1,obY(a4)
+		add.l	d0,obj.Xpos(a4)
+		add.l	d1,obj.Ypos(a4)
 		add.l	$18(a6),d0
 		add.l	$1C(a6),d1
 		move.l	d0,$18(a4)
@@ -10462,14 +10462,14 @@ loc_B1FC:
 		bclr	#0,$25(a6)
 		beq.s	loc_B236
 		move.b	#8,7(a6)
-		move.b	obAngle(a6),d2
+		move.b	obj.Angle(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_B21A
 		addi.b	#$80,d2
 
 loc_B21A:
 		jsr	(CalcSine).w
-		move.w	obInertia(a6),d2
+		move.w	obj.Inertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		asr.l	#6,d0
@@ -10497,7 +10497,7 @@ loc_B250:
 		bset	#4,$25(a6)
 		move.w	#$12,$26(a6)
 		moveq	#0,d0
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		move.l	d0,$18(a6)
 		moveq	#-1,d0
 		move.l	d0,$1C(a6)
@@ -10508,13 +10508,13 @@ loc_B274:
 		bclr	#4,$25(a6)
 		move.w	#$2E,$26(a6)
 		addq.b	#1,$28(a6)
-		tst.l	obInertia(a6)
+		tst.l	obj.Inertia(a6)
 		bne.s	loc_B292
 		btst	#1,2(a5)
 		bne.s	loc_B2A0
 
 loc_B292:
-		move.w	#$800,obInertia(a6)
+		move.w	#$800,obj.Inertia(a6)
 		move.b	#6,7(a6)
 		rts
 ; ---------------------------------------------------------------------------
@@ -10531,8 +10531,8 @@ loc_B2A8:
 		addi.l	#$3800,$1C(a6)
 		bclr	#0,$25(a6)
 		move.w	#$30,$26(a6)
-		clr.b	obAngle(a6)
-		clr.w	obInertia(a6)
+		clr.b	obj.Angle(a6)
+		clr.w	obj.Inertia(a6)
 		bsr.w	sub_CBC0
 		bsr.w	ObjTails_ThrowPartner
 		jsr	(sub_C49A).l
@@ -10558,7 +10558,7 @@ loc_B304:
 
 loc_B306:
 		asr.l	#8,d0
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		tst.w	$32(a6)
 		bmi.s	loc_B322
 		move.b	#2,7(a6)
@@ -10574,7 +10574,7 @@ loc_B322:
 loc_B32A:
 		andi.b	#8,$20(a6)
 		moveq	#0,d0
-		move.w	d0,obInertia(a6)
+		move.w	d0,obj.Inertia(a6)
 		move.l	d0,$18(a6)
 		move.l	d0,$1C(a6)
 		tst.w	$30(a6)
@@ -10618,7 +10618,7 @@ ObjTails_Jump:
 		move.b	#4,7(a6)
 		clr.w	$28(a6)
 		bclr	#0,$25(a6)
-		move.b	obAngle(a6),d2
+		move.b	obj.Angle(a6),d2
 		jsr	(CalcSine).w
 		move.w	d0,d3
 		move.w	d1,d4
@@ -10630,7 +10630,7 @@ ObjTails_Jump:
 	endif
 
 loc_B3B8:
-		move.w	obInertia(a6),d2
+		move.w	obj.Inertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		move.w	#$700,d2
@@ -10659,7 +10659,7 @@ Tails_SlopeResist:
 ; End of function Tails_SlopeResist
 
 ; ---------------------------------------------------------------------------
-		tst.w	obInertia(a6)
+		tst.w	obj.Inertia(a6)
 		bne.s	loc_B3E6
 
 locret_B3E4:
@@ -10667,7 +10667,7 @@ locret_B3E4:
 ; ---------------------------------------------------------------------------
 
 loc_B3E6:
-		move.b	obAngle(a6),d0
+		move.b	obj.Angle(a6),d0
 		move.b	d0,d2
 		subi.b	#$20,d0
 		cmpi.b	#$C0,d0
@@ -10683,7 +10683,7 @@ loc_B3E6:
 		neg.w	d1
 
 loc_B40E:
-		add.w	d1,obInertia(a6)
+		add.w	d1,obj.Inertia(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -11744,16 +11744,16 @@ loc_BC8A:
 		ori.w	#$80,4(a6)
 
 sub_BC90:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		addi.w	#$20,d0
 		cmpi.w	#$500,d0
 		bcs.s	loc_BCA0
 		moveq	#0,d0
 
 loc_BCA0:
-		move.w	d0,obAngle(a6)
+		move.w	d0,obj.Angle(a6)
 		moveq	#0,d0
-		move.b	obAngle(a6),d0
+		move.b	obj.Angle(a6),d0
 		addi.w	#$76,d0
 		move.w	d0,$26(a6)
 		moveq	#$FFFFFFDC,d0
@@ -11965,7 +11965,7 @@ sub_BE72:
 		jsr	(sub_1918).w
 		bmi.s	loc_BE9C
 		move.w	#$80,4(a0)
-		move.w	#$800,ObjectPointer(a0) ; Load Sonic Hands Object Pointer?
+		move.w	#$800,obj.Pointer(a0) ; Load Sonic Hands Object Pointer?
 		move.w	#0,$20(a0)
 		move.w	a0,($FFFFD862).w
 
@@ -11974,13 +11974,13 @@ loc_BE9C:
 		jsr	(sub_1918).w
 		bmi.s	loc_BEE0
 		move.w	#$80,4(a0)
-		move.w	#2,ObjectPointer(a0) ; Load Sonic Object Pointer?
+		move.w	#2,obj.Pointer(a0) ; Load Sonic Object Pointer?
 		move.w	($FFFFC9DE).w,d0
 		addi.w	#$B8,d0
-		move.w	d0,obX(a0)
+		move.w	d0,obj.Xpos(a0)
 		move.w	($FFFFC9EE).w,d0
 		addi.w	#$70,d0
-		move.w	d0,obY(a0)
+		move.w	d0,obj.Ypos(a0)
 		move.w	#0,$20(a0)
 		movea.w	($FFFFD862).w,a6
 		move.w	a0,($FFFFD862).w
@@ -11992,7 +11992,7 @@ loc_BEE0:
 		jsr	(sub_1918).w
 		bmi.s	loc_BF00
 		move.w	#$80,4(a0)
-		move.w	#$1000,ObjectPointer(a0) ; Load Unknown Object Pointer?
+		move.w	#$1000,obj.Pointer(a0) ; Load Unknown Object Pointer?
 		move.w	#0,$20(a0)
 		move.w	($FFFFD862).w,$24(a0)
 
@@ -12001,7 +12001,7 @@ loc_BF00:
 		jsr	(sub_1918).w
 		bmi.s	loc_BF1E
 		move.w	#$80,4(a0)
-		move.w	#$C00,ObjectPointer(a0) ; Load Tails Hands Object Pointer?
+		move.w	#$C00,obj.Pointer(a0) ; Load Tails Hands Object Pointer?
 		move.w	#$21,$20(a0)
 		move.w	a0,($FFFFD864).w
 
@@ -12010,13 +12010,13 @@ loc_BF1E:
 		jsr	(sub_1918).w
 		bmi.s	loc_BF62
 		move.w	#$80,4(a0)
-		move.w	#$402,ObjectPointer(a0) ; Load Tails Object Pointer?
+		move.w	#$402,obj.Pointer(a0) ; Load Tails Object Pointer?
 		move.w	($FFFFC9DE).w,d0
 		addi.w	#$88,d0
-		move.w	d0,obX(a0)
+		move.w	d0,obj.Xpos(a0)
 		move.w	($FFFFC9EE).w,d0
 		addi.w	#$70,d0
-		move.w	d0,obY(a0)
+		move.w	d0,obj.Ypos(a0)
 		move.w	#$21,$20(a0)
 		movea.w	($FFFFD864).w,a6
 		move.w	a0,($FFFFD864).w
@@ -12028,7 +12028,7 @@ loc_BF62:
 		jsr	(sub_1918).w
 		bmi.s	locret_BF82
 		move.w	#$80,4(a0)
-		move.w	#$1400,ObjectPointer(a0) ; Load Tails Tail Object Pointer?
+		move.w	#$1400,obj.Pointer(a0) ; Load Tails Tail Object Pointer?
 		move.w	#$21,$20(a0)
 		move.w	($FFFFD864).w,$24(a0)
 
@@ -12482,7 +12482,7 @@ sub_C29E:
 		move.w	$24(a6),d4
 		andi.w	#2,d4
 		move.b	#$A,($FFFFFAE8).w
-		move.b	obAngle(a6),d0
+		move.b	obj.Angle(a6),d0
 		addi.b	#$20,d0
 		andi.w	#$C0,d0
 		lsr.w	#4,d0
@@ -12507,7 +12507,7 @@ loc_C2CE:
 		add.w	8(a6),d0
 		moveq	#0,d1
 		move.b	$23(a6),d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		bsr.w	sub_BF84
 		move.l	d3,-(sp)
 		move.w	d2,-(sp)
@@ -12527,17 +12527,17 @@ loc_C2CE:
 		cmp.w	d1,d0
 		bgt.s	loc_C326
 		beq.s	loc_C334
-		sub.w	d1,obY(a6)
+		sub.w	d1,obj.Ypos(a6)
 		move.w	(sp)+,d2
-		move.b	d2,obAngle(a6)
+		move.b	d2,obj.Angle(a6)
 		move.l	(sp)+,d3
 		moveq	#-1,d5
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_C326:
-		sub.w	d0,obY(a6)
-		move.b	d2,obAngle(a6)
+		sub.w	d0,obj.Ypos(a6)
+		move.b	d2,obj.Angle(a6)
 		addq.l	#6,sp
 		moveq	#-1,d5
 		rts
@@ -12558,7 +12558,7 @@ loc_C340:
 		add.w	8(a6),d0
 		moveq	#0,d1
 		move.b	$23(a6),d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		bsr.w	sub_C1DA
 		move.l	d3,-(sp)
 		move.w	d2,-(sp)
@@ -12578,17 +12578,17 @@ loc_C340:
 		cmp.w	d1,d0
 		blt.s	loc_C39A
 		beq.s	loc_C3A8
-		sub.w	d1,obX(a6)
+		sub.w	d1,obj.Xpos(a6)
 		move.w	(sp)+,d2
-		move.b	d2,obAngle(a6)
+		move.b	d2,obj.Angle(a6)
 		move.l	(sp)+,d3
 		moveq	#-1,d5
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_C39A:
-		sub.w	d0,obX(a6)
-		move.b	d2,obAngle(a6)
+		sub.w	d0,obj.Xpos(a6)
+		move.b	d2,obj.Angle(a6)
 		addq.l	#6,sp
 		moveq	#-1,d5
 		rts
@@ -12610,7 +12610,7 @@ loc_C3B4:
 		moveq	#0,d1
 		move.b	$23(a6),d1
 		neg.w	d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		bsr.w	sub_C116
 		move.l	d3,-(sp)
 		move.w	d2,-(sp)
@@ -12629,17 +12629,17 @@ loc_C3B4:
 		cmp.w	d1,d0
 		blt.s	loc_C40E
 		beq.s	loc_C41C
-		sub.w	d1,obY(a6)
+		sub.w	d1,obj.Ypos(a6)
 		move.w	(sp)+,d2
-		move.b	d2,obAngle(a6)
+		move.b	d2,obj.Angle(a6)
 		move.l	(sp)+,d3
 		moveq	#-1,d5
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_C40E:
-		sub.w	d0,obY(a6)
-		move.b	d2,obAngle(a6)
+		sub.w	d0,obj.Ypos(a6)
+		move.b	d2,obj.Angle(a6)
 		addq.l	#6,sp
 		moveq	#-1,d5
 		rts
@@ -12660,7 +12660,7 @@ loc_C428:
 		moveq	#0,d1
 		move.b	$23(a6),d1
 		neg.w	d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		bsr.w	sub_C048
 
 loc_C442:
@@ -12681,17 +12681,17 @@ loc_C442:
 		cmp.w	d1,d0
 		bgt.s	loc_C480
 		beq.s	loc_C48E
-		sub.w	d1,obX(a6)
+		sub.w	d1,obj.Xpos(a6)
 		move.w	(sp)+,d2
-		move.b	d2,obAngle(a6)
+		move.b	d2,obj.Angle(a6)
 		move.l	(sp)+,d3
 		moveq	#-1,d5
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_C480:
-		sub.w	d0,obX(a6)
-		move.b	d2,obAngle(a6)
+		sub.w	d0,obj.Xpos(a6)
+		move.b	d2,obj.Angle(a6)
 		addq.l	#6,sp
 		moveq	#-1,d5
 		rts
@@ -12711,7 +12711,7 @@ sub_C49A:
 		move.w	$24(a6),d4
 		andi.w	#2,d4
 		move.b	#8,($FFFFFAE8).w
-		move.b	obAngle(a6),d0
+		move.b	obj.Angle(a6),d0
 		addi.b	#$20,d0
 		andi.w	#$40,d0
 		lsr.w	#4,d0
@@ -12738,13 +12738,13 @@ loc_C4CA:
 		add.w	8(a6),d0
 		moveq	#0,d1
 		move.b	$23(a6),d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		subq.w	#8,d1
 		bsr.w	sub_C1DA
 		tst.w	d5
 		bpl.s	loc_C4FC
-		sub.w	d5,obX(a6)
-		clr.w	obInertia(a6)
+		sub.w	d5,obj.Xpos(a6)
+		clr.w	obj.Inertia(a6)
 		clr.l	$18(a6)
 		moveq	#-1,d5
 		rts
@@ -12758,8 +12758,8 @@ loc_C4FC:
 		bsr.w	sub_C048
 		tst.w	d5
 		bmi.s	loc_C520
-		sub.w	d5,obX(a6)
-		clr.w	obInertia(a6)
+		sub.w	d5,obj.Xpos(a6)
+		clr.w	obj.Inertia(a6)
 		clr.l	$18(a6)
 		moveq	#-1,d5
 		rts
@@ -12780,12 +12780,12 @@ loc_C524:
 		move.b	$23(a6),d1
 		addq.w	#1,d1
 		neg.w	d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		bsr.w	sub_C116
 		tst.w	d5
 		bpl.s	loc_C558
-		sub.w	d5,obY(a6)
-		clr.w	obInertia(a6)
+		sub.w	d5,obj.Ypos(a6)
+		clr.w	obj.Inertia(a6)
 		clr.l	$1C(a6)
 		moveq	#-1,d5
 		rts
@@ -12795,12 +12795,12 @@ loc_C558:
 		moveq	#0,d1
 		move.b	$23(a6),d1
 		addq.w	#1,d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		bsr.w	sub_BF84
 		tst.w	d5
 		bmi.s	loc_C57C
-		sub.w	d5,obY(a6)
-		clr.w	obInertia(a6)
+		sub.w	d5,obj.Ypos(a6)
+		clr.w	obj.Inertia(a6)
 		clr.l	$1C(a6)
 		moveq	#-1,d5
 		rts
@@ -12820,13 +12820,13 @@ loc_C580:
 		moveq	#0,d1
 		move.b	$23(a6),d1
 		neg.w	d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		addq.w	#8,d1
 		bsr.w	sub_C1DA
 		tst.w	d5
 		bpl.s	loc_C5B4
-		sub.w	d5,obX(a6)
-		clr.w	obInertia(a6)
+		sub.w	d5,obj.Xpos(a6)
+		clr.w	obj.Inertia(a6)
 		clr.l	$18(a6)
 		moveq	#-1,d5
 		rts
@@ -12840,8 +12840,8 @@ loc_C5B4:
 		bsr.w	sub_C048
 		tst.w	d5
 		bmi.s	loc_C5D8
-		sub.w	d5,obX(a6)
-		clr.w	obInertia(a6)
+		sub.w	d5,obj.Xpos(a6)
+		clr.w	obj.Inertia(a6)
 		clr.l	$18(a6)
 		moveq	#-1,d5
 		rts
@@ -12861,12 +12861,12 @@ loc_C5DC:
 		move.b	$23(a6),d1
 		addq.w	#1,d1
 		neg.w	d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		bsr.w	sub_C116
 		tst.w	d5
 		bpl.s	loc_C60E
-		sub.w	d5,obY(a6)
-		clr.w	obInertia(a6)
+		sub.w	d5,obj.Ypos(a6)
+		clr.w	obj.Inertia(a6)
 		clr.l	$1C(a6)
 		moveq	#-1,d5
 		rts
@@ -12876,12 +12876,12 @@ loc_C60E:
 		moveq	#0,d1
 		move.b	$23(a6),d1
 		addq.w	#1,d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		bsr.w	sub_BF84
 		tst.w	d5
 		bmi.s	loc_C632
-		sub.w	d5,obY(a6)
-		clr.w	obInertia(a6)
+		sub.w	d5,obj.Ypos(a6)
+		clr.w	obj.Inertia(a6)
 		clr.l	$1C(a6)
 		moveq	#-1,d5
 		rts
@@ -12905,11 +12905,11 @@ sub_C636:
 		moveq	#0,d1
 		move.b	$23(a6),d1
 		neg.w	d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		bsr.w	sub_C116
 		tst.w	d5
 		bpl.s	loc_C66C
-		sub.w	d5,obY(a6)
+		sub.w	d5,obj.Ypos(a6)
 		moveq	#-1,d5
 		rts
 ; ---------------------------------------------------------------------------
@@ -12921,7 +12921,7 @@ loc_C66C:
 		bsr.w	sub_C116
 		tst.w	d5
 		bpl.s	loc_C686
-		sub.w	d5,obY(a6)
+		sub.w	d5,obj.Ypos(a6)
 		moveq	#-1,d5
 		rts
 ; ---------------------------------------------------------------------------
@@ -12938,11 +12938,11 @@ loc_C68A:
 		add.w	8(a6),d0
 		moveq	#0,d1
 		move.b	$23(a6),d1
-		add.w	obY(a6),d1
+		add.w	obj.Ypos(a6),d1
 		bsr.w	sub_BF84
 		tst.w	d5
 		bmi.s	loc_C6B4
-		sub.w	d5,obY(a6)
+		sub.w	d5,obj.Ypos(a6)
 		moveq	#-1,d5
 		rts
 ; ---------------------------------------------------------------------------
@@ -12955,7 +12955,7 @@ loc_C6B4:
 		bsr.w	sub_BF84
 		tst.w	d5
 		bmi.s	loc_C6D0
-		sub.w	d5,obY(a6)
+		sub.w	d5,obj.Ypos(a6)
 		moveq	#-1,d5
 		rts
 ; ---------------------------------------------------------------------------
@@ -12998,18 +12998,18 @@ loc_C714:
 		move.l	#$100000,$1C(a6)
 
 loc_C724:
-		move.w	obInertia(a6),d0
+		move.w	obj.Inertia(a6),d0
 		bpl.s	loc_C738
 		cmpi.w	#-$1000,d0
 		bge.s	locret_C744
-		move.w	#$F000,obInertia(a6)
+		move.w	#$F000,obj.Inertia(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_C738:
 		cmpi.w	#$1000,d0
 		bcs.s	locret_C744
-		move.w	#$1000,obInertia(a6)
+		move.w	#$1000,obj.Inertia(a6)
 
 locret_C744:
 		rts
@@ -13056,8 +13056,8 @@ loc_C76C:
 		smi	d0
 		ext.w	d0
 		ori.w	#1,d0
-		add.w	d0,obX(a6)
-		sub.w	d0,obX(a0)
+		add.w	d0,obj.Xpos(a6)
+		sub.w	d0,obj.Xpos(a0)
 
 loc_C7BC:
 		bsr.w	sub_C6D4
@@ -13173,11 +13173,11 @@ sub_C8CA:
 		addi.w	#$D08,d1
 		jsr	(sub_5090).l
 		moveq	#0,d0
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		move.w	($FFFFD81E).w,d1
 		addi.w	#$C12,d1
 		jsr	(sub_5090).l
-		move.w	obInertia(a6),d0
+		move.w	obj.Inertia(a6),d0
 		move.w	($FFFFD81E).w,d1
 		addi.w	#$C92,d1
 		jsr	(sub_5090).l
@@ -13207,7 +13207,7 @@ sub_C8CA:
 		move.w	($FFFFD81E).w,d1
 		addi.w	#$C1C,d1
 		jsr	(sub_5090).l
-		move.w	obY(a6),d0
+		move.w	obj.Ypos(a6),d0
 		move.w	($FFFFD81E).w,d1
 		addi.w	#$C26,d1
 		jsr	(sub_5090).l
@@ -13309,35 +13309,35 @@ loc_CA8A:
 		btst	#3,d2
 		bne.s	loc_CAB4
 		add.w	d0,d3
-		move.w	d3,obX(a6)
-		move.w	obY(a5),d3
+		move.w	d3,obj.Xpos(a6)
+		move.w	obj.Ypos(a5),d3
 		btst	#4,d2
 		bne.s	loc_CAAC
 		add.w	d1,d3
-		move.w	d3,obY(a6)
+		move.w	d3,obj.Ypos(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_CAAC:
 		sub.w	d1,d3
-		move.w	d3,obY(a6)
+		move.w	d3,obj.Ypos(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_CAB4:
 		sub.w	d0,d3
-		move.w	d3,obX(a6)
-		move.w	obY(a5),d3
+		move.w	d3,obj.Xpos(a6)
+		move.w	obj.Ypos(a5),d3
 		btst	#4,d2
 		bne.s	loc_CACC
 		add.w	d1,d3
-		move.w	d3,obY(a6)
+		move.w	d3,obj.Ypos(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_CACC:
 		sub.w	d1,d3
-		move.w	d3,obY(a6)
+		move.w	d3,obj.Ypos(a6)
 		rts
 ; End of function sub_CA82
 
@@ -13348,16 +13348,16 @@ loc_CAD4:
 		jsr	(sub_EA3E).l
 		cmp.w	8(a0),d0
 		bne.s	loc_CAEA
-		cmp.w	obY(a0),d1
+		cmp.w	obj.Ypos(a0),d1
 		beq.s	loc_CB14
 
 loc_CAEA:
 		tst.w	-$20(sp)
 		beq.s	loc_CB14
-		move.w	d0,obX(a0)
-		move.w	d1,obY(a0)
+		move.w	d0,obj.Xpos(a0)
+		move.w	d1,obj.Ypos(a0)
 		moveq	#0,d0
-		move.w	d0,obInertia(a0)
+		move.w	d0,obj.Inertia(a0)
 		move.l	d0,$18(a0)
 		move.l	d0,$1C(a0)
 		bset	#0,$25(a0)
@@ -13451,14 +13451,14 @@ loc_CB90:
 sub_CBC0:
 		move.l	$18(a6),d3
 		move.l	$1C(a6),d4
-		move.b	obAngle(a6),d2
+		move.b	obj.Angle(a6),d2
 		btst	#3,$25(a6)
 		beq.s	loc_CBD8
 		addi.b	#$80,d2
 
 loc_CBD8:
 		jsr	(CalcSine).w
-		move.w	obInertia(a6),d2
+		move.w	obj.Inertia(a6),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		tst.w	d2
@@ -13509,8 +13509,8 @@ loc_CC44:
 		move.l	#$100000,d4
 
 loc_CC52:
-		add.l	d3,obX(a6)
-		add.l	d4,obY(a6)
+		add.l	d3,obj.Xpos(a6)
+		add.l	d4,obj.Ypos(a6)
 		rts
 ; End of function sub_CBC0
 
@@ -13527,11 +13527,11 @@ loc_CC62:
 		jsr	(sub_1918).w
 		bmi.s	locret_CCC8
 		move.w	#$80,4(a0)
-		move.w	#$28,ObjectPointer(a0)
-		move.w	#$28,ObjectPointer(a0)
+		move.w	#$28,obj.Pointer(a0)
+		move.w	#$28,obj.Pointer(a0)
 		move.w	#$FF,$26(a0)
-		move.w	8(a6),obX(a0)
-		move.w	obY(a6),obY(a0)
+		move.w	8(a6),obj.Xpos(a0)
+		move.w	obj.Ypos(a6),obj.Ypos(a0)
 		move.w	d6,d2
 		bmi.s	loc_CCB8
 		jsr	(CalcSine).w
@@ -13576,9 +13576,9 @@ sub_CCCA:
 		lsr.l	#1,d0
 		subi.w	#$A0,d0
 		move.w	d0,($FFFFD830).w
-		move.w	obY(a0),d0
+		move.w	obj.Ypos(a0),d0
 		ext.l	d0
-		move.w	obY(a1),d1
+		move.w	obj.Ypos(a1),d1
 		ext.l	d1
 		add.l	d1,d0
 		lsr.l	#1,d0
@@ -13589,9 +13589,9 @@ sub_CCCA:
 		move.w	d0,$2E(a0)
 		move.w	d0,$2E(a1)
 		move.w	8(a0),d1
-		move.w	obY(a0),d2
+		move.w	obj.Ypos(a0),d2
 		move.w	8(a1),d3
-		move.w	obY(a1),d4
+		move.w	obj.Ypos(a1),d4
 		jsr	(sub_41AA).w
 		move.b	d0,$2B(a0)
 		addi.b	#$80,d0
@@ -13620,9 +13620,9 @@ sub_CCCA:
 		asl.l	#2,d0
 		asl.l	#2,d1
 		add.l	8(a1),d0
-		add.l	obY(a1),d1
-		move.l	d0,obX(a0)
-		move.l	d1,obY(a0)
+		add.l	obj.Ypos(a1),d1
+		move.l	d0,obj.Xpos(a0)
+		move.l	d1,obj.Ypos(a0)
 
 loc_CD80:
 		andi.w	#$FF,d3
@@ -13646,20 +13646,20 @@ loc_CD80:
 ; ---------------------------------------------------------------------------
 
 loc_CDBC:
-		sub.b	obAngle(a0),d2
+		sub.b	obj.Angle(a0),d2
 		cmpi.b	#$A0,d2
 		bcs.w	loc_CE14
 		cmpi.b	#$E0,d2
 		bhi.w	loc_CE14
 		move.b	#8,7(a0)
-		move.b	obAngle(a0),d2
+		move.b	obj.Angle(a0),d2
 		btst	#3,$25(a0)
 		beq.s	loc_CDE6
 		addi.b	#$80,d2
 
 loc_CDE6:
 		jsr	(CalcSine).w
-		move.w	obInertia(a0),d2
+		move.w	obj.Inertia(a0),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		move.l	d0,d4
@@ -13684,12 +13684,12 @@ loc_CE14:
 		swap	d0
 		btst	#3,$25(a0)
 		beq.s	loc_CE2C
-		sub.w	d0,obInertia(a0)
+		sub.w	d0,obj.Inertia(a0)
 		bra.s	loc_CE36
 ; ---------------------------------------------------------------------------
 
 loc_CE2C:
-		add.w	d0,obInertia(a0)
+		add.w	d0,obj.Inertia(a0)
 		bra.s	loc_CE36
 ; ---------------------------------------------------------------------------
 
@@ -13725,20 +13725,20 @@ loc_CE5A:
 ; ---------------------------------------------------------------------------
 
 loc_CE78:
-		sub.b	obAngle(a1),d2
+		sub.b	obj.Angle(a1),d2
 		cmpi.b	#$A0,d2
 		bcs.w	loc_CED0
 		cmpi.b	#$E0,d2
 		bhi.w	loc_CED0
 		move.b	#8,7(a1)
-		move.b	obAngle(a1),d2
+		move.b	obj.Angle(a1),d2
 		btst	#3,$25(a1)
 		beq.s	loc_CEA2
 		addi.b	#$80,d2
 
 loc_CEA2:
 		jsr	(CalcSine).w
-		move.w	obInertia(a1),d2
+		move.w	obj.Inertia(a1),d2
 		muls.w	d2,d0
 		muls.w	d2,d1
 		move.l	d0,d4
@@ -13763,12 +13763,12 @@ loc_CED0:
 		swap	d0
 		btst	#3,$25(a1)
 		beq.s	loc_CEE8
-		sub.w	d0,obInertia(a1)
+		sub.w	d0,obj.Inertia(a1)
 		bra.s	loc_CEF2
 ; ---------------------------------------------------------------------------
 
 loc_CEE8:
-		add.w	d0,obInertia(a1)
+		add.w	d0,obj.Inertia(a1)
 		bra.s	loc_CEF2
 ; ---------------------------------------------------------------------------
 
@@ -13783,8 +13783,8 @@ loc_CEF2:
 		move.l	8(a1),d3
 		sub.l	d1,d3
 		asr.l	#3,d3
-		move.l	obY(a2),d2
-		move.l	obY(a1),d4
+		move.l	obj.Ypos(a2),d2
+		move.l	obj.Ypos(a1),d4
 		sub.l	d2,d4
 		asr.l	#3,d4
 		btst	#0,($FFFFF001).w
@@ -13813,8 +13813,8 @@ loc_CF4A:
 		move.w	(a0),d0
 		beq.s	locret_CF8E
 		movea.w	d0,a0
-		move.l	d1,obX(a0)
-		move.l	d2,obY(a0)
+		move.l	d1,obj.Xpos(a0)
+		move.l	d2,obj.Ypos(a0)
 		add.l	d3,d1
 		add.l	d4,d2
 		move.w	(a3,d5.w),d0
@@ -14417,7 +14417,7 @@ loc_D1E2:
 		jsr	(sub_1918).w
 		bmi.s	locret_D202
 		move.w	#$80,4(a0)
-		move.w	#$800,ObjectPointer(a0)
+		move.w	#$800,obj.Pointer(a0)
 		move.l	#TethCodingValue,$10(a0)
 		dbf	d7,loc_D1E2
 
@@ -14500,7 +14500,7 @@ Spring_Right_Red:
 		move.w	#$8080,4(a6)
 		move.b	#8,$22(a6)
 		move.b	#$10,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_D2D6:
 		movea.w	($FFFFD862).w,a0
@@ -14508,9 +14508,9 @@ loc_D2D6:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D31C
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#0,d4
 		beq.s	loc_D308
@@ -14520,7 +14520,7 @@ loc_D2D6:
 ; ---------------------------------------------------------------------------
 
 loc_D308:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$F0000,d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
@@ -14531,9 +14531,9 @@ loc_D31C:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D362
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#0,d4
 		beq.s	loc_D34E
@@ -14543,13 +14543,13 @@ loc_D31C:
 ; ---------------------------------------------------------------------------
 
 loc_D34E:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$F0000,d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
 
 loc_D362:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D388
 		lea	(unk_42358).l,a0
@@ -14557,7 +14557,7 @@ loc_D362:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D388
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_D388:
 		bsr.w	loc_F2D0
@@ -14577,7 +14577,7 @@ Spring_Left_Red:
 		move.w	#$8080,4(a6)
 		move.b	#8,$22(a6)
 		move.b	#$10,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_D3C2:
 		movea.w	($FFFFD862).w,a0
@@ -14585,9 +14585,9 @@ loc_D3C2:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D40A
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_D3F4
@@ -14597,7 +14597,7 @@ loc_D3C2:
 ; ---------------------------------------------------------------------------
 
 loc_D3F4:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$F0000,d0
 		neg.l	d0
 		moveq	#0,d1
@@ -14609,9 +14609,9 @@ loc_D40A:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D452
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_D43C
@@ -14621,14 +14621,14 @@ loc_D40A:
 ; ---------------------------------------------------------------------------
 
 loc_D43C:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$F0000,d0
 		neg.l	d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
 
 loc_D452:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D478
 		lea	(unk_42358).l,a0
@@ -14636,7 +14636,7 @@ loc_D452:
 		bsr.w	sub_EB22
 		cmpi.w	#$FF,d0
 		bne.s	loc_D478
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_D478:
 		bsr.w	loc_F2D0
@@ -14656,7 +14656,7 @@ Spring_Up_Red:
 		move.w	#$8080,4(a6)
 		move.b	#$10,$22(a6)
 		move.b	#8,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_D4B2:
 		movea.w	($FFFFD862).w,a0
@@ -14664,9 +14664,9 @@ loc_D4B2:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D4FA
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#7,d4
 		beq.s	loc_D4E4
@@ -14676,7 +14676,7 @@ loc_D4B2:
 ; ---------------------------------------------------------------------------
 
 loc_D4E4:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$F0000,d1
 		neg.l	d1
 		moveq	#0,d0
@@ -14688,9 +14688,9 @@ loc_D4FA:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D542
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#7,d4
 		beq.s	loc_D52C
@@ -14700,14 +14700,14 @@ loc_D4FA:
 ; ---------------------------------------------------------------------------
 
 loc_D52C:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$F0000,d1
 		neg.l	d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
 
 loc_D542:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D568
 		lea	(unk_4235E).l,a0
@@ -14715,7 +14715,7 @@ loc_D542:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D568
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_D568:
 		bsr.w	loc_F2D0
@@ -14735,7 +14735,7 @@ Spring_Down_Red:
 		move.w	#$8080,4(a6)
 		move.b	#$10,$22(a6)
 		move.b	#8,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_D5A2:
 		movea.w	($FFFFD862).w,a0
@@ -14743,9 +14743,9 @@ loc_D5A2:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D5E8
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#4,d4
 		beq.s	loc_D5D4
@@ -14755,7 +14755,7 @@ loc_D5A2:
 ; ---------------------------------------------------------------------------
 
 loc_D5D4:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$F0000,d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
@@ -14766,9 +14766,9 @@ loc_D5E8:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D62E
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#5,d4
 		beq.s	loc_D61A
@@ -14777,13 +14777,13 @@ loc_D5E8:
 		bra.s	loc_D62E
 ; ---------------------------------------------------------------------------
 loc_D61A:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$F0000,d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
 
 loc_D62E:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D654
 		lea	(unk_4235E).l,a0
@@ -14791,7 +14791,7 @@ loc_D62E:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D654
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_D654:
 		bsr.w	loc_F2D0
@@ -14811,7 +14811,7 @@ Spring_Diagonal_Up_Right_Red:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_D68E:
 		movea.w	($FFFFD862).w,a0
@@ -14819,9 +14819,9 @@ loc_D68E:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D6E6
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#2,d4
 		beq.s	loc_D6CC
@@ -14835,7 +14835,7 @@ loc_D68E:
 ; ---------------------------------------------------------------------------
 
 loc_D6CC:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d1
@@ -14847,9 +14847,9 @@ loc_D6E6:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D73E
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#2,d4
 		beq.s	loc_D724
@@ -14863,14 +14863,14 @@ loc_D6E6:
 ; ---------------------------------------------------------------------------
 
 loc_D724:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d1
 		jsr	(loc_CB1C).l
 
 loc_D73E:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D764
 		lea	(unk_42364).l,a0
@@ -14878,7 +14878,7 @@ loc_D73E:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D764
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_D764:
 		bsr.w	loc_F2D0
@@ -14898,7 +14898,7 @@ Spring_Diagonal_Up_Left_Red:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_D79E:
 		movea.w	($FFFFD862).w,a0
@@ -14906,9 +14906,9 @@ loc_D79E:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D7F8
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#3,d4
 		beq.s	loc_D7DC
@@ -14922,7 +14922,7 @@ loc_D79E:
 ; ---------------------------------------------------------------------------
 
 loc_D7DC:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d0
@@ -14935,9 +14935,9 @@ loc_D7F8:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D852
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#3,d4
 		beq.s	loc_D836
@@ -14951,7 +14951,7 @@ loc_D7F8:
 ; ---------------------------------------------------------------------------
 
 loc_D836:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d0
@@ -14959,7 +14959,7 @@ loc_D836:
 		jsr	(loc_CB1C).l
 
 loc_D852:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D878
 		lea	(unk_42364).l,a0
@@ -14967,7 +14967,7 @@ loc_D852:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D878
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_D878:
 		bsr.w	loc_F2D0
@@ -14987,7 +14987,7 @@ Spring_Diagonal_Down_Right_Red:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_D8B2:
 		movea.w	($FFFFD862).w,a0
@@ -14995,9 +14995,9 @@ loc_D8B2:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D908
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#0,d4
 		beq.s	loc_D8F0
@@ -15011,7 +15011,7 @@ loc_D8B2:
 ; ---------------------------------------------------------------------------
 
 loc_D8F0:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		jsr	(loc_CB1C).l
@@ -15022,9 +15022,9 @@ loc_D908:
 		jsr	(loc_CAD4).l
 		beq.s	loc_D95E
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#0,d4
 		beq.s	loc_D946
@@ -15038,13 +15038,13 @@ loc_D908:
 ; ---------------------------------------------------------------------------
 
 loc_D946:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		jsr	(loc_CB1C).l
 
 loc_D95E:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_D984
 		lea	(unk_42364).l,a0
@@ -15052,7 +15052,7 @@ loc_D95E:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_D984
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_D984:
 		bsr.w	loc_F2D0
@@ -15072,7 +15072,7 @@ Spring_Diagonal_Down_Left_Red:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_D9BE:
 		movea.w	($FFFFD862).w,a0
@@ -15080,9 +15080,9 @@ loc_D9BE:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DA16
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_D9FC
@@ -15096,7 +15096,7 @@ loc_D9BE:
 ; ---------------------------------------------------------------------------
 
 loc_D9FC:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d0
@@ -15108,9 +15108,9 @@ loc_DA16:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DA6E
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_DA54
@@ -15124,14 +15124,14 @@ loc_DA16:
 ; ---------------------------------------------------------------------------
 
 loc_DA54:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$A8F98,d0
 		move.l	#$A8F98,d1
 		neg.l	d0
 		jsr	(loc_CB1C).l
 
 loc_DA6E:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DA94
 		lea	(unk_42364).l,a0
@@ -15139,7 +15139,7 @@ loc_DA6E:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_DA94
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_DA94:
 		bsr.w	loc_F2D0
@@ -15159,7 +15159,7 @@ Spring_Right_Yellow:
 		move.w	#$8080,4(a6)
 		move.b	#8,$22(a6)
 		move.b	#$10,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_DACE:
 		movea.w	($FFFFD862).w,a0
@@ -15167,9 +15167,9 @@ loc_DACE:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DB14
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#0,d4
 		beq.s	loc_DB00
@@ -15179,7 +15179,7 @@ loc_DACE:
 ; ---------------------------------------------------------------------------
 
 loc_DB00:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#ARTUNC_Tails,d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
@@ -15190,9 +15190,9 @@ loc_DB14:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DB5A
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#0,d4
 		beq.s	loc_DB46
@@ -15202,13 +15202,13 @@ loc_DB14:
 ; ---------------------------------------------------------------------------
 
 loc_DB46:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#ARTUNC_Tails,d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
 
 loc_DB5A:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DB80
 		lea	(unk_42358).l,a0
@@ -15216,7 +15216,7 @@ loc_DB5A:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_DB80
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_DB80:
 		bsr.w	loc_F2D0
@@ -15237,7 +15237,7 @@ Spring_Left_Yellow:
 		move.w	#$8080,4(a6)
 		move.b	#8,$22(a6)
 		move.b	#$10,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_DBBA:
 		movea.w	($FFFFD862).w,a0
@@ -15245,9 +15245,9 @@ loc_DBBA:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DC02
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_DBEC
@@ -15257,7 +15257,7 @@ loc_DBBA:
 ; ---------------------------------------------------------------------------
 
 loc_DBEC:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#ARTUNC_Tails,d0
 		neg.l	d0
 		moveq	#0,d1
@@ -15269,9 +15269,9 @@ loc_DC02:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DC4A
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_DC34
@@ -15281,14 +15281,14 @@ loc_DC02:
 ; ---------------------------------------------------------------------------
 
 loc_DC34:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#ARTUNC_Tails,d0
 		neg.l	d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
 
 loc_DC4A:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DC70
 		lea	(unk_42358).l,a0
@@ -15296,7 +15296,7 @@ loc_DC4A:
 		bsr.w	sub_EB22
 		cmpi.w	#$FF,d0
 		bne.s	loc_DC70
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_DC70:
 		bsr.w	loc_F2D0
@@ -15316,7 +15316,7 @@ Spring_Up_Yellow:
 		move.w	#$8080,4(a6)
 		move.b	#$10,$22(a6)
 		move.b	#8,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_DCAA:
 		movea.w	($FFFFD862).w,a0
@@ -15324,9 +15324,9 @@ loc_DCAA:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DCF2
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#7,d4
 		beq.s	loc_DCDC
@@ -15336,7 +15336,7 @@ loc_DCAA:
 ; ---------------------------------------------------------------------------
 
 loc_DCDC:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#ARTUNC_Tails,d1
 		neg.l	d1
 		moveq	#0,d0
@@ -15348,9 +15348,9 @@ loc_DCF2:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DD3A
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#7,d4
 		beq.s	loc_DD24
@@ -15360,14 +15360,14 @@ loc_DCF2:
 ; ---------------------------------------------------------------------------
 
 loc_DD24:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#ARTUNC_Tails,d1
 		neg.l	d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
 
 loc_DD3A:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DD60
 		lea	(unk_4235E).l,a0
@@ -15375,7 +15375,7 @@ loc_DD3A:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_DD60
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_DD60:
 		bsr.w	loc_F2D0
@@ -15395,7 +15395,7 @@ Spring_Down_Yellow:
 		move.w	#$8080,4(a6)
 		move.b	#$10,$22(a6)
 		move.b	#8,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_DD9A:
 		movea.w	($FFFFD862).w,a0
@@ -15403,9 +15403,9 @@ loc_DD9A:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DDE0
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#4,d4
 		beq.s	loc_DDCC
@@ -15415,7 +15415,7 @@ loc_DD9A:
 ; ---------------------------------------------------------------------------
 
 loc_DDCC:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#ARTUNC_Tails,d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
@@ -15426,9 +15426,9 @@ loc_DDE0:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DE26
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#5,d4
 		beq.s	loc_DE12
@@ -15438,13 +15438,13 @@ loc_DDE0:
 ; ---------------------------------------------------------------------------
 
 loc_DE12:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#ARTUNC_Tails,d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
 
 loc_DE26:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DE4C
 		lea	(unk_4235E).l,a0
@@ -15452,7 +15452,7 @@ loc_DE26:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_DE4C
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_DE4C:
 		bsr.w	loc_F2D0
@@ -15472,7 +15472,7 @@ Spring_Diagonal_Up_Right_Yellow:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_DE86:
 		movea.w	($FFFFD862).w,a0
@@ -15480,9 +15480,9 @@ loc_DE86:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DEDE
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#2,d4
 		beq.s	loc_DEC4
@@ -15496,7 +15496,7 @@ loc_DE86:
 ; ---------------------------------------------------------------------------
 
 loc_DEC4:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d1
@@ -15508,9 +15508,9 @@ loc_DEDE:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DF36
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#2,d4
 		beq.s	loc_DF1C
@@ -15524,14 +15524,14 @@ loc_DEDE:
 ; ---------------------------------------------------------------------------
 
 loc_DF1C:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d1
 		jsr	(loc_CB1C).l
 
 loc_DF36:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_DF5C
 		lea	(unk_42364).l,a0
@@ -15539,7 +15539,7 @@ loc_DF36:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_DF5C
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_DF5C:
 		bsr.w	loc_F2D0
@@ -15559,7 +15559,7 @@ Spring_Diagonal_Up_Left_Yellow:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_DF96:
 		movea.w	($FFFFD862).w,a0
@@ -15567,9 +15567,9 @@ loc_DF96:
 		jsr	(loc_CAD4).l
 		beq.s	loc_DFF0
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#3,d4
 		beq.s	loc_DFD4
@@ -15583,7 +15583,7 @@ loc_DF96:
 ; ---------------------------------------------------------------------------
 
 loc_DFD4:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d0
@@ -15596,9 +15596,9 @@ loc_DFF0:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E04A
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#3,d4
 		beq.s	loc_E02E
@@ -15612,7 +15612,7 @@ loc_DFF0:
 ; ---------------------------------------------------------------------------
 
 loc_E02E:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d0
@@ -15620,7 +15620,7 @@ loc_E02E:
 		jsr	(loc_CB1C).l
 
 loc_E04A:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_E070
 		lea	(unk_42364).l,a0
@@ -15628,7 +15628,7 @@ loc_E04A:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_E070
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_E070:
 		bsr.w	loc_F2D0
@@ -15648,7 +15648,7 @@ Spring_Diagonal_Down_Right_Yellow:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_E0AA:
 		movea.w	($FFFFD862).w,a0
@@ -15656,9 +15656,9 @@ loc_E0AA:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E100
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#0,d4
 		beq.s	loc_E0E8
@@ -15672,7 +15672,7 @@ loc_E0AA:
 ; ---------------------------------------------------------------------------
 
 loc_E0E8:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		jsr	(loc_CB1C).l
@@ -15683,9 +15683,9 @@ loc_E100:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E156
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#0,d4
 		beq.s	loc_E13E
@@ -15699,13 +15699,13 @@ loc_E100:
 ; ---------------------------------------------------------------------------
 
 loc_E13E:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		jsr	(loc_CB1C).l
 
 loc_E156:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_E17C
 		lea	(unk_42364).l,a0
@@ -15713,7 +15713,7 @@ loc_E156:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_E17C
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_E17C:
 		bsr.w	loc_F2D0
@@ -15733,7 +15733,7 @@ Spring_Diagonal_Down_Left_Yellow:
 		move.w	#$8080,4(a6)
 		move.b	#$C,$22(a6)
 		move.b	#$C,$23(a6)
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_E1B6:
 		movea.w	($FFFFD862).w,a0
@@ -15741,9 +15741,9 @@ loc_E1B6:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E20E
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_E1F4
@@ -15757,7 +15757,7 @@ loc_E1B6:
 ; ---------------------------------------------------------------------------
 
 loc_E1F4:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d0
@@ -15769,9 +15769,9 @@ loc_E20E:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E266
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_E24C
@@ -15785,14 +15785,14 @@ loc_E20E:
 ; ---------------------------------------------------------------------------
 
 loc_E24C:
-		ori.w	#1,obAngle(a6)
+		ori.w	#1,obj.Angle(a6)
 		move.l	#$32985,d0
 		move.l	#$32985,d1
 		neg.l	d0
 		jsr	(loc_CB1C).l
 
 loc_E266:
-		move.w	obAngle(a6),d0
+		move.w	obj.Angle(a6),d0
 		btst	#0,d0
 		beq.s	loc_E28C
 		lea	(unk_42364).l,a0
@@ -15800,7 +15800,7 @@ loc_E266:
 		bsr.w	sub_EB22
 		cmpi.b	#$FF,d0
 		bne.s	loc_E28C
-		andi.w	#$FFFE,obAngle(a6)
+		andi.w	#$FFFE,obj.Angle(a6)
 
 loc_E28C:
 		bsr.w	loc_F2D0
@@ -15842,7 +15842,7 @@ Scattering_Rings:
 
 loc_E2C8:
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		jsr	(sub_1DA8).w
 		beq.s	loc_E2E6
 		move.l	$1C(a6),d6
@@ -15853,14 +15853,14 @@ loc_E2C8:
 		move.l	d6,$1C(a6)
 
 loc_E2E6:
-		move.w	d0,obX(a6)
-		move.w	d1,obY(a6)
+		move.w	d0,obj.Xpos(a6)
+		move.w	d1,obj.Ypos(a6)
 		move.l	$18(a6),d0
-		add.l	d0,obX(a6)
+		add.l	d0,obj.Xpos(a6)
 		move.l	$1C(a6),d0
 		addi.l	#$1800,d0
 		move.l	d0,$1C(a6)
-		add.l	d0,obY(a6)
+		add.l	d0,obj.Ypos(a6)
 		move.w	($FFFFF000).l,d0
 		andi.w	#$C,d0
 		add.w	d0,d0
@@ -15941,10 +15941,10 @@ locret_E3A6:
 
 
 sub_E3A8:
-		move.w	obX(a0),d0
-		sub.w	obX(a6),d0
-		move.w	obY(a0),d1
-		sub.w	obY(a6),d1
+		move.w	obj.Xpos(a0),d0
+		sub.w	obj.Xpos(a6),d0
+		move.w	obj.Ypos(a0),d1
+		sub.w	obj.Ypos(a6),d1
 		moveq	#0,d2
 		move.b	$29(a6),d2
 		jmp	loc_E3DE(pc,d2.w)
@@ -16155,9 +16155,9 @@ loc_E526:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E560
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#7,d4
 		beq.s	loc_E558
@@ -16176,9 +16176,9 @@ loc_E560:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E59A
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#7,d4
 		beq.s	loc_E592
@@ -16216,9 +16216,9 @@ loc_E5CE:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E608
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#5,d4
 		beq.s	loc_E600
@@ -16237,9 +16237,9 @@ loc_E608:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E642
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#5,d4
 		beq.s	loc_E63A
@@ -16277,9 +16277,9 @@ loc_E676:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E6B0
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#2,d4
 		beq.s	loc_E6A8
@@ -16298,9 +16298,9 @@ loc_E6B0:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E6EA
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#2,d4
 		beq.s	loc_E6E2
@@ -16338,9 +16338,9 @@ loc_E71E:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E758
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_E750
@@ -16359,9 +16359,9 @@ loc_E758:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E792
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_E78A
@@ -16399,9 +16399,9 @@ loc_E7C6:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E800
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#6,d4
 		beq.s	loc_E7F8
@@ -16420,9 +16420,9 @@ loc_E800:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E83A
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#6,d4
 		beq.s	loc_E832
@@ -16460,9 +16460,9 @@ loc_E86E:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E8A8
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#7,d4
 		beq.s	loc_E8A0
@@ -16481,9 +16481,9 @@ loc_E8A8:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E8E2
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#7,d4
 		beq.s	loc_E8DA
@@ -16521,9 +16521,9 @@ loc_E916:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E950
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#0,d4
 		beq.s	loc_E948
@@ -16542,9 +16542,9 @@ loc_E950:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E98A
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#0,d4
 		beq.s	loc_E982
@@ -16582,9 +16582,9 @@ loc_E9BE:
 		jsr	(loc_CAD4).l
 		beq.s	loc_E9F8
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_E9F0
@@ -16603,9 +16603,9 @@ loc_E9F8:
 		jsr	(loc_CAD4).l
 		beq.s	loc_EA32
 		move.w	8(a6),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a6),d1
 		move.w	8(a0),d2
-		move.w	obY(a0),d3
+		move.w	obj.Ypos(a0),d3
 		bsr.w	sub_EB8C
 		cmpi.w	#1,d4
 		beq.s	loc_EA2A
@@ -16631,9 +16631,9 @@ locret_EA3C:
 
 sub_EA3E:
 		move.w	8(a0),d0
-		move.w	obY(a0),d1
+		move.w	obj.Ypos(a0),d1
 		move.w	8(a6),d2
-		move.w	obY(a6),d3
+		move.w	obj.Ypos(a6),d3
 		moveq	#0,d4
 		moveq	#0,d5
 		move.b	$22(a0),d4
@@ -16678,7 +16678,7 @@ loc_EA86:
 
 loc_EA96:
 		bsr.w	sub_EADE
-		move.w	obY(a0),d1
+		move.w	obj.Ypos(a0),d1
 		rts
 ; End of function sub_EA3E
 
@@ -16709,8 +16709,8 @@ loc_EAC0:
 		moveq	#0,d2
 		move.b	$23(a6),d2
 		add.w	d2,d1
-		move.w	obY(a0),d0
-		sub.w	obY(a6),d0
+		move.w	obj.Ypos(a0),d0
+		sub.w	obj.Ypos(a6),d0
 		bpl.s	loc_EADA
 		neg.w	d0
 
@@ -16751,8 +16751,8 @@ sub_EB00:
 		moveq	#0,d2
 		move.b	$23(a6),d2
 		add.w	d1,d2
-		move.w	obY(a0),d0
-		move.w	obY(a6),d1
+		move.w	obj.Ypos(a0),d0
+		move.w	obj.Ypos(a6),d1
 		cmp.w	d0,d1
 		bpl.s	loc_EB1C
 		neg.w	d2
@@ -16903,10 +16903,10 @@ loc_EBE0:
 		tst.w	($FFFFD834).w
 		beq.s	SomethingCheckTime
 		movea.w	($FFFFD862).w,a0
-		cmpi.w	#$8F,obY(a0)
+		cmpi.w	#$8F,obj.Ypos(a0)
 		bcs.s	Goto_GameOver
 		movea.w	($FFFFD864).w,a0
-		cmpi.w	#$8F,obY(a0)
+		cmpi.w	#$8F,obj.Ypos(a0)
 		bcc.s	SomethingCheckTime
 
 Goto_GameOver:
@@ -17093,7 +17093,7 @@ loc_ED36:
 		andi.w	#3,d7
 		addq.w	#1,d7
 		lsl.l	#2,d7
-		move.b	d7,ObjectPointer(a0)
+		move.b	d7,obj.Pointer(a0)
 		move.w	#0,$26(a0)
 		move.w	#0,$24(a0)
 
@@ -17101,7 +17101,7 @@ loc_ED5E:
 		moveq	#$10,d0
 		jsr	(sub_1918).w
 		bmi.w	locret_ED7A
-		move.b	#$14,ObjectPointer(a0)
+		move.b	#$14,obj.Pointer(a0)
 		move.w	#0,$26(a0)
 		move.w	#0,$24(a0)
 
@@ -17126,15 +17126,15 @@ loc_EDA6:
 		addq.w	#1,$28(a6)
 		andi.w	#7,$28(a6)
 		bne.s	locret_EDE2
-		addq.w	#1,obAngle(a6)
-		move.w	obAngle(a6),d2
+		addq.w	#1,obj.Angle(a6)
+		move.w	obj.Angle(a6),d2
 		cmpi.w	#6,d2
 		bne.s	loc_EDC6
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_EDC6:
 		moveq	#0,d2
-		move.w	obAngle(a6),d2
+		move.w	obj.Angle(a6),d2
 		lsl.l	#1,d2
 		lea	($FFFFD3E4).w,a0
 		move.w	word_EDF4(pc,d2.w),d0
@@ -17174,10 +17174,10 @@ loc_EE0C:
 		addq.w	#1,$28(a6)
 		andi.w	#7,$28(a6)
 		bne.s	locret_EE4A
-		addq.w	#1,obAngle(a6)
-		andi.w	#3,obAngle(a6)
+		addq.w	#1,obj.Angle(a6)
+		andi.w	#3,obj.Angle(a6)
 		moveq	#0,d2
-		move.w	obAngle(a6),d2
+		move.w	obj.Angle(a6),d2
 		lsl.l	#1,d2
 		lea	($FFFFD3E4).w,a0
 		move.w	word_EE4C(pc,d2.w),d0
@@ -17215,10 +17215,10 @@ loc_EE86:
 		addq.w	#1,$28(a6)
 		andi.w	#7,$28(a6)
 		bne.s	locret_EEB8
-		addq.w	#1,obAngle(a6)
-		andi.w	#3,obAngle(a6)
+		addq.w	#1,obj.Angle(a6)
+		andi.w	#3,obj.Angle(a6)
 		moveq	#0,d2
-		move.w	obAngle(a6),d2
+		move.w	obj.Angle(a6),d2
 		lsl.l	#1,d2
 		lea	($FFFFD3E4).w,a0
 		move.w	word_EECA(pc,d2.w),d0
@@ -17264,10 +17264,10 @@ loc_EF04:
 		addq.w	#1,$28(a6)
 		andi.w	#7,$28(a6)
 		bne.s	locret_EF36
-		addq.w	#1,obAngle(a6)
-		andi.w	#3,obAngle(a6)
+		addq.w	#1,obj.Angle(a6)
+		andi.w	#3,obj.Angle(a6)
 		moveq	#0,d2
-		move.w	obAngle(a6),d2
+		move.w	obj.Angle(a6),d2
 		lsl.l	#1,d2
 		lea	($FFFFD3E4).w,a0
 		move.w	word_EF48(pc,d2.w),d0
@@ -17300,16 +17300,16 @@ loc_EF58:
 		addq.w	#1,$28(a6)
 		andi.w	#7,$28(a6)
 		bne.s	locret_EFA2
-		addq.w	#1,obAngle(a6)
-		andi.w	#7,obAngle(a6)
-		move.w	obAngle(a6),d2
+		addq.w	#1,obj.Angle(a6)
+		andi.w	#7,obj.Angle(a6)
+		move.w	obj.Angle(a6),d2
 		cmpi.w	#6,d2
 		bne.s	loc_EF7E
-		move.w	#0,obAngle(a6)
+		move.w	#0,obj.Angle(a6)
 
 loc_EF7E:
 		moveq	#0,d2
-		move.w	obAngle(a6),d2
+		move.w	obj.Angle(a6),d2
 		lsl.l	#1,d2
 		lea	($FFFFD3E4).w,a0
 		move.w	word_EFA4(pc,d2.w),d0
@@ -17557,9 +17557,9 @@ loc_F140:
 		moveq	#$C,d0
 		jsr	(sub_1918).w
 		bmi.s	loc_F1B8
-		move.w	4(a5),ObjectPointer(a0)
-		_move.w	0(a5),obX(a0)
-		move.w	2(a5),obY(a0)
+		move.w	4(a5),obj.Pointer(a0)
+		_move.w	0(a5),obj.Xpos(a0)
+		move.w	2(a5),obj.Ypos(a0)
 		move.w	a4,$24(a0)
 		move.w	6(a5),$28(a0)
 		movea.l	a5,a0
@@ -17725,7 +17725,7 @@ loc_F2D0:
 		move.w	($FFFFD8E0).w,d2
 		bsr.w	sub_F22C
 		bcs.s	locret_F2F2
-		move.w	obY(a6),d0
+		move.w	obj.Ypos(a6),d0
 		move.w	($FFFFD8DE).w,d1
 		move.w	($FFFFD8E2).w,d2
 		bsr.w	sub_F22C
@@ -18504,7 +18504,7 @@ loc_F9D4:
 		move.l	4(a0,d0.w),d0
 		move.w	$A(a6),d1
 		move.w	8(a6),d2
-		move.l	d0,obY(a6)
+		move.l	d0,obj.Ypos(a6)
 		movem.l	d7/a6,-(sp)
 		jsr	(sub_568).w
 		movem.l	(sp)+,d7/a6
