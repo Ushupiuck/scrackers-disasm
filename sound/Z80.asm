@@ -3285,12 +3285,12 @@ byte_1139:	db    0,   0,	0,   0,	  1,   1,   1,	 1,   2,   2,	1
 MusicBanks:
 		; The way that this works is that each individual music track has it's own bank
 		; that it uses for finding and playing music from banks.
-		db zmake68kBank(Music81)
-		db zmake68kBank(Music82)
-		db zmake68kBank(Music83)
-		db zmake68kBank(Music84)
-		db zmake68kBank(Music85)
-		db zmake68kBank(Music86)
+		db zmake68kBank(MusicBank)
+		db zmake68kBank(MusicBank)
+		db zmake68kBank(MusicBank)
+		db zmake68kBank(MusicBank)
+		db zmake68kBank(MusicBank)
+		db zmake68kBank(MusicBank)
 MusicIndex:
 ptr_mus81:	dw zmake68kPtr(Music81)
 ptr_mus82:	dw zmake68kPtr(Music82)
