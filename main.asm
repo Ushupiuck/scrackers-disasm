@@ -4036,7 +4036,7 @@ SoundDriverLoad:
 		resetZ80
 		lea	Z80_Driver(pc),a0		; load Z80 location on ROM to a0
 		lea	(z80_ram).l,a1			; load current Z80 RAM
-		move.w	#(Z80_Driver_end-Z80_Driver)-1,d0 ; set repeat times
+		move.w	#Z80_Driver_End-Z80_Driver-1,d0 ; set repeat times
 
 .dumpRAM:
 		move.b	(a0)+,(a1)+			; dump Z80 to Z80 RAM
@@ -4057,7 +4057,7 @@ SoundDriverLoad:
 ; ---------------------------------------------------------------------------
 Z80_Driver:
 		include	"sound/Z80.asm"
-Z80_Driver_end:	even
+Z80_Driver_End
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -4621,10 +4621,10 @@ loc_68BA:
 		jsr	(SegaToVDP).l
 		lea	(unk_0200&$FFFFFF).l,a0
 		lea	(unk_0A00&$FFFFFF).l,a1
-		moveq	#$7F,d6
+		moveq	#$80-1,d6
 
 loc_68EE:
-		moveq	#7,d7
+		moveq	#8-1,d7
 
 loc_68F0:
 		move.w	(a0)+,d0
@@ -5467,7 +5467,7 @@ sub_75BC:
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ARTNEM_MainMenusText:
-		binclude	"artnem/Main Menu Text.bin"
+		binclude	"artnem/Main Menu Text.nem"
 		even
 
 		charset ' ', 0
@@ -7234,7 +7234,7 @@ sub_9098:
 
 ; ---------------------------------------------------------------------------
 ARTNEM_MenuSelectorBorder:
-		binclude	"artnem/Menu Select Border.bin" ; Selector art for Select Menu screen
+		binclude	"artnem/Menu Select Border.nem" ; Selector art for Select Menu screen
 		even
 MAPUNC_SelectMenu_1:
 		binclude	"Uncompressed/MapuncSelectMenu01.bin" ; Uncompressed mappings for the select menu (Top W? numbers that scroll)
@@ -8195,7 +8195,8 @@ locret_9C1C:
 locret_9C1E:
 		rts
 ; ---------------------------------------------------------------------------
-SSZ_ArtLocs:	dc.l ARTNEM_SSZ8x8_FG
+SSZ_ArtLocs:
+		dc.l ARTNEM_SSZ8x8_FG
 		dc.l ARTNEM_SSZ8x8_BG
 SSZ_FG_StartLocCam:
 		dc.w	$0000		; Start X scroll
@@ -8204,35 +8205,38 @@ SSZ_FG_StartLocCam:
 		dc.b	$10		; H scroll param
 		dc.b	$80		; V scroll base
 		dc.b	$0C		; V scroll param
-		dc.w	($0800/$20)	; VRAM destination
+		dc.w	$0800/$20	; VRAM destination
 		dc.w	$7EC0		; Max X display area
 		dc.w	$0000		; Min X display area
 		dc.w	$0520		; Max Y display area
 		dc.w	$0000		; Min Y display area
-SSZ_MapFGLocs:	dc.l MAPENI_SSZ16x16_FG
+SSZ_MapFGLocs:
+		dc.l MAPENI_SSZ16x16_FG
 		dc.l MAPENI_SSZ128x128_FG
 		dc.l MAPENI_SSZLayout_FG
 		dc.l COL_SSZPrimary
 SSZ_BG_StartLocCam:
-	dc.w $0000		; Start X scroll
-	dc.w $0054		; Start Y scroll
-	dc.b $04		; H scroll base
-	dc.b $08		; H scroll param
-	dc.b $04		; V scroll base
-	dc.b $06		; V scroll param
-	dc.w ($6660/$20)	; VRAM destination
-	dc.w $00C0		; Max X display area
-	dc.w $0000		; Min X display area
-	dc.w $0220		; Max Y display area
-	dc.w $0000		; Min Y display area
-SSZ_MapBGLocs:	dc.l MAPENI_SSZ16x16_BG
+		dc.w $0000		; Start X scroll
+		dc.w $0054		; Start Y scroll
+		dc.b $04		; H scroll base
+		dc.b $08		; H scroll param
+		dc.b $04		; V scroll base
+		dc.b $06		; V scroll param
+		dc.w $6660/$20	; VRAM destination
+		dc.w $00C0		; Max X display area
+		dc.w $0000		; Min X display area
+		dc.w $0220		; Max Y display area
+		dc.w $0000		; Min Y display area
+SSZ_MapBGLocs:
+		dc.l MAPENI_SSZ16x16_BG
 		dc.l MAPENI_SSZ128x128_BG
 		dc.l MAPENI_SSZLayout_BG
 PAL_SpeedSliderZone:
 		binclude	"Palettes/PalSpeedSliderZone.bin"
 		even
 ; ---------------------------------------------------------------------------
-TTZ_ArtLocs:	dc.l ARTNEM_TTZ8x8_FG
+TTZ_ArtLocs:
+		dc.l ARTNEM_TTZ8x8_FG
 		dc.l ARTNEM_TTZ8x8_BG
 TTZ_FG_StartLocCam:
 		dc.w $0015		; Start X scroll
@@ -8241,12 +8245,13 @@ TTZ_FG_StartLocCam:
 		dc.b $20		; H scroll param
 		dc.b $10		; V scroll base
 		dc.b $20		; V scroll param
-		dc.w ($0800/$20)	; VRAM destination
+		dc.w $0800/$20	; VRAM destination
 		dc.w $06C0		; Max X display area
 		dc.w $0000		; Min X display area
 		dc.w $0F20		; Max Y display area
 		dc.w $0000		; Min Y display area
-TTZ_MapFGLocs:	dc.l MAPENI_TTZ16x16_FG
+TTZ_MapFGLocs:
+		dc.l MAPENI_TTZ16x16_FG
 		dc.l MAPENI_TTZ128x128_FG
 		dc.l MAPENI_TTZLayout_FG
 		dc.l COL_TTZPrimary
@@ -8257,12 +8262,13 @@ TTZ_BG_StartLocCam:
 		dc.b $20		; H scroll param
 		dc.b $0C		; V scroll base
 		dc.b $18		; V scroll param
-		dc.w ($2DE0/$20)	; VRAM destination
+		dc.w $2DE0/$20	; VRAM destination
 		dc.w $04C0		; Max X display area
 		dc.w $0000		; Min X display area
 		dc.w $0B20		; Max Y display area
 		dc.w $0000		; Min Y display area
-TTZ_MapBGLocs:	dc.l MAPENI_TTZ16x16_BG
+TTZ_MapBGLocs:
+		dc.l MAPENI_TTZ16x16_BG
 		dc.l MAPENI_TTZ128x128_BG
 		dc.l MAPENI_TTZLayout_BG
 PAL_TechnoTowerZoneUnused:
@@ -19008,23 +19014,23 @@ ArtUnc_HUD:
 	even
 ; ---------------------------------------------------------------------------
 ARTNEM_RingTetherStarsUnused:
-	binclude	"artnem/Unused - Ring Tether Stars.bin" ; unused Ring tether stars
+	binclude	"artnem/Unused - Ring Tether Stars.nem" ; unused Ring tether stars
 	even
 ; ---------------------------------------------------------------------------
 ARTNEM_SSZ8x8_FG:
-	binclude	"artnem/8x8 - SSZ FG.bin"	; 8x8 tiles for SSZ FG
+	binclude	"artnem/8x8 - SSZ FG.nem"	; 8x8 tiles for SSZ FG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZ16x16_FG:
-	binclude	"map16/SSZ FG.bin"		; 16x16 blocks for SSZ FG
+	binclude	"map16/SSZ FG.eni"		; 16x16 blocks for SSZ FG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZ128x128_FG:
-	binclude	"map128/SSZ FG.bin"		; 128x128 chunks for SSZ FG
+	binclude	"map128/SSZ FG.eni"		; 128x128 chunks for SSZ FG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZLayout_FG:
-	binclude	"levels/SSZ FG.bin"		; Layout for SSZ FG
+	binclude	"levels/SSZ FG.eni"		; Layout for SSZ FG
 	even
 ; ---------------------------------------------------------------------------
 COL_SSZPrimary:
@@ -19036,35 +19042,35 @@ COL_SSZSecondary:
 	even
 ; ---------------------------------------------------------------------------
 ARTNEM_SSZ8x8_BG:
-	binclude	"artnem/8x8 - SSZ BG.bin"	; 8x8 tiles for SSZ BG
+	binclude	"artnem/8x8 - SSZ BG.nem"	; 8x8 tiles for SSZ BG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZ16x16_BG:
-	binclude	"map16/SSZ BG.bin"		; 16x16 blocks for SSZ BG
+	binclude	"map16/SSZ BG.eni"		; 16x16 blocks for SSZ BG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZ128x128_BG:
-	binclude	"map128/SSZ BG.bin"		; 128x128 chunks for SSZ BG
+	binclude	"map128/SSZ BG.eni"		; 128x128 chunks for SSZ BG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_SSZLayout_BG:
-	binclude	"levels/SSZ BG.bin"		; Layout for SSZ BG
+	binclude	"levels/SSZ BG.eni"		; Layout for SSZ BG
 	even
 ; ---------------------------------------------------------------------------
 ARTNEM_TTZ8x8_FG:
-	binclude	"artnem/8x8 - TTZ FG.bin"	; 8x8 tiles for TTZ FG
+	binclude	"artnem/8x8 - TTZ FG.nem"	; 8x8 tiles for TTZ FG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZ16x16_FG:
-	binclude	"map16/TTZ FG.bin"		; 16x16 blocks for TTZ FG
+	binclude	"map16/TTZ FG.eni"		; 16x16 blocks for TTZ FG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZ128x128_FG:
-	binclude	"map128/TTZ FG.bin"		; 128x128 chunks for TTZ FG
+	binclude	"map128/TTZ FG.eni"		; 128x128 chunks for TTZ FG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZLayout_FG:
-	binclude	"levels/TTZ FG.bin"		; Layout for TTZ FG
+	binclude	"levels/TTZ FG.eni"		; Layout for TTZ FG
 	even
 ; ---------------------------------------------------------------------------
 COL_TTZPrimary:
@@ -19076,19 +19082,19 @@ COL_TTZSecondary:
 	even
 ; ---------------------------------------------------------------------------
 ARTNEM_TTZ8x8_BG:
-	binclude	"artnem/8x8 - TTZ BG.bin"	; 8x8 tiles for TTZ BG
+	binclude	"artnem/8x8 - TTZ BG.nem"	; 8x8 tiles for TTZ BG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZ16x16_BG:
-	binclude	"map16/TTZ BG.bin"		; 16x16 blocks for TTZ BG
+	binclude	"map16/TTZ BG.eni"		; 16x16 blocks for TTZ BG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZ128x128_BG:
-	binclude	"map128/TTZ BG.bin"		; 128x128 chunks for TTZ BG
+	binclude	"map128/TTZ BG.eni"		; 128x128 chunks for TTZ BG
 	even
 ; ---------------------------------------------------------------------------
 MAPENI_TTZLayout_BG:
-	binclude	"levels/TTZ BG.bin"		; Layout for TTZ BG
+	binclude	"levels/TTZ BG.eni"		; Layout for TTZ BG
 	even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
@@ -19180,23 +19186,23 @@ TCBG_TileD:
 ; Nemesis Compressed Object Patterns
 ; ---------------------------------------------------------------------------
 ARTNEM_Springs:
-	binclude	"artnem/Springs.bin"		; Red and Yellow Springs
-	even
+		binclude	"artnem/Springs.nem"		; Red and Yellow Springs
+		even
 ; ---------------------------------------------------------------------------
 ARTNEM_SpikesHoz:
-	binclude	"artnem/Spikes Horizontal.bin"	; Horizontal Spikes
-	even
+		binclude	"artnem/Spikes Horizontal.nem"	; Horizontal Spikes
+		even
 ; ---------------------------------------------------------------------------
 ARTNEM_SpikesVer:
-	binclude	"artnem/Spikes Vertical.bin"	; Vertical Spikes
-	even
+		binclude	"artnem/Spikes Vertical.nem"	; Vertical Spikes
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Sprite mapping - "Sprngs" and "Spikes" Objects
 ; ---------------------------------------------------------------------------
-	include	"PLCMAPANI/MAP_Springs.asm"		; Spring mapping
-	include	"PLCMAPANI/MAP_Spikes.asm"		; Spikes mapping
+		include	"PLCMAPANI/MAP_Springs.asm"		; Spring mapping
+		include	"PLCMAPANI/MAP_Spikes.asm"		; Spikes mapping
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19285,79 +19291,79 @@ unk_42364:		dc.b $FF,$A0,$FF,$AC,$FF,$B8
 ; ===========================================================================
 ; --------------------------------------------------------------------------
 Objpos_SSZ:
-	binclude	"objpos/SSZ.bin"		; Speed Slider Zone"s Object Position
-	even
+		binclude	"objpos/SSZ.bin"		; Speed Slider Zone's Object Position
+		even
 ; ---------------------------------------------------------------------------
 Objpos_TTZ:
-	binclude	"objpos/TTZ.bin"		; Techno Tower Zone"s Object Position
-	even
+		binclude	"objpos/TTZ.bin"		; Techno Tower Zone's Object Position
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; uncompressed Art (Used for animation)
 ; ---------------------------------------------------------------------------
 ARTUNC_TTZAnimatedFanFG1:
-	binclude	"artunc/TTZAnimatedFanFG1.bin"	; Fan tiles 1
-	even
+		binclude	"artunc/TTZAnimatedFanFG1.bin"	; Fan tiles 1
+		even
 ; ---------------------------------------------------------------------------
 ARTUNC_TTZAnimatedFanFG2:
-	binclude	"artunc/TTZAnimatedFanFG2.bin"	; Fan tiles 2
-	even
+		binclude	"artunc/TTZAnimatedFanFG2.bin"	; Fan tiles 2
+		even
 ; ---------------------------------------------------------------------------
 ARTUNC_TTZAnimatedTurbineBG1:
-	binclude	"artunc/TTZAnimatedTurbineBG1.bin" ; Turbine tiles 1
-	even
+		binclude	"artunc/TTZAnimatedTurbineBG1.bin" ; Turbine tiles 1
+		even
 ; ---------------------------------------------------------------------------
 ARTUNC_TTZAnimatedTurbineBG2:
-	binclude	"artunc/TTZAnimatedTurbineBG2.bin" ; Turbine tiles 2
-	even
+		binclude	"artunc/TTZAnimatedTurbineBG2.bin" ; Turbine tiles 2
+		even
 ; ---------------------------------------------------------------------------
 ARTUNC_TTZAnimatedTurbineBG3:
-	binclude	"artunc/TTZAnimatedTurbineBG3.bin" ; Turbine tiles 3
-	even
+		binclude	"artunc/TTZAnimatedTurbineBG3.bin" ; Turbine tiles 3
+		even
 ; ---------------------------------------------------------------------------
 ARTUNC_TTZAnimatedTurbineBG4:
-	binclude	"artunc/TTZAnimatedTurbineBG4.bin" ; Turbine tiles 4
-	even
+		binclude	"artunc/TTZAnimatedTurbineBG4.bin" ; Turbine tiles 4
+		even
 ; ---------------------------------------------------------------------------
 ARTUNC_TTZAnimatedTurbineBG5:
-	binclude	"artunc/TTZAnimatedTurbineBG5.bin" ; Turbine tiles 5
-	even
+		binclude	"artunc/TTZAnimatedTurbineBG5.bin" ; Turbine tiles 5
+		even
 ; ---------------------------------------------------------------------------
 ARTUNC_TTZAnimatedTurbineBG6:
-	binclude	"artunc/TTZAnimatedTurbineBG6.bin" ; Turbine tiles 6
-	even
+		binclude	"artunc/TTZAnimatedTurbineBG6.bin" ; Turbine tiles 6
+		even
 ; ---------------------------------------------------------------------------
 ARTUNC_TTZAnimatedTurbineBG7:
-	binclude	"artunc/TTZAnimatedTurbineBG7.bin" ; Turbine tiles 7
-	even
+		binclude	"artunc/TTZAnimatedTurbineBG7.bin" ; Turbine tiles 7
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Multiple Uncompressed Art (some of these are unused)
 ; ---------------------------------------------------------------------------
 AniArt_Combi:						; "COMBI" (Unused)
-	binclude	"artunc/Combi_Un.bin"
+		binclude	"artunc/Combi_Un.bin"
 AniArt_Limits:						; "LIMITS" (Unused)
-	binclude	"artunc/Limits_Un.bin"
+		binclude	"artunc/Limits_Un.bin"
 AniArt_StripBlock:					; Striped Block (Unused)
-	binclude	"artunc/StripBlock_Un.bin"
+		binclude	"artunc/StripBlock_Un.bin"
 AniArt_Score:						; "SCORE" (Unused)
-	binclude	"artunc/Score_Un.bin"
+		binclude	"artunc/Score_Un.bin"
 AniArt_Rings:						; "RINGS" (Unused)
-	binclude	"artunc/Rings_Un.bin"
+		binclude	"artunc/Rings_Un.bin"
 AniArt_SLTime:						; "/TIME" (Unused)
-	binclude	"artunc/SLTime_Un.bin"
+		binclude	"artunc/SLTime_Un.bin"
 AniArt_Hud1to9_Sym:					; "0" to "9" Hud (Exclaimation Mark, and Minute/Second Symbol)
-	binclude	"artunc/Hud0to9_Sym.bin"
+		binclude	"artunc/Hud0to9_Sym.bin"
 AniArt_RingSprites:					; Ring Sprites
-	binclude	"artunc/Spark_Ring.bin"
+		binclude	"artunc/Spark_Ring.bin"
 AniArt_Tether:						; Tether Star Sprites
-	binclude	"artunc/Tether.bin"
+		binclude	"artunc/Tether.bin"
 AniArt_MultiStars:					; Multiple Stars (Unused)
-	binclude	"artunc/MultipleStars_Un.bin"
+		binclude	"artunc/MultipleStars_Un.bin"
 AniArt_MiliSymbol:					; "" (Second/Mili-Second Symbol)
-	binclude	"artunc/Hud_Sym2.bin"
+		binclude	"artunc/Hud_Sym2.bin"
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19365,29 +19371,29 @@ AniArt_MiliSymbol:					; "" (Second/Mili-Second Symbol)
 ; ---------------------------------------------------------------------------
 
 PAL_RainbowField:
-	binclude	"Palettes/PalRainbowField.bin"	; Palettes for Rainbow Field
-	even
+		binclude	"Palettes/PalRainbowField.bin"	; Palettes for Rainbow Field
+		even
 ARTCRA_RainbowField8x8:
-	binclude	"artcra/Rainbow Field.bin"	; 8x8 tiles for Rainbow Field
-	even
+		binclude	"artcra/Rainbow Field.bin"	; 8x8 tiles for Rainbow Field
+		even
 MAPUNC_RainbowFieldFG:
-	binclude	"Uncompressed/MapuncRainbowFieldFG.bin" ; Screen map for Rainbow Field FG
-	even
+		binclude	"Uncompressed/MapuncRainbowFieldFG.bin" ; Screen map for Rainbow Field FG
+		even
 MAPUNC_RainbowFieldBG:
-	binclude	"Uncompressed/MapuncRainbowFieldBG.bin" ; Screen map for Rainbow Field BG
-	even
+		binclude	"Uncompressed/MapuncRainbowFieldBG.bin" ; Screen map for Rainbow Field BG
+		even
 PAL_ElectricField:
-	binclude	"Palettes/PalElectricField.bin"	; Palettes for Electric Field
-	even
+		binclude	"Palettes/PalElectricField.bin"	; Palettes for Electric Field
+		even
 ARTCRA_ElectricField8x8:
-	binclude	"artcra/Electric Field.bin"	; 8x8 tiles for Electric Field
-	even
+		binclude	"artcra/Electric Field.bin"	; 8x8 tiles for Electric Field
+		even
 MAPUNC_ElectricFieldFG:
-	binclude	"Uncompressed/MapuncElectricFieldFG.bin" ; Screen map for Electric Field FG
-	even
+		binclude	"Uncompressed/MapuncElectricFieldFG.bin" ; Screen map for Electric Field FG
+		even
 MAPUNC_ElectricFieldBG:
-	binclude	"Uncompressed/MapuncElectricFieldBG.bin" ; Screen map for Electric Field BG
-	even
+		binclude	"Uncompressed/MapuncElectricFieldBG.bin" ; Screen map for Electric Field BG
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19408,8 +19414,8 @@ MAPUNC_ElectricFieldBG:
 	align $6000
 ; ---------------------------------------------------------------------------
 ARTUNC_SonicArms:
-	binclude	"artunc/SonicArms.bin"		; Sonic's Arms
-	even
+		binclude	"artunc/SonicArms.bin"		; Sonic's Arms
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19418,98 +19424,98 @@ ARTUNC_SonicArms:
 	align $1000
 ; ---------------------------------------------------------------------------
 ARTUNC_TailsArms:
-	binclude	"artunc/TailsArms.bin"		; Tails' Arms
-	even
+		binclude	"artunc/TailsArms.bin"		; Tails' Arms
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; PLC, mapping & Main index block - Sonic's Arm
 ; ---------------------------------------------------------------------------
 PLCMAP_SonArm_MainIndex:
-	include	"PLCMAPANI/PLCMAP_IndxBlck_SonicArm.asm"
+		include	"PLCMAPANI/PLCMAP_IndxBlck_SonicArm.asm"
 ; ---------------------------------------------------------------------------
 PLC_SonicArm:
-	include	"PLCMAPANI/PLC_SonicArm.asm"
+		include	"PLCMAPANI/PLC_SonicArm.asm"
 ; ---------------------------------------------------------------------------
 Map_SonicArm:
-	include	"PLCMAPANI/MAP_SonicArm.asm"
+		include	"PLCMAPANI/MAP_SonicArm.asm"
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Animation, PLC, mapping & Main index block - Sonic
 ; ---------------------------------------------------------------------------
 ANI_Sonic:
-	include	"PLCMAPANI/ANI_Sonic.asm"
+		include	"PLCMAPANI/ANI_Sonic.asm"
 ; ---------------------------------------------------------------------------
 PLCMAP_Sonic_MainIndex:
-	include	"PLCMAPANI/PLCMAP_IndxBlck_Sonic.asm"
+		include	"PLCMAPANI/PLCMAP_IndxBlck_Sonic.asm"
 ; ---------------------------------------------------------------------------
 PLC_Sonic:
-	include	"PLCMAPANI/PLC_Sonic.asm"
+		include	"PLCMAPANI/PLC_Sonic.asm"
 ; ---------------------------------------------------------------------------
 Map_Sonic:
-	include	"PLCMAPANI/MAP_Sonic.asm"
+		include	"PLCMAPANI/MAP_Sonic.asm"
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; PLC, mapping & Main index block - Tails' Arm
 ; ---------------------------------------------------------------------------
 PLCMAP_TalArm_MainIndex:
-	include	"PLCMAPANI/PLCMAP_IndxBlck_TailsArm.asm"
+		include	"PLCMAPANI/PLCMAP_IndxBlck_TailsArm.asm"
 ; ---------------------------------------------------------------------------
 PLC_TailsArm:
-	include	"PLCMAPANI/PLC_TailsArm.asm"
+		include	"PLCMAPANI/PLC_TailsArm.asm"
 ; ---------------------------------------------------------------------------
 MAP_TailsArm:
-	include	"PLCMAPANI/MAP_TailsArm.asm"
+		include	"PLCMAPANI/MAP_TailsArm.asm"
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Animation, PLC, mapping & Main index block - Tails
 ; ---------------------------------------------------------------------------
 ANI_Tails:
-	include	"PLCMAPANI/ANI_Tails.asm"
+		include	"PLCMAPANI/ANI_Tails.asm"
 ; ---------------------------------------------------------------------------
 PLCMAP_Tails_MainIndex:
-	include	"PLCMAPANI/PLCMAP_IndxBlck_Tails.asm"
+		include	"PLCMAPANI/PLCMAP_IndxBlck_Tails.asm"
 ; ---------------------------------------------------------------------------
 PLC_Tails:
-	include	"PLCMAPANI/PLC_Tails.asm"
+		include	"PLCMAPANI/PLC_Tails.asm"
 ; ---------------------------------------------------------------------------
 MAP_Tails:
-	include	"PLCMAPANI/MAP_Tails.asm"
+		include	"PLCMAPANI/MAP_Tails.asm"
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Animation, PLC, mapping & Main index block - Sonic Fields
 ; ---------------------------------------------------------------------------
 ANI_SonicFields:
-	include	"PLCMAPANI/ANI_SonicFields.asm"
+		include	"PLCMAPANI/ANI_SonicFields.asm"
 ; ---------------------------------------------------------------------------
 PLCMAP_SonicFields_MainIndex:
-	include	"PLCMAPANI/PLCMAP_IndxBlck_SonicFields.asm"
+		include	"PLCMAPANI/PLCMAP_IndxBlck_SonicFields.asm"
 ; ---------------------------------------------------------------------------
 PLC_SonicFields:
-	include	"PLCMAPANI/PLC_SonicFields.asm"
+		include	"PLCMAPANI/PLC_SonicFields.asm"
 ; ---------------------------------------------------------------------------
 Map_SonicFields:
-	include	"PLCMAPANI/MAP_SonicFields.asm"
+		include	"PLCMAPANI/MAP_SonicFields.asm"
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Animation, PLC, mapping & Main index block - Tails Fields
 ; ---------------------------------------------------------------------------
 ANI_TailsFields:
-	include	"PLCMAPANI/ANI_TailsFields.asm"
+		include	"PLCMAPANI/ANI_TailsFields.asm"
 ; ---------------------------------------------------------------------------
 PLCMAP_TailsFields_MainIndex:
-	include	"PLCMAPANI/PLCMAP_IndxBlck_TailsFields.asm"
+		include	"PLCMAPANI/PLCMAP_IndxBlck_TailsFields.asm"
 ; ---------------------------------------------------------------------------
 PLC_TailsFields:
-	include	"PLCMAPANI/PLC_TailsFields.asm"
+		include	"PLCMAPANI/PLC_TailsFields.asm"
 ; ---------------------------------------------------------------------------
 Map_TailsFields:
-	include	"PLCMAPANI/MAP_TailsFields.asm"
+		include	"PLCMAPANI/MAP_TailsFields.asm"
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19657,7 +19663,8 @@ ARTUNC_UnknownHud:
 ; ---------------------------------------------------------------------------
 	align $10
 ; ---------------------------------------------------------------------------
-ARTUNC_Tails:	binclude	"artunc/Tails.bin"
+ARTUNC_Tails:
+		binclude	"artunc/Tails.bin"
 		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
