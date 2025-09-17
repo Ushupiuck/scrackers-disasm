@@ -2204,7 +2204,7 @@ cfPtrTable:	dw cfE0_Pan
 		dw cfED_FMChnWrite
 		dw cfEE_FM1Write
 		dw cfEF_SetIns
-		dw cfF0_Mods.betup
+		dw cfF0_ModSetup
 		dw cfF1_ModTypePFM
 		dw cfF2_StopTrk
 		dw cfF3_PSGNoise
@@ -2503,7 +2503,7 @@ loc_BC9:
 		ret
 ; ---------------------------------------------------------------------------
 
-cfF0_Mods.betup:
+cfF0_ModSetup:
 		ld	(ix+zTrack.ModulationPtrLow), e
 		ld	(ix+zTrack.ModulationPtrHigh), d
 		ld	(ix+zTrack.ModulationCtrl), 80h
@@ -2607,7 +2607,7 @@ loc_C54:
 		ld	d, (ix+zTrack.PSGNoise)
 
 loc_C91:
-		call	Sends.bSGEG
+		call	SendSSGEG
 
 loc_C94:
 		pop	ix
@@ -2919,7 +2919,7 @@ cf05_SSGEG:
 ; =============== S U B	R O U T	I N E =======================================
 
 
-Sends.bSGEG:
+SendSSGEG:
 		ld	hl, zFMInstrumentSSGEGTable
 		ld	b, zFMInstrumentSSGEGTable_End-zFMInstrumentSSGEGTable
 
@@ -2933,7 +2933,7 @@ loc_E0C:
 		djnz	loc_E0C
 		dec	de
 		ret
-; End of function Sends.bSGEG
+; End of function SendSSGEG
 
 ; ---------------------------------------------------------------------------
 
@@ -3068,7 +3068,9 @@ DoPSGVolEnv:
 ; ---------------------------------------------------------------------------
 
 VolEnv_Off:
+	if ~~FixDriverBugs
 		set	4, (ix+zTrack.PlaybackControl)
+	endif
 		pop	hl
 		jp	SetRest
 ; ---------------------------------------------------------------------------
