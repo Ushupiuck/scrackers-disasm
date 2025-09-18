@@ -220,30 +220,78 @@ PLCSArm_Unused_01:	dc.w $6000
 PLCSArm_Unused_02:	dc.w $4000
 					dc.l ($97)<<24+ARTUNC_SonicArms/2+$12D0
 					dc.w $D6A0,$FFFF ; Unused
-PLCSArm_Unused_03:	dc.w $6000,$9703,$1310,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_04:	dc.w $6000,$9703,$1370,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_05:	dc.w $6000,$9703,$13D0,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_06:	dc.w $6000,$9703,$1430,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_07:	dc.w $6000,$9703,$1490,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_08:	dc.w $6000,$9703,$14F0,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_09:	dc.w $6000,$9703,$1550,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_0A:	dc.w $6000,$9703,$15B0,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_0B:	dc.w $6000,$9703,$1610,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_0C:	dc.w $6000,$9703,$1670,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_0D:	dc.w $5000,$9703,$16D0,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_0E:	dc.w $6000,$9703,$1720,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_0F:	dc.w $6000,$9703,$1780,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_10:	dc.w $6000,$9703,$17E0,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_11:	dc.w $6000,$9703,$1840,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_12:	dc.w $6000,$9703,$18A0,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_13:	dc.w $6000,$9703,$1900,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_14:	dc.w $6000,$9703,$1960,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_15:	dc.w $6000,$9703,$19C0,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_16:	dc.w $6000,$9703,$1A20,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_17:	dc.w $4000,$9703,$1A80,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_18:	dc.w $6000,$9703,$1AC0,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_19:	dc.w $6000,$9703,$1B20,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_1A:	dc.w $1000,$9703,$1B80,$D6A0,$FFFF ; Unused
+PLCSArm_Unused_03:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1310
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_04:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1370
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_05:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$13D0
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_06:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1430
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_07:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1490
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_08:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$14F0
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_09:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1550
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_0A:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$15B0
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_0B:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1610
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_0C:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1670
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_0D:	dc.w $5000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$16D0
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_0E:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1720
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_0F:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1780
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_10:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$17E0
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_11:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1840
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_12:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$18A0
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_13:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1900
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_14:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1960
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_15:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$19C0
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_16:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1A20
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_17:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1A80
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_18:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1AC0
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_19:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1B20
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_1A:	dc.w $1000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1B80
+					dc.w $D6A0,$FFFF ; Unused
 			even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================

@@ -9,7 +9,6 @@
 
 fixBugs = 0
 ;	| If 1, fixes some bugs (mainly sound driver related)
-;	Currently not recommended to be enabled due to corrupted arm art.
 zeroOffsetOptimization = 0
 ;	| If 1, makes a handful of zero-offset instructions smaller
 ; Include SMPS2ASM, for expressing SMPS bytecode in a portable and human-readable form.
