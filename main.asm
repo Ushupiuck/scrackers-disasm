@@ -13298,7 +13298,7 @@ sub_C9DE:
 		lea	(vdp_control_port).l,a6
 		stopZ80
 		waitZ80
-		move.w	#$8154,(a6)
+		move.w	#$8154,(a6)	; enable DMA
 
 loc_C9FA:
 		move.b	($FFFFD87A).w,d3
@@ -13307,7 +13307,7 @@ loc_C9FA:
 
 loc_CA06:
 		lea	loc_CA2C(pc),a2
-		moveq	#7,d4
+		moveq	#8-1,d4
 
 loc_CA0C:
 		lsr.w	#1,d3
@@ -13320,17 +13320,21 @@ loc_CA16:
 		addq.w	#4,a1
 		addq.w	#2,a2
 		dbf	d4,loc_CA0C
-		move.w	#$8164,(a6)
+		move.w	#$8164,(a6)	; disable DMA, enable vertical interrupts
 		startZ80
 		rts
 ; End of function sub_C9DE
 
 ; ---------------------------------------------------------------------------
-loc_CA2C:	dc.l $420
-		dc.w 0
-		dc.l $420
-		dc.w 0
-		dc.l $420
+loc_CA2C:
+		dc.w $0000
+		dc.w $0420
+		dc.w $0000
+		dc.w $0000
+		dc.w $0420
+		dc.w $0000
+		dc.w $0000
+		dc.w $0420
 
 ; =============== S U B	R O U T	I N E =======================================
 

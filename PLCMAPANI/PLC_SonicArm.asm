@@ -6,22 +6,30 @@
 ;
 ;	Each load cue consists of ten bytes:
 ;
-;		dc.w $QQQQ,$----,$RRR-,$DDDD,$EEEE
+;		dc.w $QQQQ
+;		dc.l ($RR)<<24+VVVVVV/2
+;		dc.w $DDDD,$EEEE
 ;
 ;	$QQQQ = Number of tiles to load from Rom
-;	$RRR- = Location to start reading the tiles
+;	$RR = Location to start reading the tiles
 ; ---------------------------------------------------------------------------
 ; the rest were not mentioned on the guide, and I am assuming are:
 ; ---------------------------------------------------------------------------
-;	$---- = Unknown
+;	$VVVVVV = ROM location of art
 ;	$DDDD = I think it's some sort of dumping location (to dump the art)
 ;	$EEEE = whether it's the last PLC section to use or not (00 Include next PLC section/FF End of PLC section)
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
-PLCSArm_Wait1:		dc.w $2000,$9703,$0000,$D6A0,$FFFF ; Waiting 1
-PLCSArm_Wait2:		dc.w $2000,$9703,$0020,$D6A0,$FFFF ; Waiting 2
-PLCSArm_Wait3:		dc.w $2000,$9703,$0040,$D6A0,$FFFF ; Waiting 3
+PLCSArm_Wait1:		dc.w $2000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2
+					dc.w $D6A0,$FFFF ; Waiting 1
+PLCSArm_Wait2:		dc.w $2000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$20
+					dc.w $D6A0,$FFFF ; Waiting 2
+PLCSArm_Wait3:		dc.w $2000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$40
+					dc.w $D6A0,$FFFF ; Waiting 3
 ; ---------------------------------------------------------------------------
 ; Walking (Angle: 000* 180* degrees)
 PLCSArm_Walk5_000:	dc.w $6000,$9703,$0060,$D6A0,$FFFF ; Walk 5
