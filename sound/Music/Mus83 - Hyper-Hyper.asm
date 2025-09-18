@@ -595,13 +595,13 @@ Hyper_Hyper_Voices:
 ;	$02, $16, $54, $09, 	$5F, $7F, $AF, $6F, 	$18, $17, $1B, $80
 	smpsVcAlgorithm     $02
 	smpsVcFeedback      $07
-	smpsVcUnusedBits    $00, $01, $00, $00, $00
+	smpsVcUnusedBits	$00
 	smpsVcDetune        $00, $00, $00, $00
 	smpsVcCoarseFreq    $01, $02, $06, $07
 	smpsVcRateScale     $02, $01, $01, $01
 	smpsVcAttackRate    $1F, $1F, $1F, $1F
 	smpsVcAmpMod        $01, $00, $00, $00
-	smpsVcDecayRate1    $0C, $0A, $02, $09
+	smpsVcDecayRate1    $2C, $0A, $02, $09
 	smpsVcDecayRate2    $09, $54, $16, $02
 	smpsVcDecayLevel    $06, $0A, $07, $05
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F

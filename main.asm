@@ -4066,7 +4066,7 @@ Z80_Driver_End
 PlayMusic:
 		stopZ80
 		waitZ80
-		move.b	d0,(z80_ram+zSoundQueue1).l	; save BGM number to Z80
+		move.b	d0,(z80_ram+zSoundQueue0).l	; save BGM number to Z80
 		startZ80
 		rts
 ; ===========================================================================

@@ -71,11 +71,11 @@ zUnk_1C06	ds.b 1
 
 zTempVariablesStart
 
+zNextSound	ds.b 1
 zSoundQueueStart
 zSoundQueue0	ds.b 1
 zSoundQueue1	ds.b 1
 zSoundQueue2	ds.b 1
-zSoundQueue3	ds.b 1
 zSoundQueueEnd
 
 zFadeOutTimeout	ds.b 1
@@ -689,11 +689,11 @@ loc_25D:
 		ld	a, (de)
 		or	a
 		jp	p, loc_29C
-		ld	a, (ix+zTrack.SavedDuration)
-		ld	(ix+zTrack.DurationTimeout), a
 	if OptimiseDriver
 		jp	loc_2A3
 	else
+		ld	a, (ix+zTrack.SavedDuration)
+		ld	(ix+zTrack.DurationTimeout), a
 		jr	loc_2A3
 	endif
 ; ---------------------------------------------------------------------------
@@ -1071,11 +1071,7 @@ loc_41C:
 	endif
 		pop	hl
 		bit	7, a
-	if OptimiseDriver
-		jr	z, ModEnv_Positive
-	else
 		jp	z, ModEnv_Positive
-	endif
 		cp	82h
 		jr	z, ModEnv_Jump2Idx		; 82	xx - jump to byte xx
 		cp	80h
@@ -1304,7 +1300,7 @@ WriteInsReg:
 
 
 PlaySoundID:
-		ld	a, (zSoundQueue0)
+		ld	a, (zNextSound)
 		bit	7, a
 		jp	z, StopAllSound			; 00-7F	- Stop All
 	if FixDriverBugs
@@ -1463,7 +1459,7 @@ loc_5E7:
 
 ClearSoundID:
 		ld	a, 80h
-		ld	(zSoundQueue0), a
+		ld	(zNextSound), a
 		ret
 ; ---------------------------------------------------------------------------
 FMInitBytes:	db  80h,   6
@@ -1985,8 +1981,8 @@ loc_8D1:
 DoSoundQueue:
 		ld	a, r
 		ld	(zUnk_1C17), a
-		ld	de, zSoundQueue1
-		ld	b, (zSoundQueueEnd-zSoundQueueStart)-1
+		ld	de, zSoundQueue0
+		ld	b, zSoundQueueEnd-zSoundQueueStart
 
 loc_8E0:
 		ld	a, (de)
@@ -2009,7 +2005,7 @@ loc_8E0:
 
 loc_8FD:
 		ld	a, c
-		ld	(zSoundQueue0), a
+		ld	(zNextSound), a
 		ld	a, (hl)
 		ld	(zUnk_1C18), a
 
@@ -2023,10 +2019,10 @@ loc_905:
 
 loc_90B:
 		ld	a, c
-		ld	(zSoundQueue0), a
+		ld	(zNextSound), a
 		xor	a
 		ld	(zUnk_1C18), a
-		ld	de, zSoundQueue1
+		ld	de, zSoundQueue0
 		ld	(de), a
 		inc	de
 		ld	(de), a
@@ -2109,11 +2105,7 @@ loc_A07:
 		ld	a, (de)
 		inc	de
 		cp	0E0h
-	if OptimiseDriver
-		jr	nc, cfHandler_Drum
-	else
 		jp	nc, cfHandler_Drum
-	endif
 		or	a
 		jp	m, loc_A16
 		dec	de
@@ -2125,11 +2117,7 @@ loc_A16:
 		jp	p, loc_A3E
 		push	de
 		sub	80h
-	if OptimiseDriver
-		jr	z, loc_A38
-	else
 		jp	z, loc_A38
-	endif
 		ld	hl, zSongFM6
 		set	2, (hl)
 		ex	af, af'
@@ -2137,11 +2125,7 @@ loc_A16:
 		ex	af, af'
 		ld	hl, zTracksStart
 		bit	2, (hl)
-	if OptimiseDriver
-		jr	nz, loc_A38
-	else
 		jp	nz, loc_A38
-	endif
 		ld	(zDACIndex), a
 
 loc_A38:
@@ -2155,8 +2139,10 @@ loc_A3E:
 		or	a
 		jp	p, SetDuration
 		dec	de
+	if ~~OptimiseDriver
 		ld	a, (ix+zTrack.SavedDuration)
 		ld	(ix+zTrack.DurationTimeout), a
+	endif
 		jp	loc_2A3
 ; ---------------------------------------------------------------------------
 
@@ -2380,11 +2366,7 @@ cfEB_LoopExit:
 		add	hl, bc
 		ld	a, (hl)
 		dec	a
-	if OptimiseDriver
-		jr	z, loc_B5F
-	else
 		jp	z, loc_B5F
-	endif
 		inc	de
 		ret
 ; ---------------------------------------------------------------------------
@@ -2402,11 +2384,7 @@ cfEC_ChgPSGVol:
 		dec	(ix+zTrack.VolEnv)
 		add	a, (ix+zTrack.Volume)
 		cp	0Fh
-	if OptimiseDriver
-		jr	c, loc_B7A
-	else
 		jp	c, loc_B7A
-	endif
 		ld	a, 0Fh
 
 loc_B7A:
@@ -2840,7 +2818,7 @@ cf00_SetTempo:
 ; ---------------------------------------------------------------------------
 
 cf01_PlaySnd:
-		ld	(zSoundQueue0), a
+		ld	(zNextSound), a
 		ret
 ; ---------------------------------------------------------------------------
 
