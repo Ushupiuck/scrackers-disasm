@@ -124,22 +124,54 @@ PLCSArm_Run_135:	dc.w $4000
 					dc.l ($97)<<24+ARTUNC_SonicArms/2+$960
 					dc.w $D6A0,$FFFF ; Running 1-4 (Angle: 135* 315* degrees)
 ; ---------------------------------------------------------------------------
-PLCSArm_Pul_Lft_000:	dc.w $3000,$9703,$09A0,$D6A0,$FFFF ; Walk Pull (Arm Left)
-PLCSArm_Pul_LftDwn_020:	dc.w $6000,$9703,$09D0,$D6A0,$FFFF ; Walk Pull (Arm Left/Down 020*)
-PLCSArm_Pul_LftDwn_045:	dc.w $6000,$9703,$0A30,$D6A0,$FFFF ; Walk Pull (Arm Left/Down 045*)
-PLCSArm_Pul_LftDwn_060:	dc.w $6000,$9703,$0A90,$D6A0,$FFFF ; Walk Pull (Arm Left/Down 060*)
-PLCSArm_Pul_Dwn_000:	dc.w $6000,$9703,$0AF0,$D6A0,$FFFF ; Walk Pull (Arm Down)
-PLCSArm_Pul_DwnRht_020:	dc.w $6000,$9703,$0B50,$D6A0,$FFFF ; Walk Pull (Arm Down/Right 020*)
-PLCSArm_Pul_DwnRht_045:	dc.w $7000,$9703,$0BB0,$D6A0,$FFFF ; Walk Pull (Arm Down/Right 045*)
-PLCSArm_Pul_DwnRht_060:	dc.w $6000,$9703,$0C20,$D6A0,$FFFF ; Walk Pull (Arm Down/Right 060*)
-PLCSArm_Pul_Rht_000:	dc.w $6000,$9703,$0C80,$D6A0,$FFFF ; Walk Pull (Arm Right)
-PLCSArm_Pul_RhtUp_020:	dc.w $6000,$9703,$0CE0,$D6A0,$FFFF ; Walk Pull (Arm Right/Up 020*)
-PLCSArm_Pul_RhtUp_045:	dc.w $5000,$9703,$0D40,$D6A0,$FFFF ; Walk Pull (Arm Right/Up 045*)
-PLCSArm_Pul_RhtUp_060:	dc.w $6000,$9703,$0D90,$D6A0,$FFFF ; Walk Pull (Arm Right/Up 060*)
-PLCSArm_Pul_Up_000:	dc.w $3000,$9703,$0DF0,$D6A0,$FFFF ; Walk Pull (Arm Up)
-PLCSArm_Pul_UpDwn_020:	dc.w $6000,$9703,$0E20,$D6A0,$FFFF ; Walk Pull (Arm Up/Left 020*)
-PLCSArm_Pul_UpDwn_045:	dc.w $5000,$9703,$0E80,$D6A0,$FFFF ; Walk Pull (Arm Up/Left 045*)
-PLCSArm_Pul_UpDwn_060:	dc.w $6000,$9703,$0ED0,$D6A0,$FFFF ; Walk Pull (Arm Up/Left 060*)
+PLCSArm_Pul_Lft_000:	dc.w $3000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$9A0
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Left)
+PLCSArm_Pul_LftDwn_020:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$9D0
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Left/Down 020*)
+PLCSArm_Pul_LftDwn_045:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$A30
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Left/Down 045*)
+PLCSArm_Pul_LftDwn_060:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$A90
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Left/Down 060*)
+PLCSArm_Pul_Dwn_000:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$AF0
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Down)
+PLCSArm_Pul_DwnRht_020:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$B50
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Down/Right 020*)
+PLCSArm_Pul_DwnRht_045:	dc.w $7000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$BB0
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Down/Right 045*)
+PLCSArm_Pul_DwnRht_060:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$C20
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Down/Right 060*)
+PLCSArm_Pul_Rht_000:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$C80
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Right)
+PLCSArm_Pul_RhtUp_020:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$CE0
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Right/Up 020*)
+PLCSArm_Pul_RhtUp_045:	dc.w $5000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$D40
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Right/Up 045*)
+PLCSArm_Pul_RhtUp_060:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$D90
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Right/Up 060*)
+PLCSArm_Pul_Up_000:	dc.w $3000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$DF0
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Up)
+PLCSArm_Pul_UpDwn_020:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$E20
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Up/Left 020*)
+PLCSArm_Pul_UpDwn_045:	dc.w $5000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$E80
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Up/Left 045*)
+PLCSArm_Pul_UpDwn_060:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$ED0
+					dc.w $D6A0,$FFFF ; Walk Pull (Arm Up/Left 060*)
 ; ---------------------------------------------------------------------------
 PLCSArm_Hold1_000:	dc.w $3000,$9703,$0F30,$D6A0,$FFFF ; Holding Tails 1 (000*) (Used on 000*)
 PLCSArm_Hold2_000:	dc.w $3000,$9703,$0F60,$D6A0,$FFFF ; Holding Tails 2 (000*) (Used on 045*)
