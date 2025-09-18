@@ -211,9 +211,15 @@ PLCSArm_Hold3_135:	dc.w $4000
 					dc.w $D6A0,$FFFF ; Holding Tails 3 (135*) (Unused)
 ; ---------------------------------------------------------------------------
 ; Unused
-PLCSArm_Unused_00:	dc.w $6000,$9703,$1210,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_01:	dc.w $6000,$9703,$1270,$D6A0,$FFFF ; Unused
-PLCSArm_Unused_02:	dc.w $4000,$9703,$12D0,$D6A0,$FFFF ; Unused
+PLCSArm_Unused_00:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1210
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_01:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1270
+					dc.w $D6A0,$FFFF ; Unused
+PLCSArm_Unused_02:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$12D0
+					dc.w $D6A0,$FFFF ; Unused
 PLCSArm_Unused_03:	dc.w $6000,$9703,$1310,$D6A0,$FFFF ; Unused
 PLCSArm_Unused_04:	dc.w $6000,$9703,$1370,$D6A0,$FFFF ; Unused
 PLCSArm_Unused_05:	dc.w $6000,$9703,$13D0,$D6A0,$FFFF ; Unused
