@@ -1,5 +1,5 @@
 # Sonic Crackers Disassembly
-An updated disassembly of [the Sonic Crackers prototype](https://tcrf.net/Proto:Knuckles%27_Chaotix/Sonic_Crackers) for the Genesis/Mega Drive by Filter/RepellantMold
+An updated disassembly of [the Sonic Crackers prototype](https://tcrf.net/Proto:Knuckles%27_Chaotix/Sonic_Crackers) for the Genesis/Mega Drive by Filter, RepellantMold, Ushupiuck, and NyperYuhgard
 
 Original disassembly by MarkeyJester
 
