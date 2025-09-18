@@ -15252,7 +15252,7 @@ loc_DACE:
 
 loc_DB00:
 		ori.w	#1,obj.Angle(a6)
-		move.l	#ARTUNC_Tails,d0
+		move.l	#$A0000,d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
 
@@ -15275,7 +15275,7 @@ loc_DB14:
 
 loc_DB46:
 		ori.w	#1,obj.Angle(a6)
-		move.l	#ARTUNC_Tails,d0
+		move.l	#$A0000,d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
 
@@ -15330,7 +15330,7 @@ loc_DBBA:
 
 loc_DBEC:
 		ori.w	#1,obj.Angle(a6)
-		move.l	#ARTUNC_Tails,d0
+		move.l	#$A0000,d0
 		neg.l	d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
@@ -15354,7 +15354,7 @@ loc_DC02:
 
 loc_DC34:
 		ori.w	#1,obj.Angle(a6)
-		move.l	#ARTUNC_Tails,d0
+		move.l	#$A0000,d0
 		neg.l	d0
 		moveq	#0,d1
 		jsr	(loc_CB1C).l
@@ -15409,7 +15409,7 @@ loc_DCAA:
 
 loc_DCDC:
 		ori.w	#1,obj.Angle(a6)
-		move.l	#ARTUNC_Tails,d1
+		move.l	#$A0000,d1
 		neg.l	d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
@@ -15433,7 +15433,7 @@ loc_DCF2:
 
 loc_DD24:
 		ori.w	#1,obj.Angle(a6)
-		move.l	#ARTUNC_Tails,d1
+		move.l	#$A0000,d1
 		neg.l	d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
@@ -15488,7 +15488,7 @@ loc_DD9A:
 
 loc_DDCC:
 		ori.w	#1,obj.Angle(a6)
-		move.l	#ARTUNC_Tails,d1
+		move.l	#$A0000,d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
 
@@ -15511,7 +15511,7 @@ loc_DDE0:
 
 loc_DE12:
 		ori.w	#1,obj.Angle(a6)
-		move.l	#ARTUNC_Tails,d1
+		move.l	#$A0000,d1
 		moveq	#0,d0
 		jsr	(loc_CB1C).l
 
