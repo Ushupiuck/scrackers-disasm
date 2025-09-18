@@ -32,41 +32,97 @@ PLCSArm_Wait3:		dc.w $2000
 					dc.w $D6A0,$FFFF ; Waiting 3
 ; ---------------------------------------------------------------------------
 ; Walking (Angle: 000* 180* degrees)
-PLCSArm_Walk5_000:	dc.w $6000,$9703,$0060,$D6A0,$FFFF ; Walk 5
-PLCSArm_Walk6_000:	dc.w $6000,$9703,$00C0,$D6A0,$FFFF ; Walk 6
-PLCSArm_Walk1_000:	dc.w $6000,$9703,$0120,$D6A0,$FFFF ; Walk 1 (Also Stand)
-PLCSArm_Walk2_000:	dc.w $6000,$9703,$0180,$D6A0,$FFFF ; Walk 2
-PLCSArm_Walk3_000:	dc.w $4000,$9703,$01E0,$D6A0,$FFFF ; Walk 3
-PLCSArm_Walk4_000:	dc.w $6000,$9703,$0220,$D6A0,$FFFF ; Walk 4
+PLCSArm_Walk5_000:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$60
+					dc.w $D6A0,$FFFF ; Walk 5
+PLCSArm_Walk6_000:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$C0
+					dc.w $D6A0,$FFFF ; Walk 6
+PLCSArm_Walk1_000:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$120
+					dc.w $D6A0,$FFFF ; Walk 1 (Also Stand)
+PLCSArm_Walk2_000:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$180
+					dc.w $D6A0,$FFFF ; Walk 2
+PLCSArm_Walk3_000:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$1E0
+					dc.w $D6A0,$FFFF ; Walk 3
+PLCSArm_Walk4_000:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$220
+					dc.w $D6A0,$FFFF ; Walk 4
 ; ---------------------------------------------------------------------------
 ; Walking (Angle: 045* 225* degrees)
-PLCSArm_Walk5_045:	dc.w $6000,$9703,$0280,$D6A0,$FFFF ; Walk 5
-PLCSArm_Walk6_045:	dc.w $6000,$9703,$02E0,$D6A0,$FFFF ; Walk 6
-PLCSArm_Walk1_045:	dc.w $4000,$9703,$0340,$D6A0,$FFFF ; Walk 1
-PLCSArm_Walk2_045:	dc.w $6000,$9703,$0380,$D6A0,$FFFF ; Walk 2
-PLCSArm_Walk3_045:	dc.w $4000,$9703,$03E0,$D6A0,$FFFF ; Walk 3
-PLCSArm_Walk4_045:	dc.w $4000,$9703,$0420,$D6A0,$FFFF ; Walk 4
+PLCSArm_Walk5_045:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$280
+					dc.w $D6A0,$FFFF ; Walk 5
+PLCSArm_Walk6_045:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$2E0
+					dc.w $D6A0,$FFFF ; Walk 6
+PLCSArm_Walk1_045:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$340
+					dc.w $D6A0,$FFFF ; Walk 1
+PLCSArm_Walk2_045:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$380
+					dc.w $D6A0,$FFFF ; Walk 2
+PLCSArm_Walk3_045:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$3E0
+					dc.w $D6A0,$FFFF ; Walk 3
+PLCSArm_Walk4_045:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$420
+					dc.w $D6A0,$FFFF ; Walk 4
 ; ---------------------------------------------------------------------------
 ; Walking (Angle: 090* 270* degrees)
-PLCSArm_Walk5_090:	dc.w $6000,$9703,$0460,$D6A0,$FFFF ; Walk 5
-PLCSArm_Walk6_090:	dc.w $6000,$9703,$04C0,$D6A0,$FFFF ; Walk 6
-PLCSArm_Walk1_090:	dc.w $6000,$9703,$0520,$D6A0,$FFFF ; Walk 1
-PLCSArm_Walk2_090:	dc.w $6000,$9703,$0580,$D6A0,$FFFF ; Walk 2
-PLCSArm_Walk3_090:	dc.w $4000,$9703,$05E0,$D6A0,$FFFF ; Walk 3
-PLCSArm_Walk4_090:	dc.w $6000,$9703,$0620,$D6A0,$FFFF ; Walk 4
+PLCSArm_Walk5_090:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$460
+					dc.w $D6A0,$FFFF ; Walk 5
+PLCSArm_Walk6_090:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$4C0
+					dc.w $D6A0,$FFFF ; Walk 6
+PLCSArm_Walk1_090:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$520
+					dc.w $D6A0,$FFFF ; Walk 1
+PLCSArm_Walk2_090:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$580
+					dc.w $D6A0,$FFFF ; Walk 2
+PLCSArm_Walk3_090:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$5E0
+					dc.w $D6A0,$FFFF ; Walk 3
+PLCSArm_Walk4_090:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$620
+					dc.w $D6A0,$FFFF ; Walk 4
 ; ---------------------------------------------------------------------------
 ; Walking (Angle: 135* 315* degrees)
-PLCSArm_Walk5_135:	dc.w $6000,$9703,$0680,$D6A0,$FFFF ; Walk 5
-PLCSArm_Walk6_135:	dc.w $6000,$9703,$06E0,$D6A0,$FFFF ; Walk 6
-PLCSArm_Walk1_135:	dc.w $4000,$9703,$0740,$D6A0,$FFFF ; Walk 1
-PLCSArm_Walk2_135:	dc.w $6000,$9703,$0780,$D6A0,$FFFF ; Walk 2
-PLCSArm_Walk3_135:	dc.w $4000,$9703,$07E0,$D6A0,$FFFF ; Walk 3
-PLCSArm_Walk4_135:	dc.w $4000,$9703,$0820,$D6A0,$FFFF ; Walk 4
+PLCSArm_Walk5_135:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$680
+					dc.w $D6A0,$FFFF ; Walk 5
+PLCSArm_Walk6_135:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$6E0
+					dc.w $D6A0,$FFFF ; Walk 6
+PLCSArm_Walk1_135:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$740
+					dc.w $D6A0,$FFFF ; Walk 1
+PLCSArm_Walk2_135:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$780
+					dc.w $D6A0,$FFFF ; Walk 2
+PLCSArm_Walk3_135:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$7E0
+					dc.w $D6A0,$FFFF ; Walk 3
+PLCSArm_Walk4_135:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$820
+					dc.w $D6A0,$FFFF ; Walk 4
 ; ---------------------------------------------------------------------------
-PLCSArm_Run_000:	dc.w $6000,$9703,$0860,$D6A0,$FFFF ; Running 1-4 (Angle: 000* 180* degrees)
-PLCSArm_Run_045:	dc.w $4000,$9703,$08C0,$D6A0,$FFFF ; Running 1-4 (Angle: 045* 225* degrees)
-PLCSArm_Run_090:	dc.w $6000,$9703,$0900,$D6A0,$FFFF ; Running 1-4 (Angle: 090* 270* degrees)
-PLCSArm_Run_135:	dc.w $4000,$9703,$0960,$D6A0,$FFFF ; Running 1-4 (Angle: 135* 315* degrees)
+PLCSArm_Run_000:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$860
+					dc.w $D6A0,$FFFF ; Running 1-4 (Angle: 000* 180* degrees)
+PLCSArm_Run_045:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$8C0
+					dc.w $D6A0,$FFFF ; Running 1-4 (Angle: 045* 225* degrees)
+PLCSArm_Run_090:	dc.w $6000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$900
+					dc.w $D6A0,$FFFF ; Running 1-4 (Angle: 090* 270* degrees)
+PLCSArm_Run_135:	dc.w $4000
+					dc.l ($97)<<24+ARTUNC_SonicArms/2+$960
+					dc.w $D6A0,$FFFF ; Running 1-4 (Angle: 135* 315* degrees)
 ; ---------------------------------------------------------------------------
 PLCSArm_Pul_Lft_000:	dc.w $3000,$9703,$09A0,$D6A0,$FFFF ; Walk Pull (Arm Left)
 PLCSArm_Pul_LftDwn_020:	dc.w $6000,$9703,$09D0,$D6A0,$FFFF ; Walk Pull (Arm Left/Down 020*)
