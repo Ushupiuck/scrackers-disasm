@@ -21,40 +21,100 @@
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
-PLCSonFld_StandForward:	dc.w $1001,$9704,$8000,$A000,$FFFF ; standing (Facing forwards)
-PLCSonFld_StandLftRht:	dc.w $F000,$9704,$8110,$A000,$FFFF ; standing (Facing left or right)
-PLCSonFld_StandBckward:	dc.w $1001,$9704,$8200,$A000,$FFFF ; standing (facing backwards)
+PLCSonFld_StandForward:	dc.w $1001 ; standing (Facing forwards)
+			dc.l ($97)<<24+ARTUNC_SonicField/2
+			dc.w $A000,$FFFF
+PLCSonFld_StandLftRht:	dc.w $F000 ; standing (Facing left or right)
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$110
+			dc.w $A000,$FFFF
+PLCSonFld_StandBckward:	dc.w $1001 ; standing (facing backwards)
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$200
+			dc.w $A000,$FFFF
 ; ---------------------------------------------------------------------------
-PLCSonFld_WalkDwn_1:	dc.w $D000,$9704,$8310,$A000,$FFFF ; Walk Down 1
-PLCSonFld_WalkDwn_2:	dc.w $F000,$9704,$83E0,$A000,$FFFF ; Walk Down 2
-PLCSonFld_WalkDwn_3:	dc.w $0001,$9704,$84D0,$A000,$FFFF ; Walk Down 3
-PLCSonFld_WalkDwn_4:	dc.w $0001,$9704,$85D0,$A000,$FFFF ; Walk Down 4
-PLCSonFld_WalkDwn_5:	dc.w $0001,$9704,$86D0,$A000,$FFFF ; Walk Down 5
-PLCSonFld_WalkDwn_6:	dc.w $2001,$9704,$87D0,$A000,$FFFF ; Walk Down 6
-PLCSonFld_WalkDwn_7:	dc.w $0001,$9704,$88F0,$A000,$FFFF ; Walk Down 7
-PLCSonFld_WalkDwn_8:	dc.w $C000,$9704,$89F0,$A000,$FFFF ; Walk Down 8
+PLCSonFld_WalkDwn_1:	dc.w $D000 ; Walk Down 1
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$310
+			dc.w $A000,$FFFF
+PLCSonFld_WalkDwn_2:	dc.w $F000 ; Walk Down 2
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$3E0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkDwn_3:	dc.w $0001 ; Walk Down 3
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$4D0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkDwn_4:	dc.w $0001 ; Walk Down 4
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$5D0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkDwn_5:	dc.w $0001 ; Walk Down 5
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$6D0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkDwn_6:	dc.w $2001 ; Walk Down 6
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$7D0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkDwn_7:	dc.w $0001 ; Walk Down 7
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$8F0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkDwn_8:	dc.w $C000 ; Walk Down 8
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$9F0
+			dc.w $A000,$FFFF
 ; ---------------------------------------------------------------------------
-PLCSonFld_WalkLR_1:	dc.w $1001,$9704,$8AB0,$A000,$FFFF ; Walk Left or Right 1
-PLCSonFld_WalkLR_2:	dc.w $2001,$9704,$8BC0,$A000,$FFFF ; Walk Left or Right 2
-PLCSonFld_WalkLR_3:	dc.w $1001,$9704,$8CE0,$A000,$FFFF ; Walk Left or Right 3
-PLCSonFld_WalkLR_4:	dc.w $1001,$9704,$8DF0,$A000,$FFFF ; Walk Left or Right 4
-PLCSonFld_WalkLR_5:	dc.w $0001,$9704,$8F00,$A000,$FFFF ; Walk Left or Right 5
-PLCSonFld_WalkLR_6:	dc.w $0001,$9704,$9000,$A000,$FFFF ; Walk Left or Right 6
-PLCSonFld_WalkLR_7:	dc.w $0001,$9704,$9100,$A000,$FFFF ; Walk Left or Right 7
-PLCSonFld_WalkLR_8:	dc.w $1001,$9704,$9200,$A000,$FFFF ; Walk Left or Right 8
+PLCSonFld_WalkLR_1:	dc.w $1001 ; Walk Left or Right 1
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$AB0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkLR_2:	dc.w $2001 ; Walk Left or Right 2
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$BC0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkLR_3:	dc.w $1001 ; Walk Left or Right 3
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$CE0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkLR_4:	dc.w $1001 ; Walk Left or Right 4
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$DF0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkLR_5:	dc.w $0001 ; Walk Left or Right 5
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$F00
+			dc.w $A000,$FFFF
+PLCSonFld_WalkLR_6:	dc.w $0001 ; Walk Left or Right 6
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$1000
+			dc.w $A000,$FFFF
+PLCSonFld_WalkLR_7:	dc.w $0001 ; Walk Left or Right 7
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$1100
+			dc.w $A000,$FFFF
+PLCSonFld_WalkLR_8:	dc.w $1001 ; Walk Left or Right 8
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$1200
+			dc.w $A000,$FFFF
 ; ---------------------------------------------------------------------------
-PLCSonFld_WalkUp_1:	dc.w $D000,$9704,$9310,$A000,$FFFF ; Walk Up 1
-PLCSonFld_WalkUp_2:	dc.w $C000,$9704,$93E0,$A000,$FFFF ; Walk Up 2
-PLCSonFld_WalkUp_3:	dc.w $0001,$9704,$94A0,$A000,$FFFF ; Walk Up 3
-PLCSonFld_WalkUp_4:	dc.w $1001,$9704,$95A0,$A000,$FFFF ; Walk Up 4
-PLCSonFld_WalkUp_5:	dc.w $1001,$9704,$96B0,$A000,$FFFF ; Walk Up 5
-PLCSonFld_WalkUp_6:	dc.w $0001,$9704,$97C0,$A000,$FFFF ; Walk Up 6
-PLCSonFld_WalkUp_7:	dc.w $0001,$9704,$98C0,$A000,$FFFF ; Walk Up 7
-PLCSonFld_WalkUp_8:	dc.w $D000,$9704,$99C0,$A000,$FFFF ; Walk Up 8
+PLCSonFld_WalkUp_1:	dc.w $D000 ; Walk Up 1
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$1310
+			dc.w $A000,$FFFF
+PLCSonFld_WalkUp_2:	dc.w $C000 ; Walk Up 2
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$13E0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkUp_3:	dc.w $0001 ; Walk Up 3
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$14A0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkUp_4:	dc.w $1001 ; Walk Up 4
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$15A0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkUp_5:	dc.w $1001 ; Walk Up 5
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$16B0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkUp_6:	dc.w $0001 ; Walk Up 6
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$17C0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkUp_7:	dc.w $0001 ; Walk Up 7
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$18C0
+			dc.w $A000,$FFFF
+PLCSonFld_WalkUp_8:	dc.w $D000 ; Walk Up 8
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$19C0
+			dc.w $A000,$FFFF
 ; ---------------------------------------------------------------------------
-PLCSonFld_UncBall_1:	dc.w $0001,$9704,$9A90,$A000,$FFFF ; Ball frame 1 (Rolling/jumping) (Unused)
-PLCSonFld_UncBall_2:	dc.w $0001,$9704,$9B90,$A000,$FFFF ; Ball frame 2 (Rolling/jumping) (Unused)
-PLCSonFld_UncBall_3:	dc.w $0001,$9704,$9C90,$A000,$FFFF ; Ball frame 3 (Rolling/jumping) (Unused)
+PLCSonFld_UncBall_1:	dc.w $0001 ; Ball frame 1 (Rolling/jumping) (Unused)
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$1A90
+			dc.w $A000,$FFFF
+PLCSonFld_UncBall_2:	dc.w $0001 ; Ball frame 2 (Rolling/jumping) (Unused)
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$1B90
+			dc.w $A000,$FFFF
+PLCSonFld_UncBall_3:	dc.w $0001 ; Ball frame 3 (Rolling/jumping) (Unused)
+			dc.l ($97)<<24+ARTUNC_SonicField/2+$1C90
+			dc.w $A000,$FFFF
 			even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
