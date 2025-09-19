@@ -373,8 +373,8 @@ DMAToCRAM:
 		move.w	#$8F02,(vdp_control_port).l	; set VDP Increment
 		move.w	#$8F02,($FFFFC9D6).w
 		lea	(vdp_control_port).l,a0		; load VDP address port to a0
-		ori.w	#$8114,($FFFFC9BA).w
-		move.w	($FFFFC9BA).w,(a0)
+		ori.w	#$8114,(word_C9BA).w
+		move.w	(word_C9BA).w,(a0)
 		lea	DMAValues(pc),a1		; load VDP values address to a1
 		move.w	(a1)+,(a0)			; dump DMA values to VDP
 		move.w	(a1),(a0)
@@ -390,8 +390,8 @@ DMAToCRAM:
 		move.w	#$C000,(a0)
 		move.w	#$80,-(sp)
 		move.w	(sp)+,(a0)
-		andi.w	#$FFEF,($FFFFC9BA).w
-		move.w	($FFFFC9BA).w,(a0)
+		andi.w	#$FFEF,(word_C9BA).w
+		move.w	(word_C9BA).w,(a0)
 		startZ80
 		move.l	#$C0000000,(vdp_control_port).l	; set VDP in CRAM write mode
 		move.w	(v_pal).w,-4(a0)		; move colour value in ram to VDP
@@ -413,7 +413,7 @@ VDPSetup_02:
 		moveq	#0,d3				; clear d3
 		stopZ80
 		waitZ80
-		move.w	($FFFFC9BA).w,d0
+		move.w	(word_C9BA).w,d0
 		bset	#4,d0
 		move.w	d0,(a4)
 		move.w	#$8F02,(vdp_control_port).l	; set VDP Increment
@@ -452,7 +452,7 @@ loc_506:
 
 loc_542:
 		dbf	d7,loc_506
-		move.w	($FFFFC9BA).w,d1
+		move.w	(word_C9BA).w,d1
 		bclr	#4,d1
 		move.w	d1,(a4)
 		startZ80
@@ -572,7 +572,7 @@ sub_626:
 		lea	(vdp_control_port).l,a0
 		stopZ80
 		waitZ80
-		move.w	($FFFFC9BA).w,d4
+		move.w	(word_C9BA).w,d4
 		bset	#4,d4
 		move.w	d4,(a0)
 		move.w	#$8F02,(vdp_control_port).l
@@ -606,7 +606,7 @@ sub_626:
 		move.w	d1,(a0)
 		movea.l	d6,a1
 		move.w	(a1),-4(a0)			; points to vdp_data_port
-		move.w	($FFFFC9BA).w,d4
+		move.w	(word_C9BA).w,d4
 		bclr	#4,d4
 		move.w	d4,(a0)
 		startZ80
@@ -993,7 +993,7 @@ loc_9B2:
 		clr.w	2(a1)
 		clr.l	4(a1)
 		clr.l	8(a1)
-		clr.l	obj.Ypos(a1)
+		clr.l	$C(a1)
 		lea	$10(a1),a1
 		dbf	d0,loc_9B2
 
@@ -4138,10 +4138,10 @@ loc_64AA:
 		move.w	($FFFFFFC4).w,d0
 		andi.w	#4,d0
 		move.w	d0,($FFFFFAC8).w
-		ori.w	#$8124,($FFFFC9BA).w
-		move.w	($FFFFC9BA).w,(vdp_control_port).l
-		ori.w	#$8144,($FFFFC9BA).w
-		move.w	($FFFFC9BA).w,(vdp_control_port).l
+		ori.w	#$8124,(word_C9BA).w
+		move.w	(word_C9BA).w,(vdp_control_port).l
+		ori.w	#$8144,(word_C9BA).w
+		move.w	(word_C9BA).w,(vdp_control_port).l
 		addq.w	#4,(v_subgamemode).w		; increase sega screen mode
 
 loc_64F2:
@@ -4182,7 +4182,7 @@ MultiReturn:
 ; ---------------------------------------------------------------------------
 
 loc_6526:
-		tst.b	($FFFFC93C).w
+		tst.b	(unk_C93C).w
 		bpl.s	Sega_ChooseAnimation
 		move.w	#$14,(v_subgamemode).w
 
@@ -4199,7 +4199,7 @@ Sega_AnimationTable:
 ; ---------------------------------------------------------------------------
 
 SegaPaletteStart:
-		tst.b	($FFFFC93C).w
+		tst.b	(unk_C93C).w
 		bpl.s	.cycling
 		move.w	#$14,(v_subgamemode).w
 
@@ -4227,7 +4227,7 @@ SegaPaletteStart:
 ; ---------------------------------------------------------------------------
 
 SegaPaletteCycle:
-		tst.b	($FFFFC93C).w
+		tst.b	(unk_C93C).w
 		bpl.s	loc_6594
 		move.w	#$14,(v_subgamemode).w
 
@@ -4251,7 +4251,7 @@ loc_6594:
 ; ---------------------------------------------------------------------------
 
 loc_65C6:
-		tst.b	($FFFFC93C).w
+		tst.b	(unk_C93C).w
 		bpl.s	loc_65D2
 		move.w	#$14,(v_subgamemode).w
 
@@ -4724,7 +4724,7 @@ Sega_MainAnimation:
 
 loc_69D2:
 		move.w	#$8164,(vdp_control_port).l
-		move.w	#$8164,($FFFFC9BA).w
+		move.w	#$8164,(word_C9BA).w
 		bsr.w	SegaScrn_CheckRegion
 		lea	(unk_0200&$FFFFFF+$80).l,a0
 		bra.s	loc_6A02
@@ -5019,7 +5019,7 @@ sub_6CF0:
 
 loc_6CFC:
 		move.w	#$8164,(vdp_control_port).l
-		move.w	#$8164,($FFFFC9BA).w
+		move.w	#$8164,(word_C9BA).w
 		subi.w	#$10,($FFFFCA5E).w
 		subi.w	#$10,($FFFFCA60).w
 		subq.w	#1,($FFFFFAC6).w
@@ -5370,7 +5370,7 @@ TitleStart:
 .wait:
 		tst.b	(v_lagger).w
 		bpl.s	.wait
-		move.w	($FFFFC946).w,d0
+		move.w	(word_C946).w,d0
 		add.w	(v_titleselect).w,d0
 		bpl.s	loc_74F4
 		moveq	#0,d0
@@ -5385,7 +5385,7 @@ loc_74FC:
 		lsl.w	#4,d0
 		addi.w	#$120,d0	; position on screen
 		move.w	d0,($FFFFD832).w
-		tst.b	($FFFFC93D).w
+		tst.b	(unk_C93D).w
 		bmi.s	TitleStartMenu
 		rts
 ; ---------------------------------------------------------------------------
@@ -5433,14 +5433,14 @@ loc_7576:
 		move.l	#$78000003,(vdp_control_port).l
 		move.w	($FFFFD832).w,(vdp_data_port).l
 		jsr	(ReadCtrlInput).w
-		move.b	($FFFFC93C).w,d0
+		move.b	(unk_C93C).w,d0
 		bsr.s	sub_75BC
-		move.w	d1,($FFFFC940).w
-		move.w	d2,($FFFFC942).w
-		move.b	($FFFFC93D).w,d0
+		move.w	d1,(word_C940).w
+		move.w	d2,(word_C942).w
+		move.b	(unk_C93D).w,d0
 		bsr.s	sub_75BC
-		move.w	d1,($FFFFC944).w
-		move.w	d2,($FFFFC946).w
+		move.w	d1,(word_C944).w
+		move.w	d2,(word_C946).w
 		jsr	(DMAToCRAM).w
 		ori.b	#$80,(v_lagger).w
 		movem.l	(sp)+,d0-a6
@@ -5537,8 +5537,8 @@ Fields:
 		lea	$20(a1),a1
 		movem.l	(a0)+,d0-d7
 		movem.l	d0-d7,(a1)
-		andi.w	#$81BC,($FFFFC9BA).w
-		move.w	($FFFFC9BA).w,(vdp_control_port).l
+		andi.w	#$81BC,(word_C9BA).w
+		move.w	(word_C9BA).w,(vdp_control_port).l
 		jsr	(Field_LoadArt).l
 		jsr	(sub_15D0).w
 		move.w	#5,($FFFFD83C).w
@@ -5548,8 +5548,8 @@ Fields:
 		jsr	(Load_Field_Players).l ; Load Field Player Objects
 		jsr	(sub_D1E0).l
 		jsr	(sub_FA44).l
-		ori.w	#$8144,($FFFFC9BA).w
-		move.w	($FFFFC9BA).w,(vdp_control_port).l
+		ori.w	#$8144,(word_C9BA).w
+		move.w	(word_C9BA).w,(vdp_control_port).l
 		bra.w	Fields_MainLoop
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -5673,9 +5673,10 @@ loc_7FC6:
 ; End of function sub_7FB0
 
 ; ---------------------------------------------------------------------------
-byte_8000:	dc.b $00,$C0,$40,$C0
+byte_8000:
+		dc.b 0,$C0,$40,$C0
 		dc.b $80,$A0,$60,$A0
-		dc.b $00,$E0,$20,$E0
+		dc.b 0,$E0,$20,$E0
 		dc.b $80,$A0,$60,$A0
 ; ---------------------------------------------------------------------------
 
@@ -5704,7 +5705,7 @@ Vint_Fields:
 Field_PauseGame:
 		tst.b	($FFFFD89F).w
 		bpl.w	locret_8194
-		move.b	($FFFFC93C).w,d0
+		move.b	(unk_C93C).w,d0
 		andi.b	#$70,d0
 		cmpi.b	#$70,d0
 		bne.s	loc_8086
@@ -5800,7 +5801,7 @@ loc_814C:
 		jsr	(sub_82B2).l
 		jsr	(BuildSprites).w
 		bsr.w	sub_F374
-		tst.b	($FFFFC93D).w
+		tst.b	(unk_C93D).w
 		bpl.w	loc_808A
 		movem.l	(sp)+,d0-a6
 
@@ -6622,8 +6623,8 @@ loc_88D2:
 		move.w	#0,(a0)
 		bsr.w	sub_F45C
 		bsr.w	sub_FA44
-		andi.w	#$81BC,($FFFFC9BA).w
-		move.w	($FFFFC9BA).w,(vdp_control_port).l
+		andi.w	#$81BC,(word_C9BA).w
+		move.w	(word_C9BA).w,(vdp_control_port).l
 		clr.l	($FFFFD82C).w
 		jsr	(sub_9514).l
 		bsr.w	sub_8BFE
@@ -6653,8 +6654,8 @@ loc_8968:
 		bsr.w	sub_F58C
 
 loc_896C:
-		ori.w	#$8144,($FFFFC9BA).w
-		move.w	($FFFFC9BA).w,(vdp_control_port).l
+		ori.w	#$8144,(word_C9BA).w
+		move.w	(word_C9BA).w,(vdp_control_port).l
 		bsr.w	sub_F4FE
 		jsr	(sub_F94A).l
 		bra.w	Level_MainLoop
@@ -6819,7 +6820,7 @@ loc_8B1C:
 Level_PauseGame:
 		tst.b	($FFFFD89F).w
 		bpl.w	locret_8BFC
-		move.b	($FFFFC93C).w,d0
+		move.b	(unk_C93C).w,d0
 		andi.b	#$70,d0
 		cmpi.b	#$70,d0
 		bne.s	loc_8BA0
@@ -6856,7 +6857,7 @@ loc_8BA4:
 		jsr	(sub_9514).l
 		jsr	(BuildSprites).w
 		bsr.w	sub_F374
-		tst.b	($FFFFC93D).w
+		tst.b	(unk_C93D).w
 		bpl.s	loc_8BA4
 		movem.l	(sp)+,d0-a6
 
@@ -7052,7 +7053,7 @@ LevelSelect_Main:
 .wait:
 		tst.b	(v_lagger).w
 		bpl.s	.wait
-		move.w	($FFFFC944).w,d0
+		move.w	(word_C944).w,d0
 		add.w	($FFFFD834).w,d0
 		bpl.s	loc_8ED8
 		moveq	#0,d0
@@ -7146,7 +7147,7 @@ loc_8FCA:
 		move.w	($FFFFD834).w,d1
 		add.w	d1,d1
 		move.w	word_8FB6(pc,d1.w),d1
-		move.w	($FFFFC946).w,d0
+		move.w	(word_C946).w,d0
 		neg.w	d0
 		add.w	($FFFFD836).w,d0
 		bpl.s	loc_8FE2
@@ -7163,7 +7164,7 @@ loc_8FE8:
 		neg.w	d0
 		addi.w	#$130,d0
 		move.w	d0,($FFFFD832).w
-		tst.b	($FFFFC93D).w
+		tst.b	(unk_C93D).w
 		bmi.s	LevelSelect_PlaySpecial
 		rts
 ; ---------------------------------------------------------------------------
@@ -7201,14 +7202,14 @@ loc_903C:
 		move.l	#$78000003,(vdp_control_port).l
 		move.w	($FFFFD832).w,(vdp_data_port).l
 		jsr	(ReadCtrlInput).w
-		move.b	($FFFFC93C).w,d0
+		move.b	(unk_C93C).w,d0
 		bsr.s	sub_9098
-		move.w	d1,($FFFFC940).w
-		move.w	d2,($FFFFC942).w
-		move.b	($FFFFC93D).w,d0
+		move.w	d1,(word_C940).w
+		move.w	d2,(word_C942).w
+		move.b	(unk_C93D).w,d0
 		bsr.s	sub_9098
-		move.w	d1,($FFFFC944).w
-		move.w	d2,($FFFFC946).w
+		move.w	d1,(word_C944).w
+		move.w	d2,(word_C946).w
 		jsr	(DMAToCRAM).w
 		ori.b	#$80,(v_lagger).w
 		movem.l	(sp)+,d0-a6
@@ -7340,9 +7341,9 @@ OptionSoundTest_Exit:
 .wait:
 		tst.b	(v_lagger).w
 		bpl.s	.wait
-		move.w	($FFFFC944).w,d0
+		move.w	(word_C944).w,d0
 		add.b	d0,($FFFFD82B).w
-		move.w	($FFFFC946).w,d0
+		move.w	(word_C946).w,d0
 		lsl.w	#4,d0
 		add.b	d0,($FFFFD82B).w
 		disable_ints
@@ -7351,7 +7352,7 @@ OptionSoundTest_Exit:
 		addi.w	#$820,d1
 		jsr	(sub_5090).l
 		enable_ints
-		move.b	($FFFFC93D).w,d0
+		move.b	(unk_C93D).w,d0
 		bpl.s	loc_94A0
 		move.b	#flg_FadeOut,d0
 		jsr	(PlayMusic).l
@@ -7377,14 +7378,14 @@ loc_94B4:
 		move.l	#$78000003,(vdp_control_port).l
 		move.w	($FFFFD832).w,(vdp_data_port).l
 		jsr	(ReadCtrlInput).w
-		move.b	($FFFFC93C).w,d0
+		move.b	(unk_C93C).w,d0
 		bsr.s	sub_94F6
-		move.w	d1,($FFFFC940).w
-		move.w	d2,($FFFFC942).w
-		move.b	($FFFFC93D).w,d0
+		move.w	d1,(word_C940).w
+		move.w	d2,(word_C942).w
+		move.b	(unk_C93D).w,d0
 		bsr.s	sub_94F6
-		move.w	d1,($FFFFC944).w
-		move.w	d2,($FFFFC946).w
+		move.w	d1,(word_C944).w
+		move.w	d2,(word_C946).w
 		ori.b	#$80,(v_lagger).w
 		movem.l	(sp)+,d0-a6
 		rte
@@ -12035,16 +12036,16 @@ sub_BE72:
 		moveq	#4,d0
 		jsr	(ProcessObject).w
 		bmi.s	loc_BE9C
-		move.w	#$80,4(a0)
+		move.w	#$80,obj.Unk4(a0)
 		move.w	#$800,obj.Pointer(a0) ; Load Sonic Hands Object Pointer?
-		move.w	#0,$20(a0)
+		move.w	#0,obj.Unk20(a0)
 		move.w	a0,($FFFFD862).w
 
 loc_BE9C:
 		moveq	#4,d0
 		jsr	(ProcessObject).w
 		bmi.s	loc_BEE0
-		move.w	#$80,4(a0)
+		move.w	#$80,obj.Unk4(a0)
 		move.w	#2,obj.Pointer(a0) ; Load Sonic Object Pointer?
 		move.w	($FFFFC9DE).w,d0
 		addi.w	#$B8,d0
@@ -12052,7 +12053,7 @@ loc_BE9C:
 		move.w	($FFFFC9EE).w,d0
 		addi.w	#$70,d0
 		move.w	d0,obj.Ypos(a0)
-		move.w	#0,$20(a0)
+		move.w	#0,obj.Unk20(a0)
 		movea.w	($FFFFD862).w,a6
 		move.w	a0,($FFFFD862).w
 		move.w	a0,$24(a6)
@@ -12062,25 +12063,25 @@ loc_BEE0:
 		moveq	#4,d0
 		jsr	(ProcessObject).w
 		bmi.s	loc_BF00
-		move.w	#$80,4(a0)
+		move.w	#$80,obj.Unk4(a0)
 		move.w	#$1000,obj.Pointer(a0) ; Load Unknown Object Pointer?
-		move.w	#0,$20(a0)
+		move.w	#0,obj.Unk20(a0)
 		move.w	($FFFFD862).w,$24(a0)
 
 loc_BF00:
 		moveq	#4,d0
 		jsr	(ProcessObject).w
 		bmi.s	loc_BF1E
-		move.w	#$80,4(a0)
+		move.w	#$80,obj.Unk4(a0)
 		move.w	#$C00,obj.Pointer(a0) ; Load Tails Hands Object Pointer?
-		move.w	#$21,$20(a0)
+		move.w	#$21,obj.Unk20(a0)
 		move.w	a0,($FFFFD864).w
 
 loc_BF1E:
 		moveq	#4,d0
 		jsr	(ProcessObject).w
 		bmi.s	loc_BF62
-		move.w	#$80,4(a0)
+		move.w	#$80,obj.Unk4(a0)
 		move.w	#$402,obj.Pointer(a0) ; Load Tails Object Pointer?
 		move.w	($FFFFC9DE).w,d0
 		addi.w	#$88,d0
@@ -12088,7 +12089,7 @@ loc_BF1E:
 		move.w	($FFFFC9EE).w,d0
 		addi.w	#$70,d0
 		move.w	d0,obj.Ypos(a0)
-		move.w	#$21,$20(a0)
+		move.w	#$21,obj.Unk20(a0)
 		movea.w	($FFFFD864).w,a6
 		move.w	a0,($FFFFD864).w
 		move.w	a0,$24(a6)
@@ -12098,9 +12099,9 @@ loc_BF62:
 		moveq	#4,d0
 		jsr	(ProcessObject).w
 		bmi.s	locret_BF82
-		move.w	#$80,4(a0)
+		move.w	#$80,obj.Unk4(a0)
 		move.w	#$1400,obj.Pointer(a0) ; Load Tails Tail Object Pointer?
-		move.w	#$21,$20(a0)
+		move.w	#$21,obj.Unk20(a0)
 		move.w	($FFFFD864).w,$24(a0)
 
 locret_BF82:
@@ -18086,7 +18087,7 @@ sub_F538:
 		jsr	(BuildSprites).w
 		tst.b	($FFFFFDC2).w
 		beq.s	loc_F562
-		btst	#7,($FFFFC93D).w
+		btst	#bitStart,(unk_C93D).w
 		beq.s	sub_F538
 		clr.b	($FFFFFDC2).w
 		clr.w	($FFFFFDC4).w

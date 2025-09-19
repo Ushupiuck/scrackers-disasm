@@ -21,11 +21,19 @@ unk_C824:	ds.b 6
 unk_C82A:	ds.b 6
 unk_C830:	ds.b 2
 v_vdpindex:	ds.l 1
-unk_C836:	ds.b 6
-	ds.b $FA
+unk_C836:	ds.b $100
 unk_C936:	ds.b 1
 unk_C937:	ds.b 1
-unk_C938:	ds.b 1
+unk_C938:	ds.l 1
+unk_C93C:	ds.b 1
+unk_C93D:	ds.b 1
+			ds.b 2
+word_C940:	ds.w 1
+word_C942:	ds.w 1
+word_C944:	ds.w 1
+word_C946:	ds.w 1
+			ds.w $39
+word_C9BA:	ds.w 1
 
 v_pal:	equ ramaddr($FFFFD3E4)
 v_ngfx_buffer:	equ ramaddr($FFFFD59A)
