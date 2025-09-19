@@ -5850,7 +5850,7 @@ sub_81F8:
 		lea	($FFFFD850).w,a6
 
 loc_81FC:
-		_move.w	0(a6),d0
+		_move.w	obj.ID(a6),d0
 		bne.s	loc_8204
 		rts
 ; ---------------------------------------------------------------------------
@@ -10664,7 +10664,7 @@ loc_B352:
 
 ObjTails_ThrowPartner:
 		move.b	3(a5),d0
-		andi.b	#$70,d0
+		andi.b	#btnABC,d0
 		beq.s	locret_B386
 		move.w	($FFFFFAE0).w,d0
 		cmpi.w	#$18,d0
@@ -10684,7 +10684,7 @@ locret_B386:
 
 ObjTails_Jump:
 		move.b	3(a5),d0
-		andi.b	#$70,d0
+		andi.b	#btnABC,d0
 		beq.s	locret_B3DA
 		move.b	#4,7(a6)
 		clr.w	$28(a6)
@@ -13073,7 +13073,7 @@ loc_C724:
 		bpl.s	loc_C738
 		cmpi.w	#-$1000,d0
 		bge.s	locret_C744
-		move.w	#$F000,obj.Inertia(a6)
+		move.w	#-$1000,obj.Inertia(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17074,7 +17074,8 @@ loc_ECCE:
 locret_ECE4:
 		rts
 ; ---------------------------------------------------------------------------
-unk_ECE6:	dc.b   0
+unk_ECE6:
+		dc.b   0
 		dc.b   2
 		dc.b   3
 		dc.b   5
@@ -17445,7 +17446,7 @@ loc_EFF8:
 ; ---------------------------------------------------------------------------
 		tst.w	($FFFFD834).w			; is World/Zone ID SSZ?
 		bne.s	loc_F00A			; if not, branch
-		move.b	#$0,($FFFFDA85).w		; remove the left Black bar block
+		move.b	#0,($FFFFDA85).w		; remove the left Black bar block
 
 loc_F00A:
 		bra.w	loc_F0DE
@@ -17720,7 +17721,7 @@ locret_F236:
 sub_F238:
 		move.l	a0,($FFFFD8EC).w
 		lea	($FFFFD8F2).w,a0
-		move.w	#$10-1,d7
+		move.w	#bytesToXcnt($100,$10),d7
 
 loc_F244:
 		move.w	#$FFFF,(a0)+
@@ -18602,7 +18603,9 @@ loc_FA0C:
 		lea	TTZ_AniTileLocs(pc),a0
 		bra.w	loc_F974
 ; ---------------------------------------------------------------------------
-TTZ_AniTileLocs:dc.l $001023E0
+TTZ_AniTileLocs:
+		dc.w $10
+		dc.w $23E0
 		dc.l $00000016
 		dc.l $29600101
 		dc.l $00000000
@@ -18640,7 +18643,8 @@ loc_FA4C:
 ; Uncompressed Animated PLC Table
 ; ---------------------------------------------------------------------------
 
-UnkReps:	dc.w $0022				; number of uncompressed art files to read
+UnkReps:
+		dc.w $0022				; number of uncompressed art files to read
 		dc.w $0000				; VRAM location
 		dc.l AniArt_Hud1to9_Sym			; "0" Hud	; location of Art
 		dc.w $0020				; size of Art
