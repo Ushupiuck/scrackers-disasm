@@ -32,7 +32,8 @@ word_C940:	ds.w 1
 word_C942:	ds.w 1
 word_C944:	ds.w 1
 word_C946:	ds.w 1
-			ds.w $39
+			ds.w $38
+word_C9B8:	ds.w 1
 word_C9BA:	ds.w 1
 
 v_pal:	equ ramaddr($FFFFD3E4)

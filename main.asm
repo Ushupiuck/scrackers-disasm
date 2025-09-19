@@ -399,7 +399,8 @@ DMAToCRAM:
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 DMAValues:
-		dc.w $9340,$9400			; DMA Transfer Size (Lower and Upper bytes, in order: XX00, 00XX)
+		dc.w $9340			; DMA Transfer Size (Lower and Upper bytes, in order: XX00, 00XX)
+		dc.w $9400
 		dc.l (v_pal&$FFFFFF)/2			; DMA Transfer Source (7FE9F2 x 2 = FFD3E4)
 DMAValues_End
 ; ---------------------------------------------------------------------------
@@ -884,7 +885,7 @@ MapScreen:
 ; ---------------------------------------------------------------------------
 
 SetupVDPUsingTable:
-		lea	($FFFFC9B8).w,a1
+		lea	(word_C9B8).w,a1
 
 .loop:
 		move.w	(a0),d0				; if the currently read word is 0...
