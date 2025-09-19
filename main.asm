@@ -5110,7 +5110,7 @@ loc_6DFE:
 		andi.w	#3,d1
 		bne.s	locret_6E3E
 		andi.w	#$1C,d0
-		lea	(dword_6E46).l,a0
+		lea	(byte_6E46).l,a0
 		adda.w	d0,a0
 		lea	($FFFFD16A).w,a1
 		move.b	(a0)+,d0
@@ -5118,7 +5118,7 @@ loc_6DFE:
 		add.w	d0,(a1)
 		move.b	(a0)+,d0
 		ext.w	d0
-		add.w	d0,obj.Xpos(a1)
+		add.w	d0,8(a1)
 		move.b	(a0)+,d0
 		ext.w	d0
 		add.w	d0,$10(a1)
@@ -5134,14 +5134,15 @@ loc_6E40:
 		addq.w	#4,($FFFFFAC4).w
 		rts
 ; ---------------------------------------------------------------------------
-dword_6E46:	dc.l 0
-		dc.l $FEFFFF00
-		dc.l $FEFEFFFF
-		dc.l $FEFFFF00
-		dc.l $FEFEFFFF
-		dc.l 0
-		dc.l $2020202
-		dc.l $6040200
+byte_6E46:
+		dc.b 0, 0, 0, 0
+		dc.b $FE,$FF,$FF,0
+		dc.b $FE,$FE,$FF,$FF
+		dc.b $FE,$FF,$FF,0
+		dc.b $FE,$FE,$FF,$FF
+		dc.b 0, 0, 0, 0
+		dc.b 2, 2, 2, 2
+		dc.b 6, 4, 2, 0
 ; ---------------------------------------------------------------------------
 
 loc_6E66:
@@ -5375,14 +5376,14 @@ TitleStart:
 		moveq	#0,d0
 
 loc_74F4:
-		cmpi.w	#3,d0
-		bls.s	loc_74FC
-		moveq	#3,d0
+		cmpi.w	#3,d0	; are we on selection 3?
+		bls.s	loc_74FC	; if lower than or same, branch
+		moveq	#3,d0	; force selection 3
 
 loc_74FC:
 		move.w	d0,(v_titleselect).w
 		lsl.w	#4,d0
-		addi.w	#$120,d0
+		addi.w	#$120,d0	; position on screen
 		move.w	d0,($FFFFD832).w
 		tst.b	($FFFFC93D).w
 		bmi.s	TitleStartMenu
@@ -5512,7 +5513,7 @@ MAPUNC_TitleMenu_2:
 		dc.w	"SELECT  "
 MAPUNC_TitleMenu_3:
 		dc.w	"1ST ROM "
-		dc.w	"19940401"
+		dc.w	"19940401"	; format: YYYY-MM-DD (ISO 8601 standard)
 		charset
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
@@ -5648,7 +5649,7 @@ sub_7FB0:
 		clr.b	6(a4)
 
 loc_7FC6:
-		addq.b	#1,obj.Pointer(a4)
+		addq.b	#1,6(a4)
 		and.b	d0,d1
 		move.b	d1,3(a4)
 		andi.w	#$F,d0
@@ -5667,7 +5668,7 @@ loc_7FC6:
 		move.w	d0,d1
 		swap	d0
 		or.w	d0,d1
-		move.w	d1,obj.Xpos(a4)
+		move.w	d1,8(a4)
 		rts
 ; End of function sub_7FB0
 
@@ -5729,7 +5730,7 @@ loc_808A:
 		beq.w	loc_814C
 		moveq	#0,d0
 		lea	($FFFFF9C0).w,a0
-		move.w	#$600/4-1,d1
+		move.w	#bytesToLcnt($600),d1
 
 loc_80B2:
 		move.l	d0,(a0)+
@@ -5737,19 +5738,19 @@ loc_80B2:
 		move.w	d0,($FFFFD830).w
 		move.w	d0,($FFFFD832).w
 		lea	($FFFFC9DE).w,a0
-		moveq	#$40/4-1,d1
+		moveq	#bytesToLcnt($40),d1
 
 loc_80C6:
 		move.l	d0,(a0)+
 		dbf	d1,loc_80C6
 		lea	($FFFFCA1E).w,a0
-		moveq	#$40/4-1,d1
+		moveq	#bytesToLcnt($40),d1
 
 loc_80D2:
 		move.l	d0,(a0)+
 		dbf	d1,loc_80D2
 		lea	($FFFFCA5E).w,a0
-		move.w	#$380/4-1,d1
+		move.w	#bytesToLcnt($380),d1
 
 loc_80E0:
 		move.l	d0,(a0)+
@@ -5760,7 +5761,7 @@ loc_80E0:
 		move.w	#$8F02,($FFFFC9D6).w
 		moveq	#0,d0
 		move.l	#$40000000,(vdp_control_port).l
-		move.w	#$10000/16-1,d1
+		move.w	#bytesToXcnt($10000,16),d1
 
 loc_810E:
 		move.l	d0,(a0)
@@ -5818,11 +5819,11 @@ sub_8196:
 		moveq	#4,d0
 		jsr	(ProcessObject).w
 		bmi.s	Load_Tails
-		move.w	#$80,4(a0)
+		move.w	#$80,obj.Unk4(a0)
 		move.w	#2,obj.Pointer(a0)       ; Load Sonic Object Pointer?
 		move.w	#$70,obj.Xpos(a0)               ; Set starting X position
 		move.w	#$70,obj.Ypos(a0)               ; Set starting Y position
-		move.w	#$8000,$20(a0)
+		move.w	#$8000,obj.Unk20(a0)
 		move.w	a0,($FFFFD862).w
 
 Load_Tails:
@@ -5830,11 +5831,11 @@ loc_81CC:
 		moveq	#4,d0
 		jsr	(ProcessObject).w
 		bmi.s	locret_81F6
-		move.w	#$80,4(a0)
+		move.w	#$80,obj.Unk4(a0)
 		move.w	#$802,obj.Pointer(a0)    ; Load Tails Object Pointer?
 		move.w	#$B0,obj.Xpos(a0)               ; Set starting X position
 		move.w	#$70,obj.Ypos(a0)               ; Set starting Y position
-		move.w	#$8000,$20(a0)
+		move.w	#$8000,obj.Unk20(a0)
 		move.w	a0,($FFFFD864).w
 
 locret_81F6:
@@ -6002,7 +6003,7 @@ loc_82DE:
 
 loc_8320:
 		lea	($FFFFCA5E).w,a0
-		move.w	#$70-1,d2
+		move.w	#bytesToXcnt($380,8),d2
 
 loc_8328:
 		move.l	d0,(a0)+
@@ -6274,7 +6275,8 @@ PALCY_ElectricField_1:
 		dc.w $86A
 		dc.w $626
 		dc.w $404
-loc_856A:	dc.l $FFFFFAEC
+loc_856A:
+		dc.l $FFFFFAEC
 	if ~~fixBugs
 		; Bug: this uses palette entry 2 instead of 3 like intended
 		; perhaps intentional though, considering it can flash very fast.
@@ -6282,7 +6284,8 @@ loc_856A:	dc.l $FFFFFAEC
 	else
 		dc.l $FFFFD43C
 	endif
-PALCY_ElectricField_2:dc.w $EE0
+PALCY_ElectricField_2:
+		dc.w $EE0
 		dc.w $64
 		dc.w $420
 		dc.w $32
@@ -6331,9 +6334,9 @@ PALCY_ElectricField_2:dc.w $EE0
 		dc.w $420
 		dc.w 2
 		dc.w $EE0
-		dc.b $FF
-		dc.b $FF
-loc_85D6:	dc.l $FFFFFAEE
+		dc.w $FFFF	; unknown
+loc_85D6:
+		dc.l $FFFFFAEE
 	if ~~fixBugs
 		; Bug: this uses palette entry 2 instead of 3 like intended
 		; perhaps intentional though, considering it can flash very fast.
@@ -6341,17 +6344,17 @@ loc_85D6:	dc.l $FFFFFAEE
 	else
 		dc.l $FFFFD43E
 	endif
-		dc.l $8E00032
-		dc.l $6C00005
-		dc.l $4A00005
-		dc.l $2800005
-		dc.l $600005
-		dc.l $400005
-		dc.l $600005
-		dc.l $2800005
-		dc.l $4A00005
-		dc.l $6C00005
-		dc.l $8E0FFFF
+		dc.w $8E0,$32
+		dc.w $6C0,5
+		dc.w $4A0,5
+		dc.w $280,5
+		dc.w $60,5
+		dc.w $40,5
+		dc.w $60,5
+		dc.w $280,5
+		dc.w $4A0,5
+		dc.w $6C0,5
+		dc.w $8E0,$FFFF
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -6757,7 +6760,7 @@ sub_8ABC:
 		clr.b	6(a4)
 
 loc_8AD2:
-		addq.b	#1,obj.Pointer(a4)
+		addq.b	#1,6(a4)
 		and.b	d0,d1
 		move.b	d1,3(a4)
 		andi.w	#$F,d0
@@ -6776,7 +6779,7 @@ loc_8AD2:
 		move.w	d0,d1
 		swap	d0
 		or.w	d0,d1
-		move.w	d1,obj.Xpos(a4)
+		move.w	d1,8(a4)
 		rts
 ; End of function sub_8ABC
 
@@ -7673,9 +7676,9 @@ loc_972A:
 ; ---------------------------------------------------------------------------
 
 loc_9782:
-		cmpi.w	#$FFF0,d1
+		cmpi.w	#-$10,d1
 		bgt.s	loc_978C
-		move.w	#$FFF0,d1
+		move.w	#-$10,d1
 
 loc_978C:
 		add.w	d1,d0
@@ -7914,7 +7917,7 @@ loc_99CC:
 		lsr.w	#2,d1
 		andi.w	#$FFFC,d1
 		lea	dword_99F0(pc,d1.w),a3
-		moveq	#$14-1,d7
+		moveq	#bytesToXcnt($A0,8),d7
 
 loc_99E4:
 		move.w	d2,(a2)+
@@ -8364,7 +8367,7 @@ loc_9DBC:
 sub_9DC6:
 		move.w	$10(a1),d0
 		movea.l	a1,a5
-		moveq	#$F,d7
+		moveq	#$10-1,d7
 
 loc_9DCE:
 		movem.l	d0-a6,-(sp)

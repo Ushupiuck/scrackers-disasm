@@ -58,7 +58,8 @@ bitUp:		equ 0
 ; Object variables
 obj	struct DOTS
 ID:			ds.w 1				; object ID (2 bytes)
-			ds.b 4
+			ds.b 2
+Unk4:		ds.w 1				; unknown (2 bytes)
 Pointer:	ds.w 1				; object pointer (2 bytes)
 Xpos:		ds.l 1				; x position (4 bytes)
 Ypos:		ds.l 1				; y position (4 bytes)
@@ -66,7 +67,8 @@ Map:		ds.l 1				; mappings address (4 bytes)
 			ds.b 4
 VelX:		ds.l 1				; x velocity (4 bytes)
 VelY:		ds.l 1				; y velocity (4 bytes)
-			ds.b $A
+Unk20:		ds.w 1				; unknown (2 bytes)
+			ds.b 8
 Angle:		ds.b 1
 			ds.b 1
 Inertia:	ds.b 1
@@ -109,7 +111,7 @@ spec_Cash:	equ ((ptr_sndD1-SpecSoundIndex)/2)+spec_First
 spec_Bomb:	equ ((ptr_sndD2-SpecSoundIndex)/2)+spec_First
 spec_Last:	equ ((ptr_sndend-SpecSoundIndex)/2)+spec_First
 
-flg_First:	= $E0
+flg_First:	equ $E0
 flg_FadeOut:	equ ((ptr_flgE0-CmdPtrTable)/2)+flg_First
 flg_Stop:	equ ((ptr_flgE1-CmdPtrTable)/2)+flg_First
 flg_StopPSG:	equ ((ptr_flgE2-CmdPtrTable)/2)+flg_First
