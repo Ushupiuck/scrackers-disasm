@@ -6,14 +6,16 @@
 ;
 ;	Each load cue consists of ten bytes:
 ;
-;		dc.w $QQQQ,$----,$RRR-,$DDDD,$EEEE
+;		dc.w $QQQQ
+;		dc.l ($RR)<<24+VVVVVV/2
+;		dc.w $DDDD,$EEEE
 ;
 ;	$QQQQ = Number of tiles to load from Rom
-;	$RRR- = Location to start reading the tiles
+;	$RR = Location to start reading the tiles
 ; ---------------------------------------------------------------------------
 ; the rest were not mentioned on the guide, and I am assuming are:
 ; ---------------------------------------------------------------------------
-;	$---- = Unknown
+;	$VVVVVV = ROM location of art
 ;	$DDDD = I think it's some sort of dumping location (to dump the art)
 ;	$EEEE = whether it's the last PLC section to use or not (00 Include next PLC section/FF End of PLC section)
 ; ---------------------------------------------------------------------------
