@@ -204,7 +204,7 @@ __LABEL__ label $
 ; turn a sample rate into a djnz loop counter
 ; ---------------------------------------------------------------------------
 pcmLoopCounter function sampleRate,baseCycles, 1+(53693175/15/(sampleRate)-(baseCycles)+(13/2))/13
-dpcmLoopCounter function sampleRate, pcmLoopCounter(sampleRate,268/2) ; 268 is the number of cycles zPlayPCMLoop takes.
+dpcmLoopCounter function sampleRate, pcmLoopCounter(sampleRate,292/2) ; 292 is the number of cycles zPlayPCMLoop takes.
 
 ; function to turn a 68k address into a word the Z80 can use to access it
 zmake68kPtr function addr,zROMWindow+(addr&7FFFh)
@@ -3176,7 +3176,7 @@ loc_F1C:
 		ld	a, h				; 4
 		or	l					; 4
 		jp	nz, .loc_F52		; 10
-								; 268 cycles in total
+
 		ld	hl, zROMWindow
 		di
 		exx
@@ -3189,10 +3189,11 @@ loc_F1C:
 		ei
 
 .loc_F52:
-		dec	de
-		ld	a, d
-		or	e
-		jp	nz, DACLoop
+		dec	de					; 6
+		ld	a, d				; 4
+		or	e					; 4
+		jp	nz, DACLoop			; 10
+								; 292 cycles in total
 		ld	hl, zTracksStart
 		res	2, (hl)
 		xor	a
@@ -3357,13 +3358,13 @@ DACMeta:	macro location,rate
 		dw location_End-location
 		dw zmake68kPtr(location)
 	endm
-.dac81:		DACMeta DAC_Sample1,4800
-.dac82:		DACMeta DAC_Sample2,14000
-.dac83:		DACMeta DAC_Sample3,14000
-.dac84:		DACMeta DAC_Sample3,12000
-.dac85:		DACMeta DAC_Sample3,11000
-.dac86:		DACMeta DAC_Sample4,14000
-.dac87:		DACMeta DAC_Sample5,14000
+.dac81:		DACMeta DAC_Sample1,4750
+.dac82:		DACMeta DAC_Sample2,13500
+.dac83:		DACMeta DAC_Sample3,13500
+.dac84:		DACMeta DAC_Sample3,11500
+.dac85:		DACMeta DAC_Sample3,10500
+.dac86:		DACMeta DAC_Sample4,13500
+.dac87:		DACMeta DAC_Sample5,13500
 
 		restore
 		padding	off
