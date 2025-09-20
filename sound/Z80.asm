@@ -3194,7 +3194,7 @@ loc_F1C:
 		or	e					; 4
 		jp	nz, DACLoop			; 10
 								; 292 cycles in total
-		ld	hl, zTracksStart
+		ld	hl, zSongDAC
 		res	2, (hl)
 		xor	a
 		ld	(zDACIndex), a
