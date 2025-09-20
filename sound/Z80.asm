@@ -1988,8 +1988,10 @@ loc_8D1:
 
 
 DoSoundQueue:
+	if ~~OptimiseDriver
 		ld	a, r
 		ld	(zUnk_1C17), a
+	endif
 		ld	de, zSoundQueue0
 		ld	b, zSoundQueueEnd-zSoundQueueStart
 
