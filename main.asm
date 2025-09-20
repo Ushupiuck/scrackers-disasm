@@ -17892,7 +17892,11 @@ sub_F390:
 		bsr.w	sub_FA44
 
 loc_F3AA:
-		clr.w	d0
+	if fixBugs
+		moveq	#0,d0	; clears the entirety of d0
+	else
+		clr.w	d0		; clears only the word value of d0
+	endif
 		move.b	(unk_FDC1).w,d0
 		jsr	loc_F3B6(pc,d0.w)
 
