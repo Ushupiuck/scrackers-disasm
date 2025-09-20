@@ -419,7 +419,7 @@ VDPSetup_02:
 		move.w	d0,(a4)
 		move.w	#$8F02,(vdp_control_port).l	; set VDP Increment
 		move.w	#$8F02,($FFFFC9D6).w
-		lea	($FFFFD4F8).w,a1
+		lea	(v_dmaqueueindex).w,a1
 		move.w	(a1)+,d7			; load repeat times to d7
 		bra.s	loc_542
 
@@ -457,7 +457,7 @@ loc_542:
 		bclr	#4,d1
 		move.w	d1,(a4)
 		startZ80
-		clr.w	($FFFFD4F8).w
+		clr.w	(v_dmaqueueindex).w
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -501,7 +501,7 @@ sub_568:
 
 sub_5A6:
 		moveq	#0,d3
-		lea	($FFFFD4F8).w,a0
+		lea	(v_dmaqueueindex).w,a0
 		move.w	(a0)+,d3
 		cmpi.w	#$10,d3
 		bcs.s	loc_5B6
@@ -527,7 +527,7 @@ loc_5C0:
 		ori.w	#$4000,d1
 		swap	d1
 		move.l	d1,(a0)
-		addq.w	#1,($FFFFD4F8).w
+		addq.w	#1,(v_dmaqueueindex).w
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
