@@ -390,11 +390,27 @@ loc_B9:
 		call	StopAllSound
 		ld	a, zmake68kBank(MusicBank)
 		ld	(zMusicBank), a
+	if FixDriverBugs
 		ld	a, zmake68kBank(SoundBank)
+	else
+		; DANGER!
+		; This is bugged, it's supposed to be the sound bank...
+		ld	a, zmake68kBank(DACBank)
+	endif
 		ld	(zSoundBank), a
 
+	if FixDriverBugs
 		ld	de, 0				; set DAC length to nothing
+	endif
 		ld	hl, zSoundBank
+	if ~~FixDriverBugs
+		; DANGER!
+		; This is bugged, the DAC needs de to be cleared in order to
+		; not continue checking if there is a sample. This leads to
+		; constant crashes on hardware if nothing is played on the
+		; Sega Screen or anywhere that sound isn't being played.
+		ld	a, (hl)
+	endif
 		bankswitch
 		ld	iy, DecTable
 		ei
@@ -1283,6 +1299,7 @@ PlaySoundID:
 		ld	a, (zNextSound)
 		bit	7, a
 		jp	z, StopAllSound			; 00-7F	- Stop All
+	if FixDriverBugs
 		cp	bgm_Last			; is the ID music?
 		jp	c, zPlayMusic			; if so, play music
 		cp	sfx_First			; is the ID after music but before SFX?
@@ -1297,6 +1314,20 @@ PlaySoundID:
 		ret	c				; do nothing if so
 		cp	flg_Last			; is the ID after the command flags?
 		ret	nc				; do nothing...
+	else
+		; DANGER!
+		; Some checks are in incorrect ranges and not checked against any bounds!
+		; Music checks 81-9F (proper range should be 81-86)
+		; Special SFX checks B0-DF (proper range should be D0-D3)
+		cp	bgm_Last+19h			; is the ID music?
+		jp	c, zPlayMusic			; if so, play music
+		cp	sfx_Last			; is the ID SFX?
+		jp	c, PlaySFX			; if so, play SFX
+		cp	flg_First			; is the ID special SFX?
+		jp	c, PlaySpcSFX			; if so, play special SFX
+		cp	flg_Last+15h			; is the ID after the command flags?
+		jp	nc, StopAllSound		; if so, Stop all sound
+	endif
 
 PlaySnd_Command:
 		sub	flg_First

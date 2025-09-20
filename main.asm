@@ -7,12 +7,12 @@
 
 	cpu 68000
 
-fixBugs = 0
+fixBugs = 1
 ;	| If 1, fixes some bugs (mainly sound driver related)
-zeroOffsetOptimization = 0
+zeroOffsetOptimization = 1
 ;	| If 1, makes a handful of zero-offset instructions smaller
 ; Include SMPS2ASM, for expressing SMPS bytecode in a portable and human-readable form.
-FixMusicAndSFXDataBugs = 0
+FixMusicAndSFXDataBugs = 1
 SonicDriverVer = 3 ; Tell SMPS2ASM that we are targetting Sonic 3's sound driver
 	include "sound/_smps2asm_inc.asm"
 	include "MacroSetup.asm"
@@ -501,7 +501,7 @@ sub_568:
 
 sub_5A6:
 		moveq	#0,d3
-		lea	($FFFFD4F8).w,a0	; fetch current �queue index�
+		lea	($FFFFD4F8).w,a0	; fetch current queue index
 		move.w	(a0)+,d3
 		cmpi.w	#$10,d3
 		bcs.s	loc_5B6
@@ -527,7 +527,7 @@ loc_5C0:
 		ori.w	#$4000,d1
 		swap	d1
 		move.l	d1,(a0)
-		addq.w	#1,($FFFFD4F8).w		; DMA queue index
+		addq.w	#1,($FFFFD4F8).w	; DMA queue index
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -1969,7 +1969,6 @@ loc_1616:
 
 ; We think this subroutine is responsible for building object sprites
 
-
 BuildSprites:
 		lea	($FFFFD164).w,a6
 		moveq	#0,d6
@@ -2004,36 +2003,7 @@ loc_167E:
 
 loc_1684:
 		movea.w	d0,a0
-;		jsr	(sub_19DA).l
-		moveq	#0,d1
-		move.w	8(a0),d2
-		sub.w	($FFFFC9DE).w,d2
-		cmpi.w	#-$40,d2
-		bge.s	loc_19EC
-		moveq	#$40,d1
-
-loc_19EC:
-		cmpi.w	#$180,d2
-		blt.s	loc_19F4
-		moveq	#$40,d1
-
-loc_19F4:
-		addi.w	#$80,d2
-		move.w	$C(a0),d3
-		sub.w	($FFFFC9EE).w,d3
-		cmpi.w	#-$40,d3
-		bge.s	loc_1A08
-		moveq	#$40,d1
-
-loc_1A08:
-		cmpi.w	#$120,d3
-		blt.s	loc_1A10
-		moveq	#$40,d1
-
-loc_1A10:
-		addi.w	#$80,d3
-		andi.w	#-$40-1,4(a0)
-		or.w	d1,4(a0)
+		jsr	(sub_19DA).l
 		tst.b	5(a0)
 		bpl.s	loc_16BA
 		move.w	d2,$14(a0)
@@ -4923,13 +4893,13 @@ loc_6B7C:
 ; ---------------------------------------------------------------------------
 
 loc_6B88:
-		move.l	#$60011B,d7 ; Potential reference to Sonic's art+$11B?
+		move.l	#$60011B,d7	; Sega screen related
 		lea	($FFFFD194).w,a0
 		bra.s	loc_6B9E
 ; ---------------------------------------------------------------------------
 
 loc_6B94:
-		move.l	#$700135,d7 ; Potential reference to UnknownData_00070000+$135?
+		move.l	#$700135,d7	; Sega screen related
 		lea	($FFFFD19C).w,a0
 
 loc_6B9E:
@@ -5908,7 +5878,7 @@ loc_8214:
 
 
 sub_821C:
-		pea	(sub_8736).l ; Field related -- contains a table pointing to animations, mappings & DPLC's for the characters
+		pea	(sub_8736).l
 		pea	loc_82A6(pc)
 		tst.b	(a5)
 		bpl.s	loc_8236
@@ -8854,7 +8824,7 @@ loc_A1BC:
 		movea.w	($FFFFD862).w,a4
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
-CharacterTable:	
+CharacterTable:
         dc.l SonicObject	; Load Sonic			; something to do with stopping reflexes
 		dc.l TailsObject       ; Load Tails
 		dc.l locret_B414
@@ -9818,10 +9788,10 @@ locret_AAF6:
 
 
 ; =============== S U B	R O U T	I N E =======================================
-; Leftover Sonic subroutine for smooth physics collision 
+; Leftover Sonic subroutine for smooth physics collision
 ; (causes movement not to be so jagged)
 ; ===========================================================================
-Sonic_SlopeResist: 
+Sonic_SlopeResist:
 		rts
 ; End of function Sonic_SlopeResist
 
@@ -10754,7 +10724,7 @@ locret_B3DA:
 
 
 ; =============== S U B	R O U T	I N E =======================================
-; Leftover Tails subroutine for smooth physics collision 
+; Leftover Tails subroutine for smooth physics collision
 ; (causes movement not to be so jagged)
 ; ===========================================================================
 Tails_SlopeResist:
@@ -10890,7 +10860,7 @@ loc_B4A2:
 		moveq	#-2,d1
 		bra.w	loc_CA8A
 ; ---------------------------------------------------------------------------
-word_B4CC:	
+word_B4CC:
         dc.w $9C
 		dc.w $98
 		dc.w $94
@@ -13216,7 +13186,7 @@ loc_C832:
 		move.l	a3,obj.Map(a6)
 		rts
 ; ---------------------------------------------------------------------------
-CharacterDataTable_Levels:	
+CharacterDataTable_Levels:
         dc.l ANI_Sonic
 		dc.l ANI_Tails
 		dc.l 0
@@ -15970,7 +15940,7 @@ loc_E2E6:
 		andi.w	#$C,d0
 		add.w	d0,d0
 		lea	word_E334(pc,d0.w),a0
-		move.l	a0,obMap(a6)
+		move.l	a0,$10(a6)
 		btst	#6,5(a6)
 		beq.s	loc_E32C
 		bclr	#7,5(a6)
@@ -16011,7 +15981,7 @@ Path_Swapper:
 		bne.s	loc_E37C
 		move.w	#0,4(a6)
 		move.w	#$2020,$22(a6)
-		move.l	#word_E376,obMap(a6)
+		move.l	#word_E376,$10(a6)
 		addq.b	#1,$28(a6)
 		bra.s	loc_E37C
 ; ---------------------------------------------------------------------------
@@ -16152,7 +16122,7 @@ Path_Swapper_2:
 		bne.s	loc_E480
 		move.w	#0,4(a6)
 		move.w	#$2020,$22(a6)
-		move.l	#word_E47A,obMap(a6)
+		move.l	#word_E47A,$10(a6)
 		addq.b	#1,$28(a6)
 		bra.s	loc_E480
 ; ---------------------------------------------------------------------------
@@ -16896,7 +16866,7 @@ loc_EB34:
 		add.w	d1,d1
 		adda.w	(a0,d1.w),a0
 		addq.b	#2,$27(a6)
-		move.l	a0,obMap(a6)
+		move.l	a0,$10(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17942,7 +17912,11 @@ loc_F3B6:
 ; ---------------------------------------------------------------------------
 		bra.s	loc_F43E
 ; ---------------------------------------------------------------------------
-		clr.w	(unk_FDC1).w	; changed from .w to .b -- must of been a typo. all other instances use .b
+	if fixBugs
+		clr.b	(unk_FDC1).w
+	else
+		clr.w	(unk_FDC1).w	; This line mistakenly uses word instead of byte.
+	endif
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -18788,8 +18762,8 @@ UnkReps:
 ; Data Location (0000FB82 - 0000FDAF)
 ; Striped out
 ; UnkData_0000FB82:
-;		binclude	"UnknownCodes/UnknownData_0000FB82.bin"
-;		even
+		binclude	"UnknownCodes/UnknownData_0000FB82.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18798,8 +18772,8 @@ UnkReps:
 ; Data Location (0000FDB0 - 0000FFFF)
 ; Striped out
 ; UnkData_0000FDB0:
-;		binclude	"UnknownCodes/UnknownData_0000FDB0.bin"
-;		even
+		binclude	"UnknownCodes/UnknownData_0000FDB0.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18822,7 +18796,8 @@ Music86:	include	"Sound/Music/Mus86 - Game Over.asm"
 ; Data Location (00011C66 - 00012250)
 ; Striped out
 ; UnkData_00011C66:
-;		binclude	"UnknownCodes/UnknownData_00011C66.bin"
+		binclude	"UnknownCodes/UnknownData_00011C66.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18831,7 +18806,8 @@ Music86:	include	"Sound/Music/Mus86 - Game Over.asm"
 ; Data Location (00012251 - 000123FF)
 ; Striped out
 ; UnkData_00012251:
-;		binclude	"UnknownCodes/UnknownData_00012251.bin"
+		binclude	"UnknownCodes/UnknownData_00012251.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18840,7 +18816,8 @@ Music86:	include	"Sound/Music/Mus86 - Game Over.asm"
 ; Data Location (00012400 - 00012FFF)
 ; Striped out
 ; UnkData_00012400:
-;		binclude	"UnknownCodes/UnknownData_00012400.bin"
+		binclude	"UnknownCodes/UnknownData_00012400.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18849,7 +18826,8 @@ Music86:	include	"Sound/Music/Mus86 - Game Over.asm"
 ; Data Location (00013000 - 000145FF)
 ; Striped out
 ; UnkData_00013000:
-;		binclude	"UnknownCodes/UnknownData_00013000.bin"
+		binclude	"UnknownCodes/UnknownData_00013000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18858,7 +18836,8 @@ Music86:	include	"Sound/Music/Mus86 - Game Over.asm"
 ; Data Location (00014600 - 000150FF)
 ; Striped out
 ; UnkData_00014600:
-;		binclude	"UnknownCodes/UnknownData_00014600.bin"
+		binclude	"UnknownCodes/UnknownData_00014600.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18867,18 +18846,20 @@ Music86:	include	"Sound/Music/Mus86 - Game Over.asm"
 ; Data Location (00015100 - 0001562F)
 ; Striped out
 ; UnkData_00013000:
-;		binclude	"UnknownCodes/UnknownData_00015100.bin"
+		binclude	"UnknownCodes/UnknownData_00015100.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $00016000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $1000
+	align $1000
 ; ---------------------------------------------------------------------------
 ; Data Location (00016000 - 00016703)
 ; Striped out
 ; UnkData_00016000:
-;		binclude	"UnknownCodes/UnknownData_00016000.bin"
+		binclude	"UnknownCodes/UnknownData_00016000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18927,8 +18908,8 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Data Location (00018741 - 0001C98F)
 ; Striped out
 ; UnkData_00018741:
-;		binclude	"UnknownCodes/UnknownData_00018741.bin"
-;	even
+		binclude	"UnknownCodes/UnknownData_00018741.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18937,8 +18918,8 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Data Location (0001C990 - 0001CD8F)
 ; Striped out
 ; UnkData_0001C990:
-;		binclude	"UnknownCodes/UnknownData_0001C990.bin"
-;	even
+		binclude	"UnknownCodes/UnknownData_0001C990.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18947,8 +18928,8 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Data Location (0001CD90 - 0001F761)
 ; Striped out
 ; UnkData_0001CD90:
-;		binclude	"UnknownCodes/UnknownData_0001CD90.bin"
-;	even
+		binclude	"UnknownCodes/UnknownData_0001CD90.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18958,8 +18939,8 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Data Location (0001F762 - 0001FB61)
 ; Striped out
 ; UnkData_0001F762:
-;		binclude	"UnknownCodes/UnknownData_0001F762.bin"
-;	even
+		binclude	"UnknownCodes/UnknownData_0001F762.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18968,8 +18949,8 @@ SoundAF:	include	"Sound/SFX/SndAF.asm"
 ; Data Location (0001FB62 - 0001FFFF)
 ; Striped out
 ; UnkData_0001FB62:
-;		binclude	"UnknownCodes/UnknownData_0001FB62.bin"
-;	even
+		binclude	"UnknownCodes/UnknownData_0001FB62.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18999,7 +18980,8 @@ DAC_Sample5_End:even
 ; Data Location (000244A2 - 000247EF)
 ; Striped out
 ; UnkData_000244A2:
-;		binclude	"UnknownCodes/UnknownData_000244A2.bin"
+		binclude	"UnknownCodes/UnknownData_000244A2.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19008,7 +18990,8 @@ DAC_Sample5_End:even
 ; Data Location (000247F0 - 00026009)
 ; Striped out
 ; UnkData_000247F0:
-;		binclude	"UnknownCodes/UnknownData_000247F0.bin"
+		binclude	"UnknownCodes/UnknownData_000247F0.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19017,7 +19000,8 @@ DAC_Sample5_End:even
 ; Data Location (0002600A - 00028844)
 ; Striped out
 ; UnkData_0002600A:
-;		binclude	"UnknownCodes/UnknownData_0002600A.bin"
+		binclude	"UnknownCodes/UnknownData_0002600A.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19026,7 +19010,8 @@ DAC_Sample5_End:even
 ; Data Location (00028845 - 0002A222)
 ; Striped out
 ; UnkData_00028845:
-;		binclude	"UnknownCodes/UnknownData_00028845.bin"
+		binclude	"UnknownCodes/UnknownData_00028845.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19035,18 +19020,20 @@ DAC_Sample5_End:even
 ; Data Location (0002A223 - 0002AC5F)
 ; Striped out
 ; UnkData_0002A223:
-;		binclude	"UnknownCodes/UnknownData_0002A223.bin"
+		binclude	"UnknownCodes/UnknownData_0002A223.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $0002C000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $2000
+	align $2000
 ; ---------------------------------------------------------------------------
 ; Data Location (0002C000 - 0002D1FF)
 ; Striped out
 ; UnkData_0002C000:
-;		binclude	"UnknownCodes/UnknownData_0002C000.bin"
+		binclude	"UnknownCodes/UnknownData_0002C000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19165,79 +19152,79 @@ ARTUNC_TitleCardBGAndPause:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG1.bin"		; Yellow Pause Bar
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_Tile2:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG2.bin"		; Title Card - Black tiles that appear to hide the level design before the title card appears
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_Tile3:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG3.bin"		; Title Card - Dark Gray/Blue Bar that comes down first
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_Tile4:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG4.bin"		; Title Card - Light Gray/Blue Bar that appears from top right
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_Tile5:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG5.bin"		; Title Card - Pure White tiles that appear from the left
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_Tile6:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG6.bin"		; Title Card - Faded Blue tiles that appear from the bottom that move over the Pure White tiles
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_Tile7:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG7.bin"		; ??? (Unused)
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_Tile8:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG8.bin"		; Title Card - Dark Blue tiles on bottom right
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_Tile9:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBG9.bin"		; Title Card - Light blue tiles that appear on the bottom and right
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_TileA:
 		dc.w 32					; 32 bytes (1 tile)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBGA.bin"		; Title Card - Red thin bar that appears from the right
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_TileB:
 		dc.w 32*2				; 64 bytes (2 tiles)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBGB.bin"		; Title Card - White Zig-Zag tiles that appear overlapping the light Gray/Blue Bar that appears from top right
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_TileC:
 		dc.w 32*2				; 64 bytes (2 tiles)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBGC.bin"		; Title Card - White Zig-Zag tiles that appear overlapping middle section
-	even
+		even
 ; ---------------------------------------------------------------------------
 TCBG_TileD:
 		dc.w 32*2				; 64 bytes (2 tiles)
 		dc.l 6					; jump forward 6 bytes to art
 		binclude "artunc/TCBGD.bin"		; Title Card - Light blue Zig-Zag tiles (The Light blue tiles overlapping the white Zig-Zag tiles basically)
-	even
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19267,10 +19254,11 @@ ARTNEM_SpikesVer:
 ; Unknown Data, Something to do with sprite mapping or PLC (Possibly an
 ; index block in here?)
 ; ---------------------------------------------------------------------------
-unk_42358:		dc.b $FF,$64,$FF,$70,$FF,$7C
-unk_4235E:		dc.b $FF,$82,$FF,$8E,$FF,$9A
-unk_42364:		dc.b $FF,$A0,$FF,$AC,$FF,$B8
-	even
+
+unk_42358:	dc.b $FF,$64,$FF,$70,$FF,$7C
+unk_4235E:	dc.b $FF,$82,$FF,$8E,$FF,$9A
+unk_42364:	dc.b $FF,$A0,$FF,$AC,$FF,$B8
+		even
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Object Positions
@@ -19472,7 +19460,6 @@ MAPUNC_ElectricFieldBG:
 ; ---------------------------------------------------------------------------
 ARTUNC_SonicArms:
 		binclude	"artunc/SonicArms.bin"		; Sonic's Arms
-		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19482,7 +19469,6 @@ ARTUNC_SonicArms:
 ; ---------------------------------------------------------------------------
 ARTUNC_TailsArms:
 		binclude	"artunc/TailsArms.bin"		; Tails' Arms
-		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19581,18 +19567,20 @@ Map_TailsFields:
 ; Data Location (00068FD6 - 0006AC5F)
 ; Striped out
 ; UnkData_00068FD6:
-;		binclude	"UnknownCodes/UnknownData_00068FD6.bin"
+		binclude	"UnknownCodes/UnknownData_00068FD6.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $0006C000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $2000
+	align $2000
 ; ---------------------------------------------------------------------------
 ; Data Location (0006C000 - 0006CE07)
 ; Striped out
 ; UnkData_0006C000:
-;		binclude	"UnknownCodes/UnknownData_0006C000.bin"
+		binclude	"UnknownCodes/UnknownData_0006C000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19601,60 +19589,64 @@ Map_TailsFields:
 ; Data Location (0006CE08 - 0006D1FF)
 ; Striped out
 ; UnkData_0006CE08:
-;		binclude	"UnknownCodes/UnknownData_0006CE08.bin"
+		binclude	"UnknownCodes/UnknownData_0006CE08.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $00070000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $4000
+	align $4000
 ; ---------------------------------------------------------------------------
 ; Data Location (00070000 - 00071813)
 ; Striped out
 ; UnkData_00070000:
-;		binclude	"UnknownCodes/UnknownData_00070000.bin"
+		binclude	"UnknownCodes/UnknownData_00070000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $00072000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $800
+	align $800
 ; ---------------------------------------------------------------------------
 ; Data Location (00072000 - 00072763)
 ; Striped out
 ; UnkData_00072000:
-;		binclude	"UnknownCodes/UnknownData_00072000.bin"
+		binclude	"UnknownCodes/UnknownData_00072000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $00074000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $2000
+	align $2000
 ; ---------------------------------------------------------------------------
 ; Data Location (00074000 - 0007562F)
 ; Striped out
 ; UnkData_00074000:
-;		binclude	"UnknownCodes/UnknownData_00074000.bin"
+		binclude	"UnknownCodes/UnknownData_00074000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $00076000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $1000
+	align $1000
 ; ---------------------------------------------------------------------------
 ; Data Location (00076000 - 00076703)
 ; Striped out
 ; UnkData_00076000:
-;		binclude	"UnknownCodes/UnknownData_00076000.bin"
+		binclude	"UnknownCodes/UnknownData_00076000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Uncompressed Art - Sonic
 ; ---------------------------------------------------------------------------
-	org $80000
+	align $10000
 ; ---------------------------------------------------------------------------
 ARTUNC_Sonic:	binclude	"artunc/Sonic.bin"
-		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19663,7 +19655,8 @@ ARTUNC_Sonic:	binclude	"artunc/Sonic.bin"
 ; Data Location (0008C0A0 - 00090000)
 ; Striped out
 ; UnkData_0008C0A0:
-;		binclude	"UnknownCodes/UnknownData_0008C0A0.bin"
+		binclude	"UnknownCodes/UnknownData_0008C0A0.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19673,7 +19666,6 @@ ARTUNC_Sonic:	binclude	"artunc/Sonic.bin"
 ; ---------------------------------------------------------------------------
 ARTUNC_SonicField:
 		binclude	"artunc/SonicField.bin"
-		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19682,28 +19674,29 @@ ARTUNC_SonicField:
 ; Data Location (00093B20 - 0009562F)
 ; Striped out
 ; UnkData_00093B20:
-;		binclude	"UnknownCodes/UnknownData_00093B20.bin"
+		binclude	"UnknownCodes/UnknownData_00093B20.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $00096000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $1000
+	align $1000
 ; ---------------------------------------------------------------------------
 ; Data Location (00096000 - 00096703)
 ; Striped out
 ; UnkData_00096000:
-;		binclude	"UnknownCodes/UnknownData_00096000.bin"
+		binclude	"UnknownCodes/UnknownData_00096000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Uncompressed Art - Unknown Unused Small Hud Patterns
 ; ---------------------------------------------------------------------------
-;	align $2000
+	align $2000
 ; ---------------------------------------------------------------------------
-;ARTUNC_UnknownHud:
-;		binclude	"artunc/UnknownHud.bin"
-;		even
+ARTUNC_UnknownHud:
+		binclude	"artunc/UnknownHud.bin"
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19712,38 +19705,38 @@ ARTUNC_SonicField:
 ; Data Location (00098740 - 0009FFFF)
 ; Striped out
 ; UnkData_00098740:
-;		binclude	"UnknownCodes/UnknownData_00098740.bin"
+		binclude	"UnknownCodes/UnknownData_00098740.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Uncompressed Art - Tails
 ; ---------------------------------------------------------------------------
-	org $A0000
+	align $10
 ; ---------------------------------------------------------------------------
 ARTUNC_Tails:
 		binclude	"artunc/Tails.bin"
-		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000AC000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $1000
+	align $1000
 ; ---------------------------------------------------------------------------
 ; Data Location (000AC000 - 000AD1F9)
 ; Striped out
 ; UnkData_000AC000:
-;		binclude	"UnknownCodes/UnknownData_000AC000.bin"
+		binclude	"UnknownCodes/UnknownData_000AC000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Uncompressed Art - Tails Field
 ; ---------------------------------------------------------------------------
-	org $B0000
+	align $4000
 ; ---------------------------------------------------------------------------
 ARTUNC_TailsField:
 		binclude	"artunc/TailsField.bin"
-		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -19752,24 +19745,26 @@ ARTUNC_TailsField:
 ; Data Location (000B3820 - 000B562F)
 ; Striped out
 ; UnkData_000B3820:
-;		binclude	"UnknownCodes/UnknownData_000B3820.bin"
+		binclude	"UnknownCodes/UnknownData_000B3820.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000B6000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $1000
+	align $1000
 ; ---------------------------------------------------------------------------
 ; Data Location (000B6000 - 000B6703)
 ; Striped out
 ; UnkData_000B6000:
-;		binclude	"UnknownCodes/UnknownData_000B6000.bin"
+		binclude	"UnknownCodes/UnknownData_000B6000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000C0000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $C000
+	align $C000
 ; ---------------------------------------------------------------------------
 ; Data Location (000C0000 - 000CA887)
 ; Striped out
@@ -19780,12 +19775,13 @@ ARTUNC_TailsField:
 ; ---------------------------------------------------------------------------
 ; Align to $000CC000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $2000
+	align $2000
 ; ---------------------------------------------------------------------------
 ; Data Location (000CC000 - 000CFFFF)
 ; Striped out
 ; UnkData_000CC000:
-;		binclude	"UnknownCodes/UnknownData_000CC000.bin"
+		binclude	"UnknownCodes/UnknownData_000CC000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; Data Location (000D0000 - 000D58BF)
 		binclude	"artunc/Mini Tails (Duplicate).bin"
@@ -19794,18 +19790,19 @@ ARTUNC_TailsField:
 ; ---------------------------------------------------------------------------
 ; Align to $000D6000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $1000
+	align $1000
 ; ---------------------------------------------------------------------------
 ; Data Location (000D6000 - 000D6703)
 ; Striped out
 ; UnkData_000D6000:
-;		binclude	"UnknownCodes/UnknownData_000D6000.bin"
+		binclude	"UnknownCodes/UnknownData_000D6000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000D8000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $2000
+	align $2000
 ; ---------------------------------------------------------------------------
 ; Data Location (000D8000 - 000D9C0F)
 ; Striped out
@@ -19814,101 +19811,110 @@ ARTUNC_TailsField:
 ; ---------------------------------------------------------------------------
 ; Data Location (000D9C10 - 000DA3FF)
 		binclude	"UnknownCodes/UnknownData_000D9C10.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000E0000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $7000
+	align $7000
 ; ---------------------------------------------------------------------------
 ; Data Location (000E0000 - 000E3067)
 ; Striped out
 ; UnkData_000E0000:
-;		binclude	"UnknownCodes/UnknownData_000E0000.bin"
+		binclude	"UnknownCodes/UnknownData_000E0000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000E4000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $1000
+	align $1000
 ; ---------------------------------------------------------------------------
 ; Data Location (000E4000 - 000E4EC7)
 ; Striped out
 ; UnkData_000E4000:
-;		binclude	"UnknownCodes/UnknownData_000E4000.bin"
+		binclude	"UnknownCodes/UnknownData_000E4000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000E6000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $2000
+	align $2000
 ; ---------------------------------------------------------------------------
 ; Data Location (000E6000 - 000EAC5F)
 ; Striped out
 ; UnkData_000E6000:
-;		binclude	"UnknownCodes/UnknownData_000E6000.bin"
+		binclude	"UnknownCodes/UnknownData_000E6000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000EC000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $2000
+	align $2000
 ; ---------------------------------------------------------------------------
 ; Data Location (000EC000 - 000ED1FF)
 ; Striped out
 ; UnkData_000EC000:
-;		binclude	"UnknownCodes/UnknownData_000EC000.bin"
+		binclude	"UnknownCodes/UnknownData_000EC000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000F0000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $3000
+	align $3000
 ; ---------------------------------------------------------------------------
 ; Data Location (000F0000 - 000F1813)
 ; Striped out
 ; UnkData_000F0000:
-;		binclude	"UnknownCodes/UnknownData_000F0000.bin"
+		binclude	"UnknownCodes/UnknownData_000F0000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000F2000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $800
+	align $800
 ; ---------------------------------------------------------------------------
 ; Data Location (000F2000 - 000F2763)
 ; Striped out
 ; UnkData_000F2000:
-;		binclude	"UnknownCodes/UnknownData_000F2000.bin"
+		binclude	"UnknownCodes/UnknownData_000F2000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000F4000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $2000
+	align $2000
 ; ---------------------------------------------------------------------------
 ; Data Location (000F4000 - 000F562F)
 ; Striped out
 ; UnkData_000F4000:
-;		binclude	"UnknownCodes/UnknownData_000F4000.bin"
+		binclude	"UnknownCodes/UnknownData_000F4000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $000F6000, Unknown Data
 ; ---------------------------------------------------------------------------
-;	align $1000
+	align $1000
 ; ---------------------------------------------------------------------------
 ; Data Location (000F6000 - 000F6703)
 ; Striped out
 ; UnkData_000F6000:
-;		binclude	"UnknownCodes/UnknownData_000F6000.bin"
+		binclude	"UnknownCodes/UnknownData_000F6000.bin"
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Align to $00100000, End Of Rom
 ; ---------------------------------------------------------------------------
-;		cnop -1,2<<lastbit(*)
-;		dc.b $FF
+		cnop -1,2<<lastbit(*)
+		dc.b $FF
 
 EndofROM:
 		END
