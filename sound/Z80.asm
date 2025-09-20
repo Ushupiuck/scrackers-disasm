@@ -63,11 +63,11 @@ zTrack ENDSTRUCT
 
 	phase $1C00
 
-	ds.l 1
+	ds.b 4
 zMusicBank	ds.b 1
 zSoundBank	ds.b 1
 zUnk_1C06	ds.b 1
-	ds.w 1
+	ds.b 2
 
 zTempVariablesStart
 
