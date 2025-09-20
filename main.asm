@@ -5583,7 +5583,7 @@ Fields_MainLoop:
 		bsr.w	sub_F390
 		jsr	(Field_ReadController).l
 		jsr	(Field_PauseGame).l
-		jsr	(sub_CCCA).l			; commented out causes screen not to follow durin normal play, and stars on the tether didn"t animate
+		jsr	(sub_CCCA).l			; commented out causes screen not to follow during normal play, and stars on the tether didn"t animate
 		jsr	(sub_81F8).l			; Sonic/Tails object related
 		jsr	(sub_82B2).l			; deformation/screen control??
 		disable_ints
