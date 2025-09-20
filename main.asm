@@ -17964,13 +17964,13 @@ loc_F43E:
 
 
 sub_F45C:
-		moveq	#$B,d7
+		moveq	#bytesToXcnt(TitleCardBG_TileLocationArray_End-TitleCardBG_TileLocationArray,6),d7
 		lea	TitleCardBG_TileLocationArray(pc),a6
 
 loc_F462:
 		bsr.s	sub_F472
 		dbf	d7,loc_F462
-		jsr	VDPSetup_02
+		jsr	(VDPSetup_02).w
 		bra.w	loc_F4D8
 ; End of function sub_F45C
 
@@ -18020,6 +18020,7 @@ TitleCardBG_TileLocationArray:
 		dc.l TCBG_TileC
 		dc.w $1E0
 		dc.l TCBG_TileD
+TitleCardBG_TileLocationArray_End
 ; ---------------------------------------------------------------------------
 
 loc_F4D8:
