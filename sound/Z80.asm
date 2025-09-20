@@ -3262,15 +3262,22 @@ byte_1131:	db    3,   2,	1,   0,	  0,   0,   1
 byte_1139:	db    0,   0,	0,   0,	  1,   1,   1,	 1,   2,   2,	1
 		db    1,   1,	0,   0,	  0
 		db  84h, 01h, 82h, 04h
+
+zmake68kBanks macro
+		irp op,ALLARGS
+			db zmake68kBank(op)
+		endm
+	endm
+
 MusicBanks:
 		; The way that this works is that each individual music track has it's own bank
 		; that it uses for finding and playing music from banks.
-		db zmake68kBank(MusicBank)
-		db zmake68kBank(MusicBank)
-		db zmake68kBank(MusicBank)
-		db zmake68kBank(MusicBank)
-		db zmake68kBank(MusicBank)
-		db zmake68kBank(MusicBank)
+		zmake68kBanks MusicBank
+		zmake68kBanks MusicBank
+		zmake68kBanks MusicBank
+		zmake68kBanks MusicBank
+		zmake68kBanks MusicBank
+		zmake68kBanks MusicBank
 
 zmake68kPtrs macro
 		irp op,ALLARGS
@@ -3361,7 +3368,7 @@ DAC_Index:	dw .dac81
 		dw .dac87
 DACMeta:	macro location,rate
 		db dpcmLoopCounter(rate)
-		db zmake68kBank(location)
+		zmake68kBanks location
 		dw location_End-location
 		zmake68kPtrs location
 	endm
