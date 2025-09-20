@@ -40,6 +40,7 @@ word_C9BA:	ds.w 1
 
 unk_2A00:	equ ramaddr($FFFF2A00)
 v_pal:	equ ramaddr($FFFFD3E4)
+v_dmaqueueindex:	equ ramaddr($FFFFD4F8)
 v_ngfx_buffer:	equ ramaddr($FFFFD59A)
 v_sonic: equ ramaddr($FFFFD866)
 v_tails: equ ramaddr($FFFFD868)

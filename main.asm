@@ -419,7 +419,7 @@ VDPSetup_02:
 		move.w	d0,(a4)
 		move.w	#$8F02,(vdp_control_port).l	; set VDP Increment
 		move.w	#$8F02,($FFFFC9D6).w
-		lea	($FFFFD4F8).w,a1
+		lea	(v_dmaqueueindex).w,a1
 		move.w	(a1)+,d7			; load repeat times to d7
 		bra.s	loc_542
 
@@ -457,7 +457,7 @@ loc_542:
 		bclr	#4,d1
 		move.w	d1,(a4)
 		startZ80
-		clr.w	($FFFFD4F8).w
+		clr.w	(v_dmaqueueindex).w
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -501,7 +501,7 @@ sub_568:
 
 sub_5A6:
 		moveq	#0,d3
-		lea	($FFFFD4F8).w,a0	; fetch current queue index
+		lea	(v_dmaqueueindex).w,a0	; fetch current queue index
 		move.w	(a0)+,d3
 		cmpi.w	#$10,d3
 		bcs.s	loc_5B6
@@ -527,7 +527,7 @@ loc_5C0:
 		ori.w	#$4000,d1
 		swap	d1
 		move.l	d1,(a0)
-		addq.w	#1,($FFFFD4F8).w	; DMA queue index
+		addq.w	#1,(v_dmaqueueindex).w	; DMA queue index
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -2008,14 +2008,14 @@ loc_1684:
 		bpl.s	loc_16BA
 		move.w	d2,$14(a0)
 		move.w	d3,$16(a0)
-		movea.l	$10(a0),a3 ; obMap?
+		movea.l	obj.Map(a0),a3
 		move.b	$20(a0),d0
 		andi.w	#$18,d0
 		move.w	$20(a0),d4
 		move.w	d4,d7
 		andi.w	#$7FF,d4
 		sub.w	d4,d7
-		tst.w	4(a0)
+		tst.w	obj.Unk4(a0)
 		jsr	loc_16C0(pc,d0.w)
 
 loc_16BA:
@@ -2376,7 +2376,7 @@ loc_1946:
 		clr.w	(a0)
 		move.w	d7,2(a0)
 		move.w	#$8000,4(a0)
-		move.l	#data_197A,$10(a0)
+		move.l	#Dummy_Mappings,obj.Map(a0)
 		moveq	#0,d7
 		move.l	d7,$20(a0)
 		move.l	d7,obj.Xpos(a0)
@@ -2385,9 +2385,9 @@ loc_1946:
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
-data_197A:
+Dummy_Mappings:
 		dc.b $00,$00
-		dc.b $00,$00
+		dc.w $0000
 		dc.b $00,$FF
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
@@ -4753,7 +4753,7 @@ loc_6A02:
 		move.w	#$FFA0,($FFFFCA60).w
 		move.w	#$18,($FFFFCDDE).w
 		move.w	#$14,($FFFFCDE0).w
-		lea	(0).w,a4
+		lea	(0).w,a4	; position of tilemap
 		move.w	#$80,d4
 		moveq	#3,d6
 		moveq	#$F,d7
@@ -4786,7 +4786,7 @@ loc_6A54:
 		move.w	#$FFA0,($FFFFCA60).w
 		move.w	#$18,($FFFFCDDE).w
 		move.w	#$14,($FFFFCDE0).w
-		lea	($20).w,a4
+		lea	($20).w,a4	; position of tilemap
 		move.w	#$80,d4
 		moveq	#3,d6
 		moveq	#$1F,d7
@@ -4823,7 +4823,7 @@ loc_6AB6:
 		move.w	d0,($FFFFCA60).w
 		move.w	#$118,($FFFFCDDE).w
 		move.w	#$114,($FFFFCDE0).w
-		lea	($1430).w,a4
+		lea	($1430).w,a4	; position of tilemap
 		move.w	#$80,d4
 		moveq	#3,d6
 		moveq	#$F,d7
@@ -4976,7 +4976,7 @@ loc_6C48:
 		lea	$BE(a6),a6
 		move.l	#$A0F1A0F1,d2
 		disable_ints
-		moveq	#$1F,d7
+		moveq	#$20-1,d7
 
 loc_6C70:
 		jsr	(sub_6F26).l
@@ -5038,7 +5038,7 @@ loc_6D22:
 		movea.w	($FFFFD816).w,a6
 		lea	$BE(a6),a6
 		disable_ints
-		moveq	#$1F,d7
+		moveq	#$20-1,d7
 
 loc_6D38:
 		jsr	(sub_6F26).l
@@ -7347,7 +7347,7 @@ OptionSoundTest_Exit:
 		disable_ints
 		move.w	(v_menu_soundid).w,d0
 		move.w	($FFFFD816).w,d1
-		addi.w	#$820,d1
+		addi.w	#$820,d1	; position on screen
 		jsr	(sub_5090).l
 		enable_ints
 		move.b	(unk_C93D).w,d0
@@ -15916,7 +15916,7 @@ Scattering_Rings:
 ; ---------------------------------------------------------------------------
 
 loc_E2C8:
-		move.w	8(a6),d0
+		move.w	obj.Xpos(a6),d0
 		move.w	obj.Ypos(a6),d1
 		jsr	(sub_1DA8).w
 		beq.s	loc_E2E6
@@ -15930,17 +15930,17 @@ loc_E2C8:
 loc_E2E6:
 		move.w	d0,obj.Xpos(a6)
 		move.w	d1,obj.Ypos(a6)
-		move.l	$18(a6),d0
+		move.l	obj.VelX(a6),d0
 		add.l	d0,obj.Xpos(a6)
-		move.l	$1C(a6),d0
+		move.l	obj.VelY(a6),d0
 		addi.l	#$1800,d0
 		move.l	d0,$1C(a6)
 		add.l	d0,obj.Ypos(a6)
 		move.w	($FFFFF000).l,d0
 		andi.w	#$C,d0
 		add.w	d0,d0
-		lea	word_E334(pc,d0.w),a0
-		move.l	a0,$10(a6)
+		lea	Scattering_Rings_Mappings(pc,d0.w),a0
+		move.l	a0,obj.Map(a6)
 		btst	#6,5(a6)
 		beq.s	loc_E32C
 		bclr	#7,5(a6)
@@ -15951,21 +15951,32 @@ loc_E32C:
 		bset	#7,5(a6)
 		rts
 ; ---------------------------------------------------------------------------
-word_E334:	dc.w $5F8
+Scattering_Rings_Mappings:
+;	mappings 1
+		dc.b 5,$F8
 		dc.w $25F0
-		dc.w $F8FF
-		nop
-		dc.w $5F8
+		dc.b $F8,$FF
+
+		nop	; padding
+
+;	mappings 2
+		dc.b 5,$F8
 		dc.w $25F4
-		dc.w $F8FF
-		nop
-		dc.w $1F8
+		dc.b $F8,$FF
+
+		nop	; padding
+
+;	mappings 3
+		dc.b 1,$F8
 		dc.w $25B4
-		dc.w $FCFF
-		nop
-		dc.w $5F8
+		dc.b $FC,$FF
+
+		nop	; padding
+
+;	mappings 4
+		dc.b 5,$F8
 		dc.w $2DF4
-		dc.w $F8FF
+		dc.b $F8,$FF
 ; ---------------------------------------------------------------------------
 
 Obj2C:
@@ -17891,7 +17902,11 @@ sub_F390:
 		bsr.w	sub_FA44
 
 loc_F3AA:
-		clr.w	d0
+	if fixBugs
+		moveq	#0,d0	; clears the entirety of d0
+	else
+		clr.w	d0		; clears only the word value of d0
+	endif
 		move.b	(unk_FDC1).w,d0
 		jsr	loc_F3B6(pc,d0.w)
 
@@ -17963,13 +17978,13 @@ loc_F43E:
 
 
 sub_F45C:
-		moveq	#$B,d7
+		moveq	#bytesToXcnt(TitleCardBG_TileLocationArray_End-TitleCardBG_TileLocationArray,6),d7
 		lea	TitleCardBG_TileLocationArray(pc),a6
 
 loc_F462:
 		bsr.s	sub_F472
 		dbf	d7,loc_F462
-		jsr	VDPSetup_02
+		jsr	(VDPSetup_02).w
 		bra.w	loc_F4D8
 ; End of function sub_F45C
 
@@ -18019,6 +18034,7 @@ TitleCardBG_TileLocationArray:
 		dc.l TCBG_TileC
 		dc.w $1E0
 		dc.l TCBG_TileD
+TitleCardBG_TileLocationArray_End
 ; ---------------------------------------------------------------------------
 
 loc_F4D8:
