@@ -15955,15 +15955,15 @@ loc_E32C:
 word_E334:	dc.w $5F8
 		dc.w $25F0
 		dc.w $F8FF
-		nop
+		dc.w $4E71
 		dc.w $5F8
 		dc.w $25F4
 		dc.w $F8FF
-		nop
+		dc.w $4E71
 		dc.w $1F8
 		dc.w $25B4
 		dc.w $FCFF
-		nop
+		dc.w $4E71
 		dc.w $5F8
 		dc.w $2DF4
 		dc.w $F8FF
