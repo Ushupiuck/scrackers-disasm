@@ -66,7 +66,7 @@ zTrack ENDSTRUCT
 	ds.b 4
 zMusicBank	ds.b 1
 zSoundBank	ds.b 1
-zUnk_1C06	ds.b 1
+zUnk_1C06	ds.b 1	; Strange RAM that only gets set to either 0 or 1. Apart of TL information.
 	ds.b 2
 
 zTempVariablesStart
@@ -1271,7 +1271,7 @@ loc_4F3:
 		djnz	loc_4F3
 		ld	(ix+zTrack.TLPtrLow), l
 		ld	(ix+zTrack.TLPtrHigh), h
-		jp	RefreshVolume
+		jp	zSendTL
 ; End of function SendFMIns
 
 
@@ -1811,8 +1811,10 @@ loc_7EE:
 		ld	hl, zMusicBank
 		ld	a, (hl)
 		bankswitch
+	if ~~OptimiseDriver
 		ld	hl, zUnk_1C06
 		inc	(hl)
+	endif
 		ld	ix, zTracksStart
 		ld	b, (zSongPSG1-zSongFM1)/zTrack.len
 
@@ -1822,7 +1824,7 @@ loc_81D:
 		bit	2, (ix+zTrack.PlaybackControl)
 		jr	nz, loc_82E
 		push	bc
-		call	RefreshVolume
+		call	zSendTL
 		pop	bc
 
 loc_82E:
@@ -1857,7 +1859,9 @@ loc_849:
 		ld	b, 7
 	endif
 		xor	a
+	if ~~OptimiseDriver
 		ld	(zUnk_1C06), a
+	endif
 		ld	(zDACIndex), a
 	if ~~OptimiseDriver
 		ld	(zFadeOutTimeout), a
@@ -2313,7 +2317,7 @@ cfE6_ChgFMVol:
 ; =============== S U B	R O U T	I N E =======================================
 
 
-RefreshVolume:
+zSendTL:
 		push	de
 		ld	de, zFMInstrumentTLTable
 		ld	l, (ix+zTrack.TLPtrLow)
@@ -2329,6 +2333,7 @@ loc_B1B:
 		ld	a, 0FFh
 
 loc_B28:
+	if ~~OptimiseDriver
 		push	hl
 		ld	hl, zUnk_1C06
 		add	a, (hl)
@@ -2337,9 +2342,12 @@ loc_B28:
 
 loc_B32:
 		pop	hl
+	endif
 
 loc_B33:
+	if ~~OptimiseDriver
 		and	7Fh
+	endif
 		ld	c, a
 		ld	a, (de)
 		rst	WriteFMIorII
@@ -2348,7 +2356,7 @@ loc_B33:
 		djnz	loc_B1B
 		pop	de
 		ret
-; End of function RefreshVolume
+; End of function zSendTL
 
 ; ---------------------------------------------------------------------------
 
