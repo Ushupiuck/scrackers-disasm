@@ -2008,14 +2008,14 @@ loc_1684:
 		bpl.s	loc_16BA
 		move.w	d2,$14(a0)
 		move.w	d3,$16(a0)
-		movea.l	$10(a0),a3
+		movea.l	obj.Map(a0),a3
 		move.b	$20(a0),d0
 		andi.w	#$18,d0
 		move.w	$20(a0),d4
 		move.w	d4,d7
 		andi.w	#$7FF,d4
 		sub.w	d4,d7
-		tst.w	4(a0)
+		tst.w	obj.Unk4(a0)
 		jsr	loc_16C0(pc,d0.w)
 
 loc_16BA:
@@ -2376,7 +2376,7 @@ loc_1946:
 		clr.w	(a0)
 		move.w	d7,2(a0)
 		move.w	#$8000,4(a0)
-		move.l	#data_197A,$10(a0)
+		move.l	#Dummy_Mappings,obj.Map(a0)
 		moveq	#0,d7
 		move.l	d7,$20(a0)
 		move.l	d7,obj.Xpos(a0)
@@ -2385,9 +2385,9 @@ loc_1946:
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
-data_197A:
+Dummy_Mappings:
 		dc.b $00,$00
-		dc.b $00,$00
+		dc.w $0000
 		dc.b $00,$FF
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
@@ -15940,8 +15940,8 @@ loc_E2E6:
 		move.w	($FFFFF000).l,d0
 		andi.w	#$C,d0
 		add.w	d0,d0
-		lea	word_E334(pc,d0.w),a0
-		move.l	a0,$10(a6)
+		lea	Scattering_Rings_Mappings(pc,d0.w),a0
+		move.l	a0,obj.Map(a6)
 		btst	#6,5(a6)
 		beq.s	loc_E32C
 		bclr	#7,5(a6)
@@ -15952,21 +15952,22 @@ loc_E32C:
 		bset	#7,5(a6)
 		rts
 ; ---------------------------------------------------------------------------
-word_E334:	dc.w $5F8
-		dc.w $25F0
-		dc.w $F8FF
-		dc.w $4E71
-		dc.w $5F8
-		dc.w $25F4
-		dc.w $F8FF
-		dc.w $4E71
-		dc.w $1F8
-		dc.w $25B4
-		dc.w $FCFF
-		dc.w $4E71
-		dc.w $5F8
-		dc.w $2DF4
-		dc.w $F8FF
+Scattering_Rings_Mappings:
+		dc.b 5,$F8
+		dc.b $25,$F0
+		dc.b $F8,$FF
+		dc.b $4E,$71
+		dc.b 5,$F8
+		dc.b $25,$F4
+		dc.b $F8,$FF
+		dc.b $4E,$71
+		dc.b 1,$F8
+		dc.b $25,$B4
+		dc.b $FC,$FF
+		dc.b $4E,$71
+		dc.b 5,$F8
+		dc.b $2D,$F4
+		dc.b $F8,$FF
 ; ---------------------------------------------------------------------------
 
 Obj2C:

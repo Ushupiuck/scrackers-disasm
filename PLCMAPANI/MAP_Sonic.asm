@@ -6,7 +6,7 @@
 ;
 ;	Each map block consists of six bytes:
 ;
-;		dc.w $SS,$YY,$TT,$TT,$XX,$ZZ
+;		dc.b $SS,$YY,$TT,$TT,$XX,$ZZ
 ;
 ;	$SS   = Shape and size of sprite piece
 ;	$YY   = Y position of sprite piece
