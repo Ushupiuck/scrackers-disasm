@@ -4645,7 +4645,7 @@ loc_68F0:
 		lea	$20(a1),a1
 		dbf	d6,loc_68EE
 		lea	(unk_0A00&$FFFFFF).l,a0
-		lea	($FF2A00).l,a1
+		lea	(unk_2A00&$FFFFFF).l,a1
 		move.l	#$40000001,(a1)+
 		move.w	#$100,(a1)+
 		moveq	#8-1,d6
@@ -4665,7 +4665,7 @@ loc_6934:
 		dbf	d7,loc_6934
 		lea	$380(a1),a1
 		dbf	d6,loc_6932
-		lea	($FF2A00).l,a1
+		lea	(unk_2A00&$FFFFFF).l,a1
 		jmp	(SegaToVDP).l
 ; End of function Sega_MapTiles
 
@@ -4998,7 +4998,7 @@ loc_6C70:
 		bsr.w	sub_6CF0
 		lea	(unk_0400&$FFFFFF).l,a0
 		movea.w	($FFFFD818).w,a6
-		lea	obj.Inertia(a6),a6
+		lea	$2C(a6),a6
 		bsr.w	sub_6CF0
 		lea	(unk_0600&$FFFFFF).l,a0
 		movea.w	($FFFFD816).w,a6
@@ -5072,9 +5072,9 @@ loc_6D6E:
 		enable_ints
 		lea	(dword_6DBC).l,a0
 		lea	($FFFFD164).w,a1
-		rept 8
+	rept 8
 		move.l	(a0)+,(a1)+
-		endr
+	endr
 		addq.w	#4,($FFFFFAC4).w
 		move.w	#$20,($FFFFFAC6).w
 		rts
@@ -5227,9 +5227,9 @@ SegaToVDP:
 		move.l	d0,4(a5)			; set VDP settings to VDP
 
 SegatoVDPRep:
-		rept 8
+	rept 8
 		move.l	(a0)+,(a5)			; dump data to VRAM
-		endr
+	endr
 		dbf	d7,SegatoVDPRep			; repeat
 		rte
 ; ===========================================================================
@@ -7097,7 +7097,7 @@ loc_8F3A:
 		bcc.s	loc_8F84
 		moveq	#0,d0
 		move.l	#$66100003,(vdp_control_port).l
-		move.w	#$17F,d1
+		move.w	#bytesToLcnt($600),d1
 
 loc_8F50:
 		move.l	d0,(vdp_data_port).l
@@ -7292,7 +7292,7 @@ OptionSoundTest_Main:
 		move.l	#$78000003,(vdp_control_port).l
 		move.l	#0,(vdp_data_port).l
 		move.l	#0,(vdp_data_port).l
-		move.w	#$80,(v_menu_soundid).w
+		move.w	#bgm_First-1,(v_menu_soundid).w
 		enable_ints
 		addq.w	#4,(v_subgamemode).w
 		rts
@@ -7363,7 +7363,7 @@ OptionSoundTest_Exit:
 ; ---------------------------------------------------------------------------
 
 loc_94A0:
-		andi.b	#$70,d0
+		andi.b	#btnABC,d0
 		bne.s	loc_94A8
 		rts
 ; ---------------------------------------------------------------------------
