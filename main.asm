@@ -4753,7 +4753,7 @@ loc_6A02:
 		move.w	#$FFA0,($FFFFCA60).w
 		move.w	#$18,($FFFFCDDE).w
 		move.w	#$14,($FFFFCDE0).w
-		lea	(0).w,a4
+		lea	(0).w,a4	; position of tilemap
 		move.w	#$80,d4
 		moveq	#3,d6
 		moveq	#$F,d7
@@ -4786,7 +4786,7 @@ loc_6A54:
 		move.w	#$FFA0,($FFFFCA60).w
 		move.w	#$18,($FFFFCDDE).w
 		move.w	#$14,($FFFFCDE0).w
-		lea	($20).w,a4
+		lea	($20).w,a4	; position of tilemap
 		move.w	#$80,d4
 		moveq	#3,d6
 		moveq	#$1F,d7
@@ -4823,7 +4823,7 @@ loc_6AB6:
 		move.w	d0,($FFFFCA60).w
 		move.w	#$118,($FFFFCDDE).w
 		move.w	#$114,($FFFFCDE0).w
-		lea	($1430).w,a4
+		lea	($1430).w,a4	; position of tilemap
 		move.w	#$80,d4
 		moveq	#3,d6
 		moveq	#$F,d7
@@ -4976,7 +4976,7 @@ loc_6C48:
 		lea	$BE(a6),a6
 		move.l	#$A0F1A0F1,d2
 		disable_ints
-		moveq	#$1F,d7
+		moveq	#$20-1,d7
 
 loc_6C70:
 		jsr	(sub_6F26).l
@@ -5038,7 +5038,7 @@ loc_6D22:
 		movea.w	($FFFFD816).w,a6
 		lea	$BE(a6),a6
 		disable_ints
-		moveq	#$1F,d7
+		moveq	#$20-1,d7
 
 loc_6D38:
 		jsr	(sub_6F26).l
