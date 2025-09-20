@@ -7351,7 +7351,7 @@ OptionSoundTest_Exit:
 		disable_ints
 		move.w	(v_menu_soundid).w,d0
 		move.w	($FFFFD816).w,d1
-		addi.w	#$820,d1
+		addi.w	#$820,d1	; position on screen
 		jsr	(sub_5090).l
 		enable_ints
 		move.b	(unk_C93D).w,d0
