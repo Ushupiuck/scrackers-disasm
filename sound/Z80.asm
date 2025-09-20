@@ -58,27 +58,24 @@ ModulationSteps	ds.b 1
 LoopCounters	ds.w 1
 VoicesLow	ds.b 1
 VoicesHigh	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
+		ds.b 4
 zTrack ENDSTRUCT
 
 	phase $1C00
 
-	ds.l 1
+	ds.b 4
 zMusicBank	ds.b 1
 zSoundBank	ds.b 1
-zUnk_1C06	ds.b 1
-	ds.w 1
+zFadeCounter	ds.b 1	; fade volume counter
+	ds.b 2
 
 zTempVariablesStart
 
+zNextSound	ds.b 1
 zSoundQueueStart
 zSoundQueue0	ds.b 1
 zSoundQueue1	ds.b 1
 zSoundQueue2	ds.b 1
-zSoundQueue3	ds.b 1
 zSoundQueueEnd
 
 zFadeOutTimeout	ds.b 1
@@ -207,11 +204,7 @@ __LABEL__ label $
 ; turn a sample rate into a djnz loop counter
 ; ---------------------------------------------------------------------------
 pcmLoopCounter function sampleRate,baseCycles, 1+(53693175/15/(sampleRate)-(baseCycles)+(13/2))/13
-	if OptimiseDriver
-dpcmLoopCounter function sampleRate, pcmLoopCounter(sampleRate,262/2) ; 262 is the number of cycles zPlayPCMLoop takes.
-	else
-dpcmLoopCounter function sampleRate, pcmLoopCounter(sampleRate,268/2) ; 268 is the number of cycles zPlayPCMLoop takes.
-	endif
+dpcmLoopCounter function sampleRate, pcmLoopCounter(sampleRate,292/2) ; 292 is the number of cycles zPlayPCMLoop takes.
 
 ; function to turn a 68k address into a word the Z80 can use to access it
 zmake68kPtr function addr,zROMWindow+(addr&7FFFh)
@@ -421,7 +414,7 @@ UpdateAll:
 		ld	hl, zMusicBank
 		ld	a, (hl)
 		bankswitch
-		ld	ix, zTracksStart
+		ld	ix, zSongDAC
 		bit	7, (ix+zTrack.PlaybackControl)
 		call	nz, DrumUpdateTrack
 		ld	b, (zTracksEnd-zSongFM1)/zTrack.len
@@ -446,7 +439,7 @@ UpdateSFXTracks:
 		call	TrkUpdateLoop
 		ld	a, 80h
 		ld	(zUpdateSound), a		; 80 - Special SFX Mode
-		ld	b, 1
+		ld	b, (zTracksSpecSFXEnd-zTracksSpecSFXStart)/zTrack.len
 		ld	ix, zTracksSpecSFXStart
 ; End of function UpdateSFXTracks
 
@@ -676,11 +669,11 @@ loc_25D:
 		ld	a, (de)
 		or	a
 		jp	p, loc_29C
-		ld	a, (ix+zTrack.SavedDuration)
-		ld	(ix+zTrack.DurationTimeout), a
 	if OptimiseDriver
 		jp	loc_2A3
 	else
+		ld	a, (ix+zTrack.SavedDuration)
+		ld	(ix+zTrack.DurationTimeout), a
 		jr	loc_2A3
 	endif
 ; ---------------------------------------------------------------------------
@@ -1058,11 +1051,7 @@ loc_41C:
 	endif
 		pop	hl
 		bit	7, a
-	if OptimiseDriver
-		jr	z, ModEnv_Positive
-	else
 		jp	z, ModEnv_Positive
-	endif
 		cp	82h
 		jr	z, ModEnv_Jump2Idx		; 82	xx - jump to byte xx
 		cp	80h
@@ -1266,7 +1255,7 @@ loc_4F3:
 		djnz	loc_4F3
 		ld	(ix+zTrack.TLPtrLow), l
 		ld	(ix+zTrack.TLPtrHigh), h
-		jp	RefreshVolume
+		jp	zSendTL
 ; End of function SendFMIns
 
 
@@ -1291,7 +1280,7 @@ WriteInsReg:
 
 
 PlaySoundID:
-		ld	a, (zSoundQueue0)
+		ld	a, (zNextSound)
 		bit	7, a
 		jp	z, StopAllSound			; 00-7F	- Stop All
 		cp	bgm_Last			; is the ID music?
@@ -1326,8 +1315,12 @@ ptr_flgend
 ; ---------------------------------------------------------------------------
 
 FadeInMusic:
-		ld	ix, zTracksSFXEnd
+		ld	ix, zTracksSpecSFXStart
+	if FixDriverBugs
+		ld	b, (zTracksSpecSFXEnd-zTracksSpecSFXStart)/zTrack.len
+	else
 		ld	b, 2
+	endif
 		ld	a, 80h
 		ld	(zUpdateSound), a
 
@@ -1435,7 +1428,7 @@ loc_5E7:
 
 ClearSoundID:
 		ld	a, 80h
-		ld	(zSoundQueue0), a
+		ld	(zNextSound), a
 		ret
 ; ---------------------------------------------------------------------------
 FMInitBytes:	db  80h,   6
@@ -1694,8 +1687,8 @@ UnpauseMusic:
 		ld	a, (zFadeOutTimeout)
 		or	a
 		jp	nz, StopAllSound
-		ld	ix, zTracksStart
-		ld	b, (zSongPSG1-zTracksStart)/zTrack.len
+		ld	ix, zSongDAC
+		ld	b, (zSongPSG1-zSongDAC)/zTrack.len
 
 loc_780:
 		ld	a, (zHaltFlag)
@@ -1746,7 +1739,7 @@ FadeOutMusic:
 
 StopDrumPSG:
 		xor	a
-		ld	(zTracksStart), a
+		ld	(zSongDAC), a
 		ld	(zSongFM6), a
 		ld	(zSongPSG3), a
 		ld	(zSongPSG1), a
@@ -1775,17 +1768,22 @@ DoFading:
 loc_7EE:
 		ld	a, (zFadeDelay)
 		ld	(zFadeDelayTimeout), a
-		ld	a, (zFadeOutTimeout)
-		dec	a
-		ld	(zFadeOutTimeout), a
+	if OptimiseDriver
+		ld	hl, zFadeOutTimeout		; (hl) = fade timeout
+		dec	(hl)				; Decrement it
+	else
+		ld	a, (zFadeOutTimeout)		; a = fade timeout
+		dec	a				; Decrement it
+		ld	(zFadeOutTimeout), a		; Then store it back
+	endif
 		jr	z, StopAllSound
 		ld	hl, zMusicBank
 		ld	a, (hl)
 		bankswitch
-		ld	hl, zUnk_1C06
+		ld	hl, zFadeCounter
 		inc	(hl)
 		ld	ix, zTracksStart
-		ld	b, 6
+		ld	b, (zSongPSG1-zSongFM1)/zTrack.len
 
 loc_81D:
 		bit	7, (ix+zTrack.PlaybackControl)
@@ -1793,7 +1791,7 @@ loc_81D:
 		bit	2, (ix+zTrack.PlaybackControl)
 		jr	nz, loc_82E
 		push	bc
-		call	RefreshVolume
+		call	zSendTL
 		pop	bc
 
 loc_82E:
@@ -1814,7 +1812,7 @@ StopAllSound:
 		ld	(hl), 0
 		ldir
 		ld	ix, FMInitBytes
-		ld	b, 6
+		ld	b, (zSongPSG1-zSongFM1)/zTrack.len
 
 loc_849:
 		push	bc
@@ -1824,11 +1822,15 @@ loc_849:
 		inc	ix
 		pop	bc
 		djnz	loc_849
+	if ~~OptimiseDriver
 		ld	b, 7
+	endif
 		xor	a
-		ld	(zUnk_1C06), a
+		ld	(zFadeCounter), a
 		ld	(zDACIndex), a
+	if ~~OptimiseDriver
 		ld	(zFadeOutTimeout), a
+	endif
 		call	SilencePSG
 		ld	c, 0
 		ld	a, 2Bh
@@ -1955,10 +1957,12 @@ loc_8D1:
 
 
 DoSoundQueue:
+	if ~~OptimiseDriver
 		ld	a, r
 		ld	(zUnk_1C17), a
-		ld	de, zSoundQueue1
-		ld	b, (zSoundQueueEnd-zSoundQueueStart)-1
+	endif
+		ld	de, zSoundQueue0
+		ld	b, zSoundQueueEnd-zSoundQueueStart
 
 loc_8E0:
 		ld	a, (de)
@@ -1981,7 +1985,7 @@ loc_8E0:
 
 loc_8FD:
 		ld	a, c
-		ld	(zSoundQueue0), a
+		ld	(zNextSound), a
 		ld	a, (hl)
 		ld	(zUnk_1C18), a
 
@@ -1995,10 +1999,10 @@ loc_905:
 
 loc_90B:
 		ld	a, c
-		ld	(zSoundQueue0), a
+		ld	(zNextSound), a
 		xor	a
 		ld	(zUnk_1C18), a
-		ld	de, zSoundQueue1
+		ld	de, zSoundQueue0
 		ld	(de), a
 		inc	de
 		ld	(de), a
@@ -2081,11 +2085,7 @@ loc_A07:
 		ld	a, (de)
 		inc	de
 		cp	0E0h
-	if OptimiseDriver
-		jr	nc, cfHandler_Drum
-	else
 		jp	nc, cfHandler_Drum
-	endif
 		or	a
 		jp	m, loc_A16
 		dec	de
@@ -2097,11 +2097,7 @@ loc_A16:
 		jp	p, loc_A3E
 		push	de
 		sub	80h
-	if OptimiseDriver
-		jr	z, loc_A38
-	else
 		jp	z, loc_A38
-	endif
 		ld	hl, zSongFM6
 		set	2, (hl)
 		ex	af, af'
@@ -2109,11 +2105,7 @@ loc_A16:
 		ex	af, af'
 		ld	hl, zTracksStart
 		bit	2, (hl)
-	if OptimiseDriver
-		jr	nz, loc_A38
-	else
 		jp	nz, loc_A38
-	endif
 		ld	(zDACIndex), a
 
 loc_A38:
@@ -2127,8 +2119,10 @@ loc_A3E:
 		or	a
 		jp	p, SetDuration
 		dec	de
+	if ~~OptimiseDriver
 		ld	a, (ix+zTrack.SavedDuration)
 		ld	(ix+zTrack.DurationTimeout), a
+	endif
 		jp	loc_2A3
 ; ---------------------------------------------------------------------------
 
@@ -2176,7 +2170,7 @@ cfPtrTable:	dw cfE0_Pan
 		dw cfED_FMChnWrite
 		dw cfEE_FM1Write
 		dw cfEF_SetIns
-		dw cfF0_Mods.betup
+		dw cfF0_ModSetup
 		dw cfF1_ModTypePFM
 		dw cfF2_StopTrk
 		dw cfF3_PSGNoise
@@ -2290,7 +2284,7 @@ cfE6_ChgFMVol:
 ; =============== S U B	R O U T	I N E =======================================
 
 
-RefreshVolume:
+zSendTL:
 		push	de
 		ld	de, zFMInstrumentTLTable
 		ld	l, (ix+zTrack.TLPtrLow)
@@ -2307,7 +2301,7 @@ loc_B1B:
 
 loc_B28:
 		push	hl
-		ld	hl, zUnk_1C06
+		ld	hl, zFadeCounter
 		add	a, (hl)
 		jp	m, loc_B32
 		ld	a, 0FFh
@@ -2316,7 +2310,9 @@ loc_B32:
 		pop	hl
 
 loc_B33:
+	if ~~OptimiseDriver
 		and	7Fh
+	endif
 		ld	c, a
 		ld	a, (de)
 		rst	WriteFMIorII
@@ -2325,7 +2321,7 @@ loc_B33:
 		djnz	loc_B1B
 		pop	de
 		ret
-; End of function RefreshVolume
+; End of function zSendTL
 
 ; ---------------------------------------------------------------------------
 
@@ -2352,11 +2348,7 @@ cfEB_LoopExit:
 		add	hl, bc
 		ld	a, (hl)
 		dec	a
-	if OptimiseDriver
-		jr	z, loc_B5F
-	else
 		jp	z, loc_B5F
-	endif
 		inc	de
 		ret
 ; ---------------------------------------------------------------------------
@@ -2374,11 +2366,7 @@ cfEC_ChgPSGVol:
 		dec	(ix+zTrack.VolEnv)
 		add	a, (ix+zTrack.Volume)
 		cp	0Fh
-	if OptimiseDriver
-		jr	c, loc_B7A
-	else
 		jp	c, loc_B7A
-	endif
 		ld	a, 0Fh
 
 loc_B7A:
@@ -2475,7 +2463,7 @@ loc_BC9:
 		ret
 ; ---------------------------------------------------------------------------
 
-cfF0_Mods.betup:
+cfF0_ModSetup:
 		ld	(ix+zTrack.ModulationPtrLow), e
 		ld	(ix+zTrack.ModulationPtrHigh), d
 		ld	(ix+zTrack.ModulationCtrl), 80h
@@ -2579,7 +2567,7 @@ loc_C54:
 		ld	d, (ix+zTrack.PSGNoise)
 
 loc_C91:
-		call	Sends.bSGEG
+		call	SendSSGEG
 
 loc_C94:
 		pop	ix
@@ -2812,7 +2800,7 @@ cf00_SetTempo:
 ; ---------------------------------------------------------------------------
 
 cf01_PlaySnd:
-		ld	(zSoundQueue0), a
+		ld	(zNextSound), a
 		ret
 ; ---------------------------------------------------------------------------
 
@@ -2891,7 +2879,7 @@ cf05_SSGEG:
 ; =============== S U B	R O U T	I N E =======================================
 
 
-Sends.bSGEG:
+SendSSGEG:
 		ld	hl, zFMInstrumentSSGEGTable
 		ld	b, zFMInstrumentSSGEGTable_End-zFMInstrumentSSGEGTable
 
@@ -2905,7 +2893,7 @@ loc_E0C:
 		djnz	loc_E0C
 		dec	de
 		ret
-; End of function Sends.bSGEG
+; End of function SendSSGEG
 
 ; ---------------------------------------------------------------------------
 
@@ -3040,7 +3028,9 @@ DoPSGVolEnv:
 ; ---------------------------------------------------------------------------
 
 VolEnv_Off:
+	if ~~FixDriverBugs
 		set	4, (ix+zTrack.PlaybackControl)
+	endif
 		pop	hl
 		jp	SetRest
 ; ---------------------------------------------------------------------------
@@ -3100,74 +3090,66 @@ SilencePSGChn:
 ; ---------------------------------------------------------------------------
 
 zPlayDigitalAudio:
-		di					; 4
-		ld	a, 2Bh				; 7
-		ld	c, 0				; 7
+		di
+		ld	a, 2Bh
+		ld	c, 0
 	if ~~OptimiseDriver
-		call	WriteFMI			; 17
+		call	WriteFMI
 	else
-		rst	WriteFMI			; 11
+		rst	WriteFMI
 	endif
 
 loc_EED:
-		ei					; 4
-		ld	a, d				; 4
-		or	e				; 4
-		jr	z, loc_EED			; 7
-		ei					; 4
+		ei
+		ld	a, d
+		or	e
+		jr	z, loc_EED
+		ei
 
 DACLoop:
 		ld	b, 0Ah				; 7
-
-loc_EF5:
 		djnz	$				; 8
 		ld	a, (hl)				; 7
 		rlca					; 4
 		rlca					; 4
 		rlca					; 4
 		rlca					; 4
-		and	0Fh				; 7
-		ld	(loc_F02+2), a			; 13
+		and	0Fh					; 7
+		ld	(loc_F02+2), a		; 13
 		ld	a, c				; 4
 
 loc_F02:
 		add	a, (iy+0)			; 19
 		ld	c, a				; 4
 		ld	a, 2Ah				; 7
-		di					; 4
-		ld	(zYM2612_A0), a			; 13
+		di						; 4
+		ld	(zYM2612_A0), a		; 13
 		ld	a, c				; 4
-		ld	(zYM2612_D0), a			; 13
-		ei					; 4
-
+		ld	(zYM2612_D0), a		; 13
+		ei						; 4
+		
 loc_F11:
 		ld	b, 0Ah				; 7
-
-loc_F13:
 		djnz	$				; 8
 		ld	a, (hl)				; 7
-		and	0Fh				; 7
-		ld	(loc_F1C+2), a			; 13
+		and	0Fh					; 7
+		ld	(loc_F1C+2), a		; 13
 		ld	a, c				; 4
 
 loc_F1C:
 		add	a, (iy+0)			; 19
 		ld	c, a				; 4
 		ld	a, 2Ah				; 7
-		di					; 4
-		ld	(zYM2612_A0), a			; 13
+		di						; 4
+		ld	(zYM2612_A0), a		; 13
 		ld	a, c				; 4
-		ld	(zYM2612_D0), a			; 13
-		ei					; 4
-		inc	hl				; 6
+		ld	(zYM2612_D0), a		; 13
+		ei						; 4
+		inc	hl					; 6
 		ld	a, h				; 4
-		or	l				; 4
-		jp	nz, .loc_F52			; 10
-	if OptimiseDriver
-							; 262 cycles in total
-	else
-							; 268 cycles in total
-	endif
+		or	l					; 4
+		jp	nz, .loc_F52		; 10
+
 		ld	hl, zROMWindow
 		di
 		exx
@@ -3180,11 +3162,12 @@ loc_F1C:
 		ei
 
 .loc_F52:
-		dec	de
-		ld	a, d
-		or	e
-		jp	nz, DACLoop
-		ld	hl, zTracksStart
+		dec	de					; 6
+		ld	a, d				; 4
+		or	e					; 4
+		jp	nz, DACLoop			; 10
+								; 292 cycles in total
+		ld	hl, zSongDAC
 		res	2, (hl)
 		xor	a
 		ld	(zDACIndex), a
@@ -3252,47 +3235,92 @@ byte_1131:	db    3,   2,	1,   0,	  0,   0,   1
 byte_1139:	db    0,   0,	0,   0,	  1,   1,   1,	 1,   2,   2,	1
 		db    1,   1,	0,   0,	  0
 		db  84h, 01h, 82h, 04h
+
+zmake68kBanks macro
+		irp op,ALLARGS
+			db zmake68kBank(op)
+		endm
+	endm
+
 MusicBanks:
 		; The way that this works is that each individual music track has it's own bank
 		; that it uses for finding and playing music from banks.
-		db zmake68kBank(Music81)
-		db zmake68kBank(Music82)
-		db zmake68kBank(Music83)
-		db zmake68kBank(Music84)
-		db zmake68kBank(Music85)
-		db zmake68kBank(Music86)
+		zmake68kBanks MusicBank
+		zmake68kBanks MusicBank
+		zmake68kBanks MusicBank
+		zmake68kBanks MusicBank
+		zmake68kBanks MusicBank
+		zmake68kBanks MusicBank
+
+zmake68kPtrs macro
+		irp op,ALLARGS
+			dw zmake68kPtr(op)
+		endm
+	endm
+
 MusicIndex:
-ptr_mus81:	dw zmake68kPtr(Music81)
-ptr_mus82:	dw zmake68kPtr(Music82)
-ptr_mus83:	dw zmake68kPtr(Music83)
-ptr_mus84:	dw zmake68kPtr(Music84)
-ptr_mus85:	dw zmake68kPtr(Music85)
-ptr_mus86:	dw zmake68kPtr(Music86)
+ptr_mus81:	zmake68kPtrs Music81
+ptr_mus82:	zmake68kPtrs Music82
+ptr_mus83:	zmake68kPtrs Music83
+ptr_mus84:	zmake68kPtrs Music84
+ptr_mus85:	zmake68kPtrs Music85
+ptr_mus86:	zmake68kPtrs Music86
 ptr_musend
 
 SoundIndex:
-ptr_sndA0:	dw zmake68kPtr(SoundA0)
-ptr_sndA1:	dw zmake68kPtr(SoundA1)
-ptr_sndA2:	dw zmake68kPtr(SoundA2)
-ptr_sndA3:	dw zmake68kPtr(SoundA3)
-ptr_sndA4:	dw zmake68kPtr(SoundA4)
-ptr_sndA5:	dw zmake68kPtr(SoundA5)
-ptr_sndA6:	dw zmake68kPtr(SoundA6)
-ptr_sndA7:	dw zmake68kPtr(SoundA7)
-ptr_sndA8:	dw zmake68kPtr(SoundA8)
-ptr_sndA9:	dw zmake68kPtr(SoundA9)
-ptr_sndAA:	dw zmake68kPtr(SoundAA)
-ptr_sndAB:	dw zmake68kPtr(SoundAB)
-ptr_sndAC:	dw zmake68kPtr(SoundAC)
-ptr_sndAD:	dw zmake68kPtr(SoundAD)
-ptr_sndAE:	dw zmake68kPtr(SoundAE)
-ptr_sndAF:	dw zmake68kPtr(SoundAF)
+	if ~~FixDriverBugs
+		; DANGER!
+		; These pointers along with the pointers inside of the SFX are
+		; all half a bank too long!
+ptr_sndA0:	zmake68kPtrs SoundA0+4000h
+ptr_sndA1:	zmake68kPtrs SoundA1+4000h
+ptr_sndA2:	zmake68kPtrs SoundA2+4000h
+ptr_sndA3:	zmake68kPtrs SoundA3+4000h
+ptr_sndA4:	zmake68kPtrs SoundA4+4000h
+ptr_sndA5:	zmake68kPtrs SoundA5+4000h
+ptr_sndA6:	zmake68kPtrs SoundA6+4000h
+ptr_sndA7:	zmake68kPtrs SoundA7+4000h
+ptr_sndA8:	zmake68kPtrs SoundA8+4000h
+ptr_sndA9:	zmake68kPtrs SoundA9+4000h
+ptr_sndAA:	zmake68kPtrs SoundAA+4000h
+ptr_sndAB:	zmake68kPtrs SoundAB+4000h
+ptr_sndAC:	zmake68kPtrs SoundAC+4000h
+ptr_sndAD:	zmake68kPtrs SoundAD+4000h
+ptr_sndAE:	zmake68kPtrs SoundAE+4000h
+ptr_sndAF:	zmake68kPtrs SoundAF+4000h
+	else
+ptr_sndA0:	zmake68kPtrs SoundA0
+ptr_sndA1:	zmake68kPtrs SoundA1
+ptr_sndA2:	zmake68kPtrs SoundA2
+ptr_sndA3:	zmake68kPtrs SoundA3
+ptr_sndA4:	zmake68kPtrs SoundA4
+ptr_sndA5:	zmake68kPtrs SoundA5
+ptr_sndA6:	zmake68kPtrs SoundA6
+ptr_sndA7:	zmake68kPtrs SoundA7
+ptr_sndA8:	zmake68kPtrs SoundA8
+ptr_sndA9:	zmake68kPtrs SoundA9
+ptr_sndAA:	zmake68kPtrs SoundAA
+ptr_sndAB:	zmake68kPtrs SoundAB
+ptr_sndAC:	zmake68kPtrs SoundAC
+ptr_sndAD:	zmake68kPtrs SoundAD
+ptr_sndAE:	zmake68kPtrs SoundAE
+ptr_sndAF:	zmake68kPtrs SoundAF
+	endif
 ptr_sndend
 
 SpecSoundIndex:
-ptr_sndD0:	dw zmake68kPtr(SoundA0)
-ptr_sndD1:	dw zmake68kPtr(SoundA1)
-ptr_sndD2:	dw zmake68kPtr(SoundA3)
+	if ~~FixDriverBugs
+		; DANGER!
+		; Once again, these pointers along with the pointers inside of the
+		; SFX are all half a bank too long!
+ptr_sndD0:	zmake68kPtrs SoundA0+4000h
+ptr_sndD1:	zmake68kPtrs SoundA1+4000h
+ptr_sndD2:	zmake68kPtrs SoundA3+4000h
+	else
+ptr_sndD0:	zmake68kPtrs SoundA0
+ptr_sndD1:	zmake68kPtrs SoundA1
+ptr_sndD2:	zmake68kPtrs SoundA3
+	endif
 ptr_specend
 
 SndPriorities:	db 7Fh,	7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh, 7Fh,	7Fh, 7Fh
@@ -3313,17 +3341,17 @@ DAC_Index:	dw .dac81
 		dw .dac87
 DACMeta:	macro location,rate
 		db dpcmLoopCounter(rate)
-		db zmake68kBank(location)
+		zmake68kBanks location
 		dw location_End-location
-		dw zmake68kPtr(location)
+		zmake68kPtrs location
 	endm
-.dac81:		DACMeta DAC_Sample1,4800
-.dac82:		DACMeta DAC_Sample2,14000
-.dac83:		DACMeta DAC_Sample3,14000
-.dac84:		DACMeta DAC_Sample3,12000
-.dac85:		DACMeta DAC_Sample3,11000
-.dac86:		DACMeta DAC_Sample4,14000
-.dac87:		DACMeta DAC_Sample5,14000
+.dac81:		DACMeta DAC_Sample1,4750
+.dac82:		DACMeta DAC_Sample2,13500
+.dac83:		DACMeta DAC_Sample3,13500
+.dac84:		DACMeta DAC_Sample3,11500
+.dac85:		DACMeta DAC_Sample3,10500
+.dac86:		DACMeta DAC_Sample4,13500
+.dac87:		DACMeta DAC_Sample5,13500
 
 		restore
 		padding	off

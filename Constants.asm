@@ -4,12 +4,16 @@ vdp_control_port:	equ $C00004
 
 ; Z80 addresses
 z80_ram:		equ $A00000			; start of Z80 RAM
-z80_dac_status:		equ z80_ram+zDAC_Status
-z80_dac_sample:		equ z80_ram+zDAC_Sample
-z80_ram_end:		equ $A02000			; end of non-reserved Z80 RAM
-z80_version:		equ $A10001
-z80_port_1_control:	equ $A10008
-z80_expansion_control:	equ $A1000C
+z80_dac_status:	equ z80_ram+zDAC_Status
+z80_dac_sample:	equ z80_ram+zDAC_Sample
+z80_ram_end:	equ $A02000			; end of non-reserved Z80 RAM
+region_version:	equ $A10001
+port_1_data:	equ $A10003
+port_2_data:	equ	$A10005
+port_3_data:	equ	$A10007
+port_1_control:	equ $A10009
+port_2_control:	equ $A1000B
+expansion_port_control:	equ $A1000D
 z80_bus_request:	equ $A11100
 z80_reset:		equ $A11200
 
@@ -52,12 +56,23 @@ bitDn:		equ 1
 bitUp:		equ 0
 
 ; Object variables
-ObjectPointer: equ 6
-obX:        equ 8
-obY:        equ $C
-obMap:		equ $10					; mappings address (4 bytes)
-obAngle:    equ $2A
-obInertia:   equ $2C
+obj	struct DOTS
+ID:			ds.w 1				; object ID (2 bytes)
+			ds.b 2
+Unk4:		ds.w 1				; unknown (2 bytes)
+Pointer:	ds.w 1				; object pointer (2 bytes)
+Xpos:		ds.l 1				; x position (4 bytes)
+Ypos:		ds.l 1				; y position (4 bytes)
+Map:		ds.l 1				; mappings address (4 bytes)
+			ds.b 4
+VelX:		ds.l 1				; x velocity (4 bytes)
+VelY:		ds.l 1				; y velocity (4 bytes)
+Unk20:		ds.w 1				; unknown (2 bytes)
+			ds.b 8
+Angle:		ds.b 1
+			ds.b 1
+Inertia:	ds.b 1
+	endstruct
 
 ; Background music
 bgm_First:	equ $81
@@ -96,7 +111,7 @@ spec_Cash:	equ ((ptr_sndD1-SpecSoundIndex)/2)+spec_First
 spec_Bomb:	equ ((ptr_sndD2-SpecSoundIndex)/2)+spec_First
 spec_Last:	equ ((ptr_sndend-SpecSoundIndex)/2)+spec_First
 
-flg_First:	= $E0
+flg_First:	equ $E0
 flg_FadeOut:	equ ((ptr_flgE0-CmdPtrTable)/2)+flg_First
 flg_Stop:	equ ((ptr_flgE1-CmdPtrTable)/2)+flg_First
 flg_StopPSG:	equ ((ptr_flgE2-CmdPtrTable)/2)+flg_First
