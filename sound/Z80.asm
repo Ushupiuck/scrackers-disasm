@@ -66,7 +66,7 @@ zTrack ENDSTRUCT
 	ds.b 4
 zMusicBank	ds.b 1
 zSoundBank	ds.b 1
-zUnk_1C06	ds.b 1	; Strange RAM that only gets set to either 0 or 1. Apart of TL information.
+zFadeCounter	ds.b 1	; fade volume counter
 	ds.b 2
 
 zTempVariablesStart
@@ -1811,10 +1811,8 @@ loc_7EE:
 		ld	hl, zMusicBank
 		ld	a, (hl)
 		bankswitch
-	if ~~OptimiseDriver
-		ld	hl, zUnk_1C06
+		ld	hl, zFadeCounter
 		inc	(hl)
-	endif
 		ld	ix, zTracksStart
 		ld	b, (zSongPSG1-zSongFM1)/zTrack.len
 
@@ -1859,9 +1857,7 @@ loc_849:
 		ld	b, 7
 	endif
 		xor	a
-	if ~~OptimiseDriver
-		ld	(zUnk_1C06), a
-	endif
+		ld	(zFadeCounter), a
 		ld	(zDACIndex), a
 	if ~~OptimiseDriver
 		ld	(zFadeOutTimeout), a
@@ -2333,16 +2329,14 @@ loc_B1B:
 		ld	a, 0FFh
 
 loc_B28:
-	if ~~OptimiseDriver
 		push	hl
-		ld	hl, zUnk_1C06
+		ld	hl, zFadeCounter
 		add	a, (hl)
 		jp	m, loc_B32
 		ld	a, 0FFh
 
 loc_B32:
 		pop	hl
-	endif
 
 loc_B33:
 	if ~~OptimiseDriver
