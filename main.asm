@@ -15917,7 +15917,7 @@ Scattering_Rings:
 ; ---------------------------------------------------------------------------
 
 loc_E2C8:
-		move.w	8(a6),d0
+		move.w	obj.Xpos(a6),d0
 		move.w	obj.Ypos(a6),d1
 		jsr	(sub_1DA8).w
 		beq.s	loc_E2E6
@@ -15931,9 +15931,9 @@ loc_E2C8:
 loc_E2E6:
 		move.w	d0,obj.Xpos(a6)
 		move.w	d1,obj.Ypos(a6)
-		move.l	$18(a6),d0
+		move.l	obj.VelX(a6),d0
 		add.l	d0,obj.Xpos(a6)
-		move.l	$1C(a6),d0
+		move.l	obj.VelY(a6),d0
 		addi.l	#$1800,d0
 		move.l	d0,$1C(a6)
 		add.l	d0,obj.Ypos(a6)
@@ -15953,20 +15953,30 @@ loc_E32C:
 		rts
 ; ---------------------------------------------------------------------------
 Scattering_Rings_Mappings:
+;	mappings 1
 		dc.b 5,$F8
-		dc.b $25,$F0
+		dc.w $25F0
 		dc.b $F8,$FF
-		dc.b $4E,$71
+
+		nop	; padding
+
+;	mappings 2
 		dc.b 5,$F8
-		dc.b $25,$F4
+		dc.w $25F4
 		dc.b $F8,$FF
-		dc.b $4E,$71
+
+		nop	; padding
+
+;	mappings 3
 		dc.b 1,$F8
-		dc.b $25,$B4
+		dc.w $25B4
 		dc.b $FC,$FF
-		dc.b $4E,$71
+
+		nop	; padding
+
+;	mappings 4
 		dc.b 5,$F8
-		dc.b $2D,$F4
+		dc.w $2DF4
 		dc.b $F8,$FF
 ; ---------------------------------------------------------------------------
 
