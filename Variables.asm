@@ -12,7 +12,9 @@ unk_0B02:	ds.b $82
 unk_0B84:	ds.b $102
 unk_0C86:	ds.b $82
 v_128x128:	ds.b $100*128
-			ds.b $3AF8
+			ds.b $2000
+unk_AD08:	ds.b $1004
+			ds.b $AF4
 unk_C800:	ds.b $12
 unk_C812:	ds.b 6
 unk_C818:	ds.b 6

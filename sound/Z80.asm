@@ -3108,69 +3108,65 @@ SilencePSGChn:
 ; ---------------------------------------------------------------------------
 
 zPlayDigitalAudio:
-		di					; 4
-		ld	a, 2Bh				; 7
-		ld	c, 0				; 7
+		di
+		ld	a, 2Bh
+		ld	c, 0
 	if ~~OptimiseDriver
-		call	WriteFMI			; 17
+		call	WriteFMI
 	else
-		rst	WriteFMI			; 11
+		rst	WriteFMI
 	endif
 
 loc_EED:
-		ei					; 4
-		ld	a, d				; 4
-		or	e				; 4
-		jr	z, loc_EED			; 7
-		ei					; 4
+		ei
+		ld	a, d
+		or	e
+		jr	z, loc_EED
+		ei
 
 DACLoop:
 		ld	b, 0Ah				; 7
-
-loc_EF5:
 		djnz	$				; 8
 		ld	a, (hl)				; 7
 		rlca					; 4
 		rlca					; 4
 		rlca					; 4
 		rlca					; 4
-		and	0Fh				; 7
-		ld	(loc_F02+2), a			; 13
+		and	0Fh					; 7
+		ld	(loc_F02+2), a		; 13
 		ld	a, c				; 4
 
 loc_F02:
 		add	a, (iy+0)			; 19
 		ld	c, a				; 4
 		ld	a, 2Ah				; 7
-		di					; 4
-		ld	(zYM2612_A0), a			; 13
+		di						; 4
+		ld	(zYM2612_A0), a		; 13
 		ld	a, c				; 4
-		ld	(zYM2612_D0), a			; 13
-		ei					; 4
-
+		ld	(zYM2612_D0), a		; 13
+		ei						; 4
+		
 loc_F11:
 		ld	b, 0Ah				; 7
-
-loc_F13:
 		djnz	$				; 8
 		ld	a, (hl)				; 7
-		and	0Fh				; 7
-		ld	(loc_F1C+2), a			; 13
+		and	0Fh					; 7
+		ld	(loc_F1C+2), a		; 13
 		ld	a, c				; 4
 
 loc_F1C:
 		add	a, (iy+0)			; 19
 		ld	c, a				; 4
 		ld	a, 2Ah				; 7
-		di					; 4
-		ld	(zYM2612_A0), a			; 13
+		di						; 4
+		ld	(zYM2612_A0), a		; 13
 		ld	a, c				; 4
-		ld	(zYM2612_D0), a			; 13
-		ei					; 4
-		inc	hl				; 6
+		ld	(zYM2612_D0), a		; 13
+		ei						; 4
+		inc	hl					; 6
 		ld	a, h				; 4
-		or	l				; 4
-		jp	nz, .loc_F52			; 10
+		or	l					; 4
+		jp	nz, .loc_F52		; 10
 	if OptimiseDriver
 							; 262 cycles in total
 	else

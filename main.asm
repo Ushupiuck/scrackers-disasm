@@ -206,7 +206,7 @@ Z80StartupCodeBegin:					; Z80 instructions (not the sound driver; that gets loa
 		jp	(hl)	  ; jump to the first instruction (to stay there forever)
 zStartupCodeEndLoc:
 	dephase ; stop pretending
-		restore
+	restore
 	padding off ; unfortunately our flags got reset so we have to set them again...
 Z80StartupCodeEnd:
 
@@ -1932,13 +1932,13 @@ sub_15D0:
 		move.l	d0,(a0)+
 		move.l	d0,(a0)+
 		move.w	#$7FFF,(a0)+
-		lea	($FFAD08).l,a0
+		lea	(unk_AD08&$FFFFFF).l,a0
 		move.w	#bytesToLcnt($1004),d1
 
 loc_15EE:
 		move.l	d0,(a0)+
 		dbf	d1,loc_15EE
-		lea	($FFAD08).l,a0
+		lea	(unk_AD08&$FFFFFF).l,a0
 		moveq	#bytesToXcnt($180,6),d7
 		move.w	a0,($FFFFD84C).w
 
