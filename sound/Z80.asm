@@ -204,11 +204,7 @@ __LABEL__ label $
 ; turn a sample rate into a djnz loop counter
 ; ---------------------------------------------------------------------------
 pcmLoopCounter function sampleRate,baseCycles, 1+(53693175/15/(sampleRate)-(baseCycles)+(13/2))/13
-	if OptimiseDriver
-dpcmLoopCounter function sampleRate, pcmLoopCounter(sampleRate,262/2) ; 262 is the number of cycles zPlayPCMLoop takes.
-	else
 dpcmLoopCounter function sampleRate, pcmLoopCounter(sampleRate,268/2) ; 268 is the number of cycles zPlayPCMLoop takes.
-	endif
 
 ; function to turn a 68k address into a word the Z80 can use to access it
 zmake68kPtr function addr,zROMWindow+(addr&7FFFh)
@@ -3180,11 +3176,7 @@ loc_F1C:
 		ld	a, h				; 4
 		or	l					; 4
 		jp	nz, .loc_F52		; 10
-	if OptimiseDriver
-							; 262 cycles in total
-	else
-							; 268 cycles in total
-	endif
+								; 268 cycles in total
 		ld	hl, zROMWindow
 		di
 		exx
