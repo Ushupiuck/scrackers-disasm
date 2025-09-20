@@ -434,7 +434,7 @@ UpdateAll:
 		ld	hl, zMusicBank
 		ld	a, (hl)
 		bankswitch
-		ld	ix, zTracksStart
+		ld	ix, zSongDAC
 		bit	7, (ix+zTrack.PlaybackControl)
 		call	nz, DrumUpdateTrack
 		ld	b, (zTracksEnd-zSongFM1)/zTrack.len
@@ -459,7 +459,7 @@ UpdateSFXTracks:
 		call	TrkUpdateLoop
 		ld	a, 80h
 		ld	(zUpdateSound), a		; 80 - Special SFX Mode
-		ld	b, 1
+		ld	b, (zTracksSpecSFXEnd-zTracksSpecSFXStart)/zTrack.len
 		ld	ix, zTracksSpecSFXStart
 ; End of function UpdateSFXTracks
 
@@ -1350,8 +1350,12 @@ ptr_flgend
 ; ---------------------------------------------------------------------------
 
 FadeInMusic:
-		ld	ix, zTracksSFXEnd
+		ld	ix, zTracksSpecSFXStart
+	if FixDriverBugs
+		ld	b, (zTracksSpecSFXEnd-zTracksSpecSFXStart)/zTrack.len
+	else
 		ld	b, 2
+	endif
 		ld	a, 80h
 		ld	(zUpdateSound), a
 
@@ -1718,8 +1722,8 @@ UnpauseMusic:
 		ld	a, (zFadeOutTimeout)
 		or	a
 		jp	nz, StopAllSound
-		ld	ix, zTracksStart
-		ld	b, (zSongPSG1-zTracksStart)/zTrack.len
+		ld	ix, zSongDAC
+		ld	b, (zSongPSG1-zSongDAC)/zTrack.len
 
 loc_780:
 		ld	a, (zHaltFlag)
@@ -1770,7 +1774,7 @@ FadeOutMusic:
 
 StopDrumPSG:
 		xor	a
-		ld	(zTracksStart), a
+		ld	(zSongDAC), a
 		ld	(zSongFM6), a
 		ld	(zSongPSG3), a
 		ld	(zSongPSG1), a
@@ -1799,9 +1803,14 @@ DoFading:
 loc_7EE:
 		ld	a, (zFadeDelay)
 		ld	(zFadeDelayTimeout), a
-		ld	a, (zFadeOutTimeout)
-		dec	a
-		ld	(zFadeOutTimeout), a
+	if OptimiseDriver
+		ld	hl, zFadeOutTimeout		; (hl) = fade timeout
+		dec	(hl)				; Decrement it
+	else
+		ld	a, (zFadeOutTimeout)		; a = fade timeout
+		dec	a				; Decrement it
+		ld	(zFadeOutTimeout), a		; Then store it back
+	endif
 		jr	z, StopAllSound
 		ld	hl, zMusicBank
 		ld	a, (hl)
@@ -1809,7 +1818,7 @@ loc_7EE:
 		ld	hl, zUnk_1C06
 		inc	(hl)
 		ld	ix, zTracksStart
-		ld	b, 6
+		ld	b, (zSongPSG1-zSongFM1)/zTrack.len
 
 loc_81D:
 		bit	7, (ix+zTrack.PlaybackControl)
@@ -1838,7 +1847,7 @@ StopAllSound:
 		ld	(hl), 0
 		ldir
 		ld	ix, FMInitBytes
-		ld	b, 6
+		ld	b, (zSongPSG1-zSongFM1)/zTrack.len
 
 loc_849:
 		push	bc
@@ -1848,11 +1857,15 @@ loc_849:
 		inc	ix
 		pop	bc
 		djnz	loc_849
+	if ~~OptimiseDriver
 		ld	b, 7
+	endif
 		xor	a
 		ld	(zUnk_1C06), a
 		ld	(zDACIndex), a
+	if ~~OptimiseDriver
 		ld	(zFadeOutTimeout), a
+	endif
 		call	SilencePSG
 		ld	c, 0
 		ld	a, 2Bh
