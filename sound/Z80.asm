@@ -3271,13 +3271,20 @@ MusicBanks:
 		db zmake68kBank(MusicBank)
 		db zmake68kBank(MusicBank)
 		db zmake68kBank(MusicBank)
+
+zmake68kPtrs macro
+		irp op,ALLARGS
+			dw zmake68kPtr(op)
+		endm
+	endm
+
 MusicIndex:
-ptr_mus81:	dw zmake68kPtr(Music81)
-ptr_mus82:	dw zmake68kPtr(Music82)
-ptr_mus83:	dw zmake68kPtr(Music83)
-ptr_mus84:	dw zmake68kPtr(Music84)
-ptr_mus85:	dw zmake68kPtr(Music85)
-ptr_mus86:	dw zmake68kPtr(Music86)
+ptr_mus81:	zmake68kPtrs Music81
+ptr_mus82:	zmake68kPtrs Music82
+ptr_mus83:	zmake68kPtrs Music83
+ptr_mus84:	zmake68kPtrs Music84
+ptr_mus85:	zmake68kPtrs Music85
+ptr_mus86:	zmake68kPtrs Music86
 ptr_musend
 
 SoundIndex:
@@ -3285,39 +3292,39 @@ SoundIndex:
 		; DANGER!
 		; These pointers along with the pointers inside of the SFX are
 		; all half a bank too long!
-ptr_sndA0:	dw zmake68kPtr(SoundA0)+4000h
-ptr_sndA1:	dw zmake68kPtr(SoundA1)+4000h
-ptr_sndA2:	dw zmake68kPtr(SoundA2)+4000h
-ptr_sndA3:	dw zmake68kPtr(SoundA3)+4000h
-ptr_sndA4:	dw zmake68kPtr(SoundA4)+4000h
-ptr_sndA5:	dw zmake68kPtr(SoundA5)+4000h
-ptr_sndA6:	dw zmake68kPtr(SoundA6)+4000h
-ptr_sndA7:	dw zmake68kPtr(SoundA7)+4000h
-ptr_sndA8:	dw zmake68kPtr(SoundA8)+4000h
-ptr_sndA9:	dw zmake68kPtr(SoundA9)+4000h
-ptr_sndAA:	dw zmake68kPtr(SoundAA)+4000h
-ptr_sndAB:	dw zmake68kPtr(SoundAB)+4000h
-ptr_sndAC:	dw zmake68kPtr(SoundAC)+4000h
-ptr_sndAD:	dw zmake68kPtr(SoundAD)+4000h
-ptr_sndAE:	dw zmake68kPtr(SoundAE)+4000h
-ptr_sndAF:	dw zmake68kPtr(SoundAF)+4000h
+ptr_sndA0:	zmake68kPtrs SoundA0+4000h
+ptr_sndA1:	zmake68kPtrs SoundA1+4000h
+ptr_sndA2:	zmake68kPtrs SoundA2+4000h
+ptr_sndA3:	zmake68kPtrs SoundA3+4000h
+ptr_sndA4:	zmake68kPtrs SoundA4+4000h
+ptr_sndA5:	zmake68kPtrs SoundA5+4000h
+ptr_sndA6:	zmake68kPtrs SoundA6+4000h
+ptr_sndA7:	zmake68kPtrs SoundA7+4000h
+ptr_sndA8:	zmake68kPtrs SoundA8+4000h
+ptr_sndA9:	zmake68kPtrs SoundA9+4000h
+ptr_sndAA:	zmake68kPtrs SoundAA+4000h
+ptr_sndAB:	zmake68kPtrs SoundAB+4000h
+ptr_sndAC:	zmake68kPtrs SoundAC+4000h
+ptr_sndAD:	zmake68kPtrs SoundAD+4000h
+ptr_sndAE:	zmake68kPtrs SoundAE+4000h
+ptr_sndAF:	zmake68kPtrs SoundAF+4000h
 	else
-ptr_sndA0:	dw zmake68kPtr(SoundA0)
-ptr_sndA1:	dw zmake68kPtr(SoundA1)
-ptr_sndA2:	dw zmake68kPtr(SoundA2)
-ptr_sndA3:	dw zmake68kPtr(SoundA3)
-ptr_sndA4:	dw zmake68kPtr(SoundA4)
-ptr_sndA5:	dw zmake68kPtr(SoundA5)
-ptr_sndA6:	dw zmake68kPtr(SoundA6)
-ptr_sndA7:	dw zmake68kPtr(SoundA7)
-ptr_sndA8:	dw zmake68kPtr(SoundA8)
-ptr_sndA9:	dw zmake68kPtr(SoundA9)
-ptr_sndAA:	dw zmake68kPtr(SoundAA)
-ptr_sndAB:	dw zmake68kPtr(SoundAB)
-ptr_sndAC:	dw zmake68kPtr(SoundAC)
-ptr_sndAD:	dw zmake68kPtr(SoundAD)
-ptr_sndAE:	dw zmake68kPtr(SoundAE)
-ptr_sndAF:	dw zmake68kPtr(SoundAF)
+ptr_sndA0:	zmake68kPtrs SoundA0
+ptr_sndA1:	zmake68kPtrs SoundA1
+ptr_sndA2:	zmake68kPtrs SoundA2
+ptr_sndA3:	zmake68kPtrs SoundA3
+ptr_sndA4:	zmake68kPtrs SoundA4
+ptr_sndA5:	zmake68kPtrs SoundA5
+ptr_sndA6:	zmake68kPtrs SoundA6
+ptr_sndA7:	zmake68kPtrs SoundA7
+ptr_sndA8:	zmake68kPtrs SoundA8
+ptr_sndA9:	zmake68kPtrs SoundA9
+ptr_sndAA:	zmake68kPtrs SoundAA
+ptr_sndAB:	zmake68kPtrs SoundAB
+ptr_sndAC:	zmake68kPtrs SoundAC
+ptr_sndAD:	zmake68kPtrs SoundAD
+ptr_sndAE:	zmake68kPtrs SoundAE
+ptr_sndAF:	zmake68kPtrs SoundAF
 	endif
 ptr_sndend
 
@@ -3326,13 +3333,13 @@ SpecSoundIndex:
 		; DANGER!
 		; Once again, these pointers along with the pointers inside of the
 		; SFX are all half a bank too long!
-ptr_sndD0:	dw zmake68kPtr(SoundA0)+4000h
-ptr_sndD1:	dw zmake68kPtr(SoundA1)+4000h
-ptr_sndD2:	dw zmake68kPtr(SoundA3)+4000h
+ptr_sndD0:	zmake68kPtrs SoundA0+4000h
+ptr_sndD1:	zmake68kPtrs SoundA1+4000h
+ptr_sndD2:	zmake68kPtrs SoundA3+4000h
 	else
-ptr_sndD0:	dw zmake68kPtr(SoundA0)
-ptr_sndD1:	dw zmake68kPtr(SoundA1)
-ptr_sndD2:	dw zmake68kPtr(SoundA3)
+ptr_sndD0:	zmake68kPtrs SoundA0
+ptr_sndD1:	zmake68kPtrs SoundA1
+ptr_sndD2:	zmake68kPtrs SoundA3
 	endif
 ptr_specend
 
@@ -3356,7 +3363,7 @@ DACMeta:	macro location,rate
 		db dpcmLoopCounter(rate)
 		db zmake68kBank(location)
 		dw location_End-location
-		dw zmake68kPtr(location)
+		zmake68kPtrs location
 	endm
 .dac81:		DACMeta DAC_Sample1,4750
 .dac82:		DACMeta DAC_Sample2,13500
