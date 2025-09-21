@@ -6993,6 +6993,9 @@ loc_8CE4:
 ; ---------------------------------------------------------------------------
 PAL_TechnoTowerZone:
 		binclude	"Palettes/PalTechnoTowerZone.bin"
+		binclude	"Palettes/PalTechnoTowerZone 2.bin"
+		binclude	"Palettes/PalTechnoTowerZone 3.bin"
+		binclude	"Palettes/PalTechnoTowerZone 4.bin"
 		even
 ; ---------------------------------------------------------------------------
 
