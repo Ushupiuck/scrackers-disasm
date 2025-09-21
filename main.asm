@@ -750,7 +750,7 @@ loc_7DC:
 		subq.b	#1,($FFFFD4ED).w
 		bne.s	locret_7EC
 		move.b	($FFFFD4EC).w,($FFFFD4ED).w
-		bsr.w	sub_7EE
+		bra.w	sub_7EE
 
 locret_7EC:
 		rts
@@ -965,8 +965,7 @@ ReadCtrlInput:
 		lea	(port_2_data).l,a0
 		lea	(unk_C937).w,a2
 		bsr.w	sub_9D4
-		bsr.s	sub_992
-		rts
+		bra.s	sub_992
 
 sub_992:
 		moveq	#7,d0
@@ -1006,8 +1005,7 @@ sub_9D4:
 		move.b	d0,(a2)
 		andi.w	#$E,d0
 		add.w	d0,d0
-		jsr	loc_9E6(pc,d0.w)
-		rts
+		jmp	loc_9E6(pc,d0.w)
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 loc_9E6:	nop
@@ -1452,7 +1450,6 @@ ClearPLC:
 
 loc_F52:
 		andi.w	#$7FFF,d2
-		move.w	d2,($FFFFD812).w
 		bsr.w	NemDec_BuildCodeTable
 		move.b	(a0)+,d5
 		asl.w	#8,d5
@@ -1466,6 +1463,7 @@ loc_F52:
 		move.l	d0,($FFFFD802).w
 		move.l	d5,($FFFFD806).w
 		move.l	d6,($FFFFD80A).w
+		move.w	d2,($FFFFD812).w
 
 locret_F84:
 		rts
@@ -5941,7 +5939,7 @@ locret_82A4:
 loc_82A6:
 		tst.b	(a5)
 		bmi.s	locret_82AE
-		bsr.w	nullsub_1
+		bra.w	nullsub_1
 
 locret_82AE:
 		rts
@@ -6383,9 +6381,6 @@ locret_8630:
 		rts
 ; End of function sub_860A
 
-; ---------------------------------------------------------------------------
-		rts
-
 ; =============== S U B	R O U T	I N E =======================================
 
 
@@ -6401,8 +6396,7 @@ Field_LoadArt:
 		bsr.w	sub_86EA
 		lea	(MAPUNC_RainbowFieldBG).l,a0
 		movea.w	($FFFFD818).w,a1
-		bsr.w	sub_86EA
-		rts
+		bra.w	sub_86EA
 ; ---------------------------------------------------------------------------
 
 loc_866E:
@@ -6415,8 +6409,7 @@ loc_866E:
 		bsr.w	sub_86EA
 		lea	(MAPUNC_ElectricFieldBG).l,a0
 		movea.w	($FFFFD818).w,a1
-		bsr.w	sub_86EA
-		rts
+		bra.w	sub_86EA
 ; End of function Field_LoadArt
 
 
@@ -6911,7 +6904,7 @@ Level_LoadObjectArt:
 		disable_ints
 		lea	(ARTNEM_SpikesHoz).l,a0
 		move.l	#$77E00001,(vdp_control_port).l
-		jsr	(NemDec).w
+		jmp	(NemDec).w
 
 .exit:
 		rts
@@ -7367,8 +7360,7 @@ loc_94A0:
 
 loc_94A8:
 		move.w	(v_menu_soundid).w,d0
-		jsr	(PlayMusic).l
-		rts
+		jmp	(PlayMusic).l
 ; ---------------------------------------------------------------------------
 
 loc_94B4:
@@ -7660,8 +7652,7 @@ loc_972A:
 		lea	(unk_0B84&$FFFFFF).l,a3
 		lea	(unk_0C86&$FFFFFF).l,a4
 		bsr.s	sub_97B4
-		bsr.w	sub_9DFE
-		rts
+		bra.w	sub_9DFE
 ; ---------------------------------------------------------------------------
 		_move.w	0(a1),d0
 		move.w	d0,2(a1)
@@ -7754,8 +7745,7 @@ loc_980E:
 		move.l	#$FFFFCA5E,d0
 		move.w	($FFFFD81C).w,d1
 		move.w	#$1C0,d2
-		jsr	(sub_568).w
-		rts
+		jmp	(sub_568).w
 ; ---------------------------------------------------------------------------
 
 loc_9846:
@@ -7773,8 +7763,7 @@ loc_9846:
 		move.l	#$FFFFCA5E,d0
 		move.w	($FFFFD81C).w,d1
 		move.w	#$1C0,d2
-		jsr	(sub_568).w
-		rts
+		jmp	(sub_568).w
 ; ---------------------------------------------------------------------------
 
 locret_987C:
@@ -7860,8 +7849,7 @@ loc_9928:
 		lea	(unk_0C86&$FFFFFF).l,a4
 		bsr.s	sub_996A
 		bsr.w	sub_9F3A
-		jsr	(sub_9DFE).l
-		rts
+		jmp	(sub_9DFE).l
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -8063,7 +8051,7 @@ loc_9BA4:
 		move.l	#$FFFFCA5E,d0
 		move.w	($FFFFD81C).w,d1
 		move.w	#$1C0,d2
-		jsr	(sub_568).w
+		jmp	(sub_568).w
 
 locret_9BDE:
 		rts
@@ -8298,8 +8286,7 @@ sub_9D30:
 		sub.l	a4,d2
 		neg.w	d2
 		lsr.w	#1,d2
-		jsr	(DMA_WriteData).w
-		rts
+		jmp	(DMA_WriteData).w
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; (I think) Subroutine to take the data in "MapLocs" tables and decompress
@@ -8718,8 +8705,7 @@ loc_A118:
 		lea	($FFFFCDDE).w,a3
 		lea	(vdp_data_port).l,a4
 		move.l	#$40000010,(vdp_control_port).l
-		bsr.w	sub_A14E
-		rts
+		bra.w	sub_A14E
 ; ---------------------------------------------------------------------------
 
 locret_A132:
@@ -8825,8 +8811,8 @@ loc_A1BC:
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
 CharacterTable:
-        dc.l SonicObject	; Load Sonic			; something to do with stopping reflexes
-		dc.l TailsObject       ; Load Tails
+		dc.l SonicObject	; Load Sonic			; something to do with stopping reflexes
+		dc.l TailsObject	; Load Tails
 		dc.l locret_B414
 		dc.l locret_B416
 		dc.l locret_B418
@@ -9658,8 +9644,7 @@ loc_A9B2:
 ; ---------------------------------------------------------------------------
 
 loc_A9C0:
-		jsr	(sub_CBC0).l
-		rts
+		jmp	(sub_CBC0).l
 ; ---------------------------------------------------------------------------
 
 loc_A9C8:
@@ -10593,8 +10578,7 @@ loc_B292:
 ; ---------------------------------------------------------------------------
 
 loc_B2A0:
-		jsr	(sub_CBC0).l
-		rts
+		jmp	(sub_CBC0).l
 ; ---------------------------------------------------------------------------
 
 loc_B2A8:
@@ -10861,7 +10845,7 @@ loc_B4A2:
 		bra.w	loc_CA8A
 ; ---------------------------------------------------------------------------
 word_B4CC:
-        dc.w $9C
+		dc.w $9C
 		dc.w $98
 		dc.w $94
 		dc.w $90
@@ -11101,8 +11085,7 @@ word_B69A:	dc.w 0
 
 sub_B6A2:
 		lea	word_B6AC(pc),a0
-		bsr.w	sub_B4EC
-		rts
+		bra.w	sub_B4EC
 ; ---------------------------------------------------------------------------
 word_B6AC:
 		dc.w $F4
@@ -11125,8 +11108,7 @@ word_B6AC:
 
 sub_B6CC:
 		lea	word_B6D6(pc),a0
-		bsr.w	sub_B4EC
-		rts
+		bra.w	sub_B4EC
 ; ---------------------------------------------------------------------------
 word_B6D6:	dc.w $100
 		dc.w $FFEC
@@ -11381,8 +11363,7 @@ sub_B8F0:
 		move.w	(a0,d4.w),$26(a6)
 		move.w	2(a0,d4.w),d0
 		move.w	4(a0,d4.w),d1
-		bsr.w	sub_CA82
-		rts
+		bra.w	sub_CA82
 ; End of function sub_B8F0
 
 ; ---------------------------------------------------------------------------
@@ -11831,8 +11812,7 @@ loc_BCA0:
 		move.w	d0,$26(a6)
 		moveq	#$FFFFFFDC,d0
 		moveq	#$FFFFFFEE,d1
-		bsr.w	sub_CA82
-		rts
+		bra.w	sub_CA82
 ; ---------------------------------------------------------------------------
 
 loc_BCBC:
@@ -11852,8 +11832,7 @@ loc_BCC4:
 
 loc_BCE6:
 		move.b	$20(a5),d2
-		bsr.w	loc_CA8A
-		rts
+		bra.w	loc_CA8A
 ; ---------------------------------------------------------------------------
 
 loc_BCF0:
@@ -11873,8 +11852,7 @@ loc_BCF0:
 		move.w	word_BD36+2(pc,d2.w),d1
 		move.w	word_BD36+6(pc,d2.w),d2
 		move.b	d2,$20(a6)
-		bsr.w	loc_CA8A
-		rts
+		bra.w	loc_CA8A
 ; ---------------------------------------------------------------------------
 word_BD36:	dc.w $FFDC
 		dc.w $FFF8
@@ -11971,8 +11949,7 @@ loc_BDDE:
 		move.w	word_BDFC(pc,d0.w),$26(a6)
 		moveq	#-$20,d0
 		moveq	#-4,d1
-		bsr.w	sub_CA82
-		rts
+		bra.w	sub_CA82
 ; ---------------------------------------------------------------------------
 word_BDFC:	dc.w $54
 		dc.w $54
@@ -14637,7 +14614,7 @@ loc_D362:
 loc_D388:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D392
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_D392:
 		rts
@@ -14716,7 +14693,7 @@ loc_D452:
 loc_D478:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D482
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_D482:
 		rts
@@ -14795,7 +14772,7 @@ loc_D542:
 loc_D568:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D572
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_D572:
 		rts
@@ -14871,7 +14848,7 @@ loc_D62E:
 loc_D654:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D65E
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_D65E:
 		rts
@@ -14958,7 +14935,7 @@ loc_D73E:
 loc_D764:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D76E
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_D76E:
 		rts
@@ -15047,7 +15024,7 @@ loc_D852:
 loc_D878:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D882
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_D882:
 		rts
@@ -15132,7 +15109,7 @@ loc_D95E:
 loc_D984:
 		bsr.w	loc_F2D0
 		bcc.s	locret_D98E
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_D98E:
 		rts
@@ -15219,7 +15196,7 @@ loc_DA6E:
 loc_DA94:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DA9E
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_DA9E:
 		rts
@@ -15296,7 +15273,7 @@ loc_DB5A:
 loc_DB80:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DB8A
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_DB8A:
 		rts
@@ -15376,7 +15353,7 @@ loc_DC4A:
 loc_DC70:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DC7A
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_DC7A:
 		rts
@@ -15455,7 +15432,7 @@ loc_DD3A:
 loc_DD60:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DD6A
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_DD6A:
 		rts
@@ -15532,7 +15509,7 @@ loc_DE26:
 loc_DE4C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DE56
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_DE56:
 		rts
@@ -15619,7 +15596,7 @@ loc_DF36:
 loc_DF5C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_DF66
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_DF66:
 		rts
@@ -15708,7 +15685,7 @@ loc_E04A:
 loc_E070:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E07A
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_E07A:
 		rts
@@ -15793,7 +15770,7 @@ loc_E156:
 loc_E17C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E186
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_E186:
 		rts
@@ -15880,7 +15857,7 @@ loc_E266:
 loc_E28C:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E296
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_E296:
 		rts
@@ -16018,7 +15995,7 @@ loc_E398:
 		movea.w	($FFFFD864).w,a0
 		jsr	(sub_EAA0).l
 		bcc.s	locret_E3A6
-		bsr.s	sub_E3A8
+		bra.s	sub_E3A8
 
 locret_E3A6:
 		rts
@@ -16159,7 +16136,7 @@ loc_E49C:
 		movea.w	($FFFFD864).w,a0
 		jsr	(sub_EAA0).l
 		bcc.s	locret_E4AA
-		bsr.s	sub_E4AC
+		bra.s	sub_E4AC
 
 locret_E4AA:
 		rts
@@ -16280,7 +16257,7 @@ loc_E592:
 loc_E59A:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E5A4
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_E5A4:
 		rts
@@ -16341,7 +16318,7 @@ loc_E63A:
 loc_E642:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E64C
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_E64C:
 		rts
@@ -16402,7 +16379,7 @@ loc_E6E2:
 loc_E6EA:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E6F4
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_E6F4:
 		rts
@@ -16463,7 +16440,7 @@ loc_E78A:
 loc_E792:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E79C
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_E79C:
 		rts
@@ -16524,7 +16501,7 @@ loc_E832:
 loc_E83A:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E844
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_E844:
 		rts
@@ -16585,7 +16562,7 @@ loc_E8DA:
 loc_E8E2:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E8EC
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_E8EC:
 		rts
@@ -16646,7 +16623,7 @@ loc_E982:
 loc_E98A:
 		bsr.w	loc_F2D0
 		bcc.s	locret_E994
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_E994:
 		rts
@@ -16707,7 +16684,7 @@ loc_EA2A:
 loc_EA32:
 		bsr.w	loc_F2D0
 		bcc.s	locret_EA3C
-		bsr.w	DeleteSprite
+		bra.w	DeleteSprite
 
 locret_EA3C:
 		rts
@@ -17440,7 +17417,7 @@ word_EFC4:	dc.w $2E
 sub_EFD4:
 		moveq	#$10,d0
 		jsr	(ProcessObject).w
-		bmi.w	loc_F0DE
+		bmi.s	loc_F0DE
 		move.w	#0,4(a0)
 		move.l	#0,$24(a0)
 		lea	loc_F00E(pc),a1
@@ -17456,11 +17433,28 @@ loc_EFF8:
 ; it's intentional, but not sure "why".
 ; ---------------------------------------------------------------------------
 		tst.w	($FFFFD834).w			; is World/Zone ID SSZ?
-		bne.s	loc_F00A			; if not, branch
+		bne.s	loc_F0DE			; if not, branch
 		move.b	#0,($FFFFDA85).w		; remove the left Black bar block
+  		; fall through
+; ---------------------------------------------------------------------------
 
-loc_F00A:
-		bra.w	loc_F0DE
+loc_F0DE:
+		disable_ints
+		move.l	#ArtUnc_HUD,d0
+		move.w	#$A000,d1
+		move.w	#$800,d2
+		jsr	(DMA_WriteData).w
+		move.l	#$7F000003,(vdp_control_port).l
+		move.l	#$DDDDDDDD,d0
+		moveq	#bytesToLcnt($100),d1
+
+loc_F106:
+		move.l	d0,(vdp_data_port).l
+		dbf	d1,loc_F106
+		enable_ints
+		rts
+; End of function sub_EFD4
+
 ; ---------------------------------------------------------------------------
 loc_F00E:
 		dc.w $90
@@ -17567,24 +17561,6 @@ loc_F00E:
 		dc.w $700
 		dc.w $C7F8
 		dc.w $80
-; ---------------------------------------------------------------------------
-
-loc_F0DE:
-		disable_ints
-		move.l	#ArtUnc_HUD,d0
-		move.w	#$A000,d1
-		move.w	#$800,d2
-		jsr	(DMA_WriteData).w
-		move.l	#$7F000003,(vdp_control_port).l
-		move.l	#$DDDDDDDD,d0
-		moveq	#bytesToLcnt($100),d1
-
-loc_F106:
-		move.l	d0,(vdp_data_port).l
-		dbf	d1,loc_F106
-		enable_ints
-		rts
-; End of function sub_EFD4
 
 
 ; =============== S U B	R O U T	I N E =======================================
@@ -17595,8 +17571,7 @@ sub_F116:
 		move.w	d2,($FFFFD8E8).w
 		move.w	d3,($FFFFD8EA).w
 		bsr.w	sub_F1CA
-		bsr.w	sub_F136
-		rts
+		bra.w	sub_F136
 ; End of function sub_F116
 
 
@@ -17605,8 +17580,7 @@ sub_F116:
 
 sub_F12C:
 		bsr.w	sub_F1CA
-		bsr.w	sub_F136
-		rts
+		bra.w	sub_F136
 ; End of function sub_F12C
 
 
@@ -17768,8 +17742,7 @@ DeleteSprite:
 		move.w	$24(a6),d0
 		lea	($FFFFD8F2).w,a0
 		move.b	#2,(a0,d0.w)
-		jsr	(DeleteObject).w
-		rts
+		jmp	(DeleteObject).w
 ; End of function DeleteSprite
 
 
@@ -17800,8 +17773,7 @@ loc_F2A8:
 		move.b	(a1,d0.w),d1
 		andi.b	#$F0,d1
 		move.b	d1,(a1,d0.w)
-		jsr	(DeleteObject).w
-		rts
+		jmp	(DeleteObject).w
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -17815,7 +17787,7 @@ loc_F2D0:
 		move.w	obj.Ypos(a6),d0
 		move.w	($FFFFD8DE).w,d1
 		move.w	($FFFFD8E2).w,d2
-		bsr.w	sub_F22C
+		bra.w	sub_F22C
 
 locret_F2F2:
 		rts
@@ -17834,13 +17806,11 @@ locret_F2F2:
 ; ---------------------------------------------------------------------------
 		jsr	(loc_F2D0).l
 		bcs.s	loc_F320
-		jsr	(loc_F29A).l
-		rts
+		jmp	(loc_F29A).l
 ; ---------------------------------------------------------------------------
 
 loc_F320:
-		jsr	(loc_F2A8).l
-		rts
+		jmp	(loc_F2A8).l
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -17867,8 +17837,7 @@ sub_F328:
 		move.w	#$A001,d2
 		move.w	($FFFFD81E).w,d3
 		addi.w	#$980,d3
-		jsr	(sub_86E).w
-		rts
+		jmp	(sub_86E).w
 ; End of function sub_F328
 
 
@@ -17908,7 +17877,7 @@ loc_F3AA:
 		clr.w	d0		; clears only the word value of d0
 	endif
 		move.b	(unk_FDC1).w,d0
-		jsr	loc_F3B6(pc,d0.w)
+		jmp	loc_F3B6(pc,d0.w)
 
 locret_F3B4:
 		rts
@@ -17988,9 +17957,6 @@ loc_F462:
 		bra.w	loc_F4D8
 ; End of function sub_F45C
 
-; ---------------------------------------------------------------------------
-		rts
-
 ; =============== S U B	R O U T	I N E =======================================
 
 
@@ -18039,8 +18005,7 @@ TitleCardBG_TileLocationArray_End
 
 loc_F4D8:
 		move.b	#1,($FFFFFDC2).w
-		bsr.w	sub_F4E4
-		rts
+		bra.w	sub_F4E4
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -18071,8 +18036,6 @@ sub_F4FE:
 		jsr	loc_F520(pc,d0.w)
 		jsr	(BuildSprites).w
 		bra.s	sub_F4FE
-; ---------------------------------------------------------------------------
-		rts
 ; ---------------------------------------------------------------------------
 
 loc_F520:
@@ -18118,8 +18081,6 @@ loc_F562:
 		jsr	loc_F574(pc,d0.w)
 		bra.s	sub_F538
 ; ---------------------------------------------------------------------------
-		rts
-; ---------------------------------------------------------------------------
 
 loc_F574:
 		bra.w	loc_F7E8
@@ -18147,8 +18108,7 @@ sub_F58C:
 		moveq	#$20,d1
 		move.w	#$8002,d2
 		move.w	($FFFFD816).w,d3
-		jsr	(sub_86E).w
-		rts
+		jmp	(sub_86E).w
 ; End of function sub_F58C
 
 ; ---------------------------------------------------------------------------
@@ -18236,8 +18196,7 @@ loc_F652:
 		moveq	#5,d1
 		move.w	#$8003,d2
 		move.w	($FFFFD816).w,d3
-		jsr	(sub_86E).w
-		rts
+		jmp	(sub_86E).w
 ; END OF FUNCTION CHUNK	FOR sub_F538
 ; ---------------------------------------------------------------------------
 ; START	OF FUNCTION CHUNK FOR sub_F4FE
@@ -18306,8 +18265,7 @@ loc_F6CA:
 		move.l	#$800E800D,d0
 		moveq	#$17,d1
 		addi.w	#$280,d3
-		bsr.w	sub_F904
-		rts
+		bra.w	sub_F904
 ; END OF FUNCTION CHUNK	FOR sub_F538
 ; ---------------------------------------------------------------------------
 ; START	OF FUNCTION CHUNK FOR sub_F4FE
@@ -18422,8 +18380,7 @@ loc_F7F8:
 		moveq	#$18,d0
 		move.w	#$8003,d2
 		addq.w	#2,d3
-		jsr	(sub_86E).w
-		rts
+		jmp	(sub_86E).w
 ; END OF FUNCTION CHUNK	FOR sub_F538
 ; ---------------------------------------------------------------------------
 ; START	OF FUNCTION CHUNK FOR sub_F4FE
@@ -18472,15 +18429,13 @@ loc_F8C2:
 		movem.w	(sp)+,d1/d3
 		move.l	#$800E800D,d0
 		addq.w	#4,d3
-		bsr.w	sub_F904
-		rts
+		bra.w	sub_F904
 ; ---------------------------------------------------------------------------
 
 loc_F8F8:
 		move.w	#$8003,d2
 		addq.w	#6,d3
-		jsr	(sub_86E).w
-		rts
+		jmp	(sub_86E).w
 ; END OF FUNCTION CHUNK	FOR sub_F538
 
 ; =============== S U B	R O U T	I N E =======================================
@@ -18519,9 +18474,6 @@ sub_F94A:
 		move.w	#$FFFF,($FFFFF9C0).w
 		rts
 ; End of function sub_F94A
-
-; ---------------------------------------------------------------------------
-		rts
 
 ; =============== S U B	R O U T	I N E =======================================
 
