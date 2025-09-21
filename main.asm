@@ -18602,7 +18602,7 @@ loc_F9D4:
 		move.l	4(a0,d0.w),d0
 		move.w	$A(a6),d1
 		move.w	8(a6),d2
-		move.l	d0,obj.Ypos(a6)
+		move.l	d0,$C(a6)
 		movem.l	d7/a6,-(sp)
 		jsr	(sub_568).w
 		movem.l	(sp)+,d7/a6
