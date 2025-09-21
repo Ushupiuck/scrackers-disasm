@@ -13597,7 +13597,7 @@ loc_CC52:
 
 sub_CC5C:
 		move.w	#$288,d6
-		moveq	#$1F,d7
+		moveq	#$20-1,d7
 
 loc_CC62:
 		moveq	#$C,d0
@@ -14495,7 +14495,7 @@ loc_D1E2:
 		bmi.s	locret_D202
 		move.w	#$80,4(a0)
 		move.w	#$800,obj.Pointer(a0)
-		move.l	#TethCodingValue,$10(a0)
+		move.l	#TethCodingValue,obj.Map(a0)
 		dbf	d7,loc_D1E2
 
 locret_D202:
@@ -14506,9 +14506,9 @@ locret_D202:
 ; this is the data that sets correct position and art for the tether stars
 
 TethCodingValue:
-		dc.w $00FC
+		dc.b $00,$FC
 		dc.w $0000
-		dc.w $FCFF
+		dc.b $FC,$FF
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -14517,7 +14517,7 @@ sub_D20A:
 		lea	($FFFFD858).w,a6
 
 loc_D20E:
-		_move.w	0(a6),d0
+		_move.w	obj.ID(a6),d0
 		bne.s	loc_D216
 		rts
 ; ---------------------------------------------------------------------------
@@ -14525,7 +14525,7 @@ loc_D20E:
 loc_D216:
 		movea.w	d0,a6
 		moveq	#0,d0
-		move.w	6(a6),d0
+		move.w	obj.Pointer(a6),d0
 		jsr	Obj_Index(pc,d0.w)
 		bra.s	loc_D20E
 ; End of function sub_D20A
@@ -15994,14 +15994,14 @@ Path_Swapper:
 		bne.s	loc_E37C
 		move.w	#0,4(a6)
 		move.w	#$2020,$22(a6)
-		move.l	#word_E376,$10(a6)
+		move.l	#word_E376,obj.Map(a6)
 		addq.b	#1,$28(a6)
 		bra.s	loc_E37C
 ; ---------------------------------------------------------------------------
 word_E376:
-		dc.w $FF0
+		dc.b $F,$F0
 		dc.w $8001
-		dc.w $F0FF
+		dc.b $F0,$FF
 ; ---------------------------------------------------------------------------
 
 loc_E37C:
@@ -16135,14 +16135,14 @@ Path_Swapper_2:
 		bne.s	loc_E480
 		move.w	#0,4(a6)
 		move.w	#$2020,$22(a6)
-		move.l	#word_E47A,$10(a6)
+		move.l	#word_E47A,obj.Map(a6)
 		addq.b	#1,$28(a6)
 		bra.s	loc_E480
 ; ---------------------------------------------------------------------------
 word_E47A:
-		dc.w $FF0
+		dc.b $F,$F0
 		dc.w $8001
-		dc.w $F0FF
+		dc.b $F0,$FF
 ; ---------------------------------------------------------------------------
 
 loc_E480:
@@ -18567,7 +18567,7 @@ loc_F982:
 		moveq	#0,d1
 		move.b	(a0)+,d1
 		add.w	d1,d1
-		movea.w	loc_FA06(pc,d1.w),a2
+		movea.w	word_FA06(pc,d1.w),a2
 		move.w	(a2),d1
 		lsl.w	#5,d1
 		add.w	d1,d0
@@ -18615,8 +18615,8 @@ locret_FA04:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_FA06:
-		muls.w	$C442(pc),d4
+word_FA06:
+		dc.w	$C9FA,$CA3A
 locret_FA0A:
 		rts
 ; ---------------------------------------------------------------------------
