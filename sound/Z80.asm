@@ -1859,9 +1859,7 @@ loc_849:
 		xor	a
 		ld	(zFadeCounter), a
 		ld	(zDACIndex), a
-	if ~~OptimiseDriver
 		ld	(zFadeOutTimeout), a
-	endif
 		call	SilencePSG
 		ld	c, 0
 		ld	a, 2Bh

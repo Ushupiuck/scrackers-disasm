@@ -3354,11 +3354,12 @@ word_4220:	dc.w 0
 		dc.w $D8F
 		dc.w $145B
 		dc.w $28BC
-word_42A0:	dc.w $2200
-		dc.w $7400
-		dc.w $7600
-		dc.w $780F
-; ---------------------------------------------------------------------------
+
+sub_42A0:
+		move.l	d0,d1
+		moveq	#0,d2
+		moveq	#0,d3
+		moveq	#$10-1,d4
 
 loc_42A8:
 		add.w	d0,d0
@@ -13654,7 +13655,7 @@ sub_CCCA:
 		muls.w	d2,d2
 		add.l	d2,d1
 		move.l	d1,d0
-		jsr	(word_42A0).w
+		jsr	(sub_42A0).w
 		move.w	d0,($FFFFFAE0).w
 		move.w	d0,d3
 		sub.w	(a2),d3
