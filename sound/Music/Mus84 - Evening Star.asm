@@ -1,5 +1,5 @@
 Evening_Star_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     Evening_Star_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $4A
@@ -22,32 +22,32 @@ Evening_Star_FM1:
 
 Evening_Star_Jump01:
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $F9
+	smpsAlterPitch      $F9
 	smpsCall            Evening_Star_Call0A
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $08
+	smpsAlterPitch      $08
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $F9
+	smpsAlterPitch      $F9
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $08
+	smpsAlterPitch      $08
 	smpsCall            Evening_Star_Call0B
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $F9
+	smpsAlterPitch      $F9
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $08
+	smpsAlterPitch      $08
 	dc.b	nG1, $0C, nG1, nRst, $38, nG2, $04, nG1, $08, nF1, $04
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $F9
+	smpsAlterPitch      $F9
 	smpsCall            Evening_Star_Call0A
-	smpsChangeTransposition $08
+	smpsAlterPitch      $08
 	smpsCall            Evening_Star_Call0B
 	smpsJump            Evening_Star_Jump01
 
@@ -63,14 +63,14 @@ Evening_Star_Call0B:
 ; FM2 Data
 Evening_Star_FM2:
 	smpsSetvoice        $01
-	smpsChangeTransposition $F9
+	smpsAlterPitch      $F9
 	smpsCall            Evening_Star_Call06
-	smpsChangeTransposition $04
+	smpsAlterPitch      $04
 	smpsCall            Evening_Star_Call07
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsCall            Evening_Star_Call06
 	smpsCall            Evening_Star_Call08
-	smpsChangeTransposition $04
+	smpsAlterPitch      $04
 	smpsSetvoice        $02
 	smpsFMAlterVol      $02
 
@@ -208,24 +208,24 @@ Evening_Star_Call08:
 ; FM4 Data
 Evening_Star_FM4:
 	smpsSetvoice        $01
-	smpsChangeTransposition $FC
+	smpsAlterPitch      $FC
 	smpsCall            Evening_Star_Call02
-	smpsChangeTransposition $FE
+	smpsAlterPitch      $FE
 	smpsCall            Evening_Star_Call03
-	smpsChangeTransposition $FD
+	smpsAlterPitch      $FD
 	smpsCall            Evening_Star_Call02
 	smpsCall            Evening_Star_Call04
-	smpsChangeTransposition $09
+	smpsAlterPitch      $09
 	smpsFMAlterVol      $FB
 
 Evening_Star_Loop03:
-	smpsChangeTransposition $FC
+	smpsAlterPitch      $FC
 	smpsCall            Evening_Star_Call02
-	smpsChangeTransposition $FE
+	smpsAlterPitch      $FE
 	smpsCall            Evening_Star_Call03
-	smpsChangeTransposition $FD
+	smpsAlterPitch      $FD
 	smpsCall            Evening_Star_Call02
-	smpsChangeTransposition $09
+	smpsAlterPitch      $09
 	smpsFMAlterVol      $0A
 	smpsPan             panRight, $00
 	dc.b	nF3, $0C
@@ -245,14 +245,14 @@ Evening_Star_Loop03:
 	smpsPan             panCenter, $00
 	dc.b	$04
 	smpsCall            Evening_Star_Call05
-	smpsChangeTransposition $FC
+	smpsAlterPitch      $FC
 	smpsCall            Evening_Star_Call02
-	smpsChangeTransposition $FE
+	smpsAlterPitch      $FE
 	smpsCall            Evening_Star_Call03
-	smpsChangeTransposition $FD
+	smpsAlterPitch      $FD
 	smpsCall            Evening_Star_Call02
 	smpsCall            Evening_Star_Call04
-	smpsChangeTransposition $09
+	smpsAlterPitch      $09
 	smpsLoop            $01, $02, Evening_Star_Loop03
 	smpsJump            Evening_Star_Loop03
 
@@ -481,7 +481,7 @@ Evening_Star_Voices:
 	smpsVcDecayRate2    $07, $04, $0F, $12
 	smpsVcDecayLevel    $09, $04, $02, $07
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $1C, $1E, $15
+	smpsVcTotalLevel    $00, $1C, $1E, $15
 
 ;	Voice $01
 ;	$01
@@ -499,7 +499,7 @@ Evening_Star_Voices:
 	smpsVcDecayRate2    $06, $0F, $0A, $0A
 	smpsVcDecayLevel    $06, $03, $02, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $0F, $2B, $25
+	smpsVcTotalLevel    $00, $0F, $2B, $25
 
 ;	Voice $02
 ;	$0D
@@ -517,7 +517,7 @@ Evening_Star_Voices:
 	smpsVcDecayRate2    $04, $05, $03, $00
 	smpsVcDecayLevel    $0C, $08, $0F, $00
 	smpsVcReleaseRate   $0C, $0C, $0C, $0F
-	smpsVcTotalLevel    $80, $80, $80, $1F
+	smpsVcTotalLevel    $00, $00, $00, $1F
 	
 ;	Voice $03 (unused)
 ;	$3C
@@ -535,4 +535,4 @@ Evening_Star_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $21, $80, $21
+	smpsVcTotalLevel    $00, $21, $00, $21

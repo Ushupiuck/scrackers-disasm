@@ -1,5 +1,5 @@
 Game_Over_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     Game_Over_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $04
@@ -97,7 +97,7 @@ Game_Over_Voices:
 	smpsVcDecayRate2    $02, $00, $00, $00
 	smpsVcDecayLevel    $01, $00, $00, $00
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $22, $24, $18
+	smpsVcTotalLevel    $01, $22, $24, $18
 
 ;	Voice $01
 ;	$3C
@@ -115,7 +115,7 @@ Game_Over_Voices:
 	smpsVcDecayRate2    $0D, $04, $0A, $04
 	smpsVcDecayLevel    $02, $04, $00, $02
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $1A, $80, $33
+	smpsVcTotalLevel    $00, $1A, $00, $33
 
 ;	Voice $02
 ;	$3A
@@ -133,7 +133,7 @@ Game_Over_Voices:
 	smpsVcDecayRate2    $07, $00, $00, $00
 	smpsVcDecayLevel    $00, $01, $0F, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $27, $28, $1C
+	smpsVcTotalLevel    $00, $27, $28, $1C
 
 ;	Voice $03
 ;	$1F
@@ -151,5 +151,5 @@ Game_Over_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $00, $00, $00, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $8B, $8A, $8D, $8C
+	smpsVcTotalLevel    $0B, $0A, $0D, $0C
 

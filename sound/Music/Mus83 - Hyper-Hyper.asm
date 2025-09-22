@@ -1,5 +1,5 @@
 Hyper_Hyper_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     Hyper_Hyper_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $26
@@ -569,7 +569,7 @@ Hyper_Hyper_Voices:
 	smpsVcDecayRate2    $07, $0F, $0E, $10
 	smpsVcDecayLevel    $08, $03, $07, $06
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $18, $14, $05
+	smpsVcTotalLevel    $00, $18, $14, $05
 
 ;	Voice $01
 ;	$2C
@@ -587,7 +587,7 @@ Hyper_Hyper_Voices:
 	smpsVcDecayRate2    $06, $02, $06, $02
 	smpsVcDecayLevel    $08, $0A, $08, $0A
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $27, $80, $1A
+	smpsVcTotalLevel    $00, $27, $00, $1A
 
 ;	Voice $02
 ;	$3A
@@ -600,12 +600,12 @@ Hyper_Hyper_Voices:
 	smpsVcCoarseFreq    $01, $02, $06, $07
 	smpsVcRateScale     $02, $01, $01, $01
 	smpsVcAttackRate    $1F, $1F, $1F, $1F
-	smpsVcAmpMod        $01, $00, $00, $00
-	smpsVcDecayRate1    $2C, $0A, $02, $09
+	smpsVcAmpMod        $00, $00, $00, $00
+	smpsVcDecayRate1    $AC, $0A, $02, $09
 	smpsVcDecayRate2    $09, $54, $16, $02
 	smpsVcDecayLevel    $06, $0A, $07, $05
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $1B, $17, $18
+	smpsVcTotalLevel    $00, $1B, $17, $18
 
 ;	Voice $03
 ;	$2D
@@ -623,5 +623,5 @@ Hyper_Hyper_Voices:
 	smpsVcDecayRate2    $01, $02, $01, $00
 	smpsVcDecayLevel    $01, $01, $01, $00
 	smpsVcReleaseRate   $0C, $0C, $0C, $0F
-	smpsVcTotalLevel    $80, $80, $83, $22
+	smpsVcTotalLevel    $00, $00, $03, $22
 

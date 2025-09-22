@@ -1,5 +1,5 @@
 Moonrise_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     Moonrise_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $25
@@ -143,9 +143,9 @@ Moonrise_Loop02:
 	smpsCall            Moonrise_Call07
 	smpsCall            Moonrise_Call07
 	smpsCall            Moonrise_Call07
-	smpsChangeTransposition $02
+	smpsAlterPitch      $02
 	smpsCall            Moonrise_Call07
-	smpsChangeTransposition $FE
+	smpsAlterPitch      $FE
 	smpsLoop            $00, $04, Moonrise_Loop02
 	smpsJump            Moonrise_Loop02
 
@@ -164,13 +164,13 @@ Moonrise_FM4:
 
 Moonrise_Loop01:
 	smpsCall            Moonrise_Call06
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsCall            Moonrise_Call06
-	smpsChangeTransposition $01
+	smpsAlterPitch      $01
 	smpsCall            Moonrise_Call06
-	smpsChangeTransposition $02
+	smpsAlterPitch      $02
 	smpsCall            Moonrise_Call06
-	smpsChangeTransposition $FE
+	smpsAlterPitch      $FE
 	smpsLoop            $00, $04, Moonrise_Loop01
 	smpsJump            Moonrise_Loop01
 
@@ -386,7 +386,7 @@ Moonrise_Voices:
 	smpsVcDecayRate2    $02, $09, $04, $07
 	smpsVcDecayLevel    $01, $02, $03, $05
 	smpsVcReleaseRate   $0A, $05, $0A, $05
-	smpsVcTotalLevel    $80, $07, $80, $1A
+	smpsVcTotalLevel    $00, $07, $00, $1A
 
 ;	Voice $01
 ;	$84
@@ -404,7 +404,7 @@ Moonrise_Voices:
 	smpsVcDecayRate2    $06, $05, $06, $0F
 	smpsVcDecayLevel    $01, $01, $01, $02
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $12, $80, $3F
+	smpsVcTotalLevel    $00, $12, $00, $3F
 
 ;	Voice $02
 ;	$2C
@@ -422,7 +422,7 @@ Moonrise_Voices:
 	smpsVcDecayRate2    $00, $02, $05, $03
 	smpsVcDecayLevel    $01, $02, $01, $01
 	smpsVcReleaseRate   $08, $06, $08, $06
-	smpsVcTotalLevel    $80, $12, $80, $0F
+	smpsVcTotalLevel    $00, $12, $00, $0F
 
 ;	Voice $03
 ;	$2D
@@ -440,7 +440,7 @@ Moonrise_Voices:
 	smpsVcDecayRate2    $01, $02, $01, $00
 	smpsVcDecayLevel    $01, $01, $01, $00
 	smpsVcReleaseRate   $0C, $0C, $0C, $0F
-	smpsVcTotalLevel    $80, $80, $83, $22
+	smpsVcTotalLevel    $00, $00, $03, $22
 
 ;	Voice $04
 ;	$76
@@ -458,5 +458,5 @@ Moonrise_Voices:
 	smpsVcDecayRate2    $02, $05, $02, $01
 	smpsVcDecayLevel    $08, $09, $08, $0A
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $80, $80, $14
+	smpsVcTotalLevel    $00, $00, $00, $14
 

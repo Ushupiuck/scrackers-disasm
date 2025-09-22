@@ -1,5 +1,5 @@
 Electoria_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoice     Electoria_Voices
 	smpsHeaderChan      $06, $03
 	smpsHeaderTempo     $01, $19
@@ -27,12 +27,12 @@ Electoria_Loop16:
 Electoria_Loop17:
 	smpsCall            Electoria_Call0B
 	smpsLoop            $00, $08, Electoria_Loop17
-	smpsChangeTransposition $FC
+	smpsAlterPitch      $FC
 
 Electoria_Loop18:
 	smpsCall            Electoria_Call0B
 	smpsLoop            $00, $07, Electoria_Loop18
-	smpsChangeTransposition $04
+	smpsAlterPitch      $04
 	dc.b	nEb1, $0C, nEb2, $06, nRst, nEb1, nRst, nEb2, nEb1, nRst, nRst, nEb2
 	dc.b	nRst
 	smpsModSet          $01, $08, $EC, $00
@@ -66,33 +66,33 @@ Electoria_FM2:
 
 Electoria_Loop14:
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $01
+	smpsAlterPitch      $01
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsLoop            $00, $04, Electoria_Loop14
 	smpsFMAlterVol      $FA
 
 Electoria_Jump01:
 	smpsSetvoice        $01
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsFMAlterVol      $FB
 	dc.b	nBb3, $12, nG3, $06, nRst, $3C, nF3, $06, nG3, nC4, nRst, nC4
 	dc.b	nRst, nC4, $0C, nD4, $06, nG3, smpsNoAttack, $0C, nF3, nG3, $06, nRst
 	dc.b	nG3, $0C, nRst, $60
 	smpsPan             panLeft, $00
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsSetvoice        $02
 	smpsFMAlterVol      $0A
 	smpsCall            Electoria_Call06
 	smpsPan             panCenter, $00
 	smpsSetvoice        $01
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsFMAlterVol      $F6
 	dc.b	nBb3, $0C, smpsNoAttack, $0C, nG3, $06, nRst, nRst, $3C, nF4, $0C, smpsNoAttack
 	dc.b	$06, nRst, nE4, nRst, nD4, nE4, nRst, nD4, smpsNoAttack, nD4, nRst, nC4
 	dc.b	nRst, nBb3, nC4, nRst, nB3, smpsNoAttack, $60
 	smpsPan             panLeft, $00
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsSetvoice        $02
 	smpsFMAlterVol      $0A
 	smpsCall            Electoria_Call07
@@ -204,7 +204,7 @@ Electoria_Call07:
 	smpsReturn
 
 Electoria_Call08:
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nBb3, $06, nRst, nBb3, nRst, nBb3, nRst, nBb3, $0C, nG3, $06, nBb3
 	dc.b	nRst, nC4, nRst, nD4, smpsNoAttack, $0C, nC4, $06, nRst, nBb3, nRst, nC4
 	dc.b	nRst, nD4, $0C, nRst, $06, nF4, $12, nD4, $06, nRst, nC4, $0C
@@ -214,7 +214,7 @@ Electoria_Call08:
 	dc.b	nBb3, nRst, nC4, nRst, nD4, smpsNoAttack, $0C, nC4, $06, nRst, nBb3, nRst
 	dc.b	nC4, nRst, nD4, $0C, nRst, $06, nC4, $12, nF4, $06, nRst, nF3
 	dc.b	$60, nRst, $0C, nBb3, $12, nC4, $0C, nF4, $06
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsReturn
 
 Electoria_Call09:
@@ -418,19 +418,19 @@ Electoria_Call13:
 Electoria_FM3:
 	smpsSetvoice        $03
 	dc.b	nRst, $60
-	smpsChangeTransposition $FA
+	smpsAlterPitch      $FA
 
 Electoria_Loop11:
 	smpsCall            Electoria_Call04
 	smpsLoop            $00, $08, Electoria_Loop11
-	smpsChangeTransposition $06
+	smpsAlterPitch      $06
 	smpsFMAlterVol      $FC
 
 Electoria_Jump00:
 	smpsSetvoice        $01
 	smpsPan             panLeft, $00
 	smpsModSet          $01, $01, $02, $03
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nRst, $06, nBb3, $12, nG3, $06, nRst, $3C, nF3, $06, nG3, nC4
 	dc.b	nRst, nC4, nRst, nC4, $0C, nD4, $06, nG3, smpsNoAttack, $0C, nF3, nG3
 	dc.b	$06, nRst, nG3, $0C, nRst, $5A
@@ -438,11 +438,11 @@ Electoria_Jump00:
 	smpsFMAlterVol      $03
 	smpsModSet          $00, $00, $00, $00
 	smpsPan             panRight, $00
-	smpsChangeTransposition $E8
+	smpsAlterPitch      $E8
 	smpsCall            Electoria_Call06
 	smpsModSet          $01, $01, $01, $05
 	smpsPan             panLeft, $00
-	smpsChangeTransposition $18
+	smpsAlterPitch      $18
 	smpsSetvoice        $01
 	smpsFMAlterVol      $FD
 	dc.b	nRst, $06, nBb3, $0C, smpsNoAttack, $0C, nG3, $06, nRst, nRst, $3C, nF4
@@ -450,30 +450,30 @@ Electoria_Jump00:
 	dc.b	nRst, nC4, nRst, nBb3, nC4, nRst, nB3, smpsNoAttack, $5A
 	smpsModSet          $00, $00, $00, $00
 	smpsPan             panRight, $00
-	smpsChangeTransposition $E8
+	smpsAlterPitch      $E8
 	smpsSetvoice        $02
 	smpsFMAlterVol      $03
 	smpsCall            Electoria_Call07
 	smpsPan             panLeft, $00
 	smpsSetvoice        $01
 	smpsFMAlterVol      $FD
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsModSet          $01, $01, $02, $03
 	dc.b	nRst, $06
 	smpsCall            Electoria_Call08
 	dc.b	nRst, $2A
 	smpsModSet          $00, $00, $00, $00
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsSetvoice        $02
 	smpsFMAlterVol      $04
 	smpsPan             panCenter, $00
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsCall            Electoria_Call09
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nB2, $12, nG3, $4E, nRst, $60
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsCall            Electoria_Call0A
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	dc.b	nB3, $12, nD4, $4E, nC4, $18, nB3, $06
 	smpsFMAlterVol      $0A
 	smpsPan             panRight, $00
@@ -494,19 +494,19 @@ Electoria_Jump00:
 	smpsPan             panCenter, $00
 	dc.b	nD4, $0C, smpsNoAttack, $60
 	smpsSetvoice        $03
-	smpsChangeTransposition $03
+	smpsAlterPitch      $03
 
 Electoria_Loop12:
 	smpsCall            Electoria_Call04
 	smpsLoop            $00, $02, Electoria_Loop12
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsCall            Electoria_Call05
-	smpsChangeTransposition $01
+	smpsAlterPitch      $01
 
 Electoria_Loop13:
 	smpsCall            Electoria_Call04
 	smpsLoop            $00, $04, Electoria_Loop13
-	smpsChangeTransposition $09
+	smpsAlterPitch      $09
 	smpsFMAlterVol      $FF
 	smpsJump            Electoria_Jump00
 
@@ -514,55 +514,55 @@ Electoria_Loop13:
 Electoria_FM4:
 	smpsSetvoice        $03
 	dc.b	nRst, $60
-	smpsChangeTransposition $F7
+	smpsAlterPitch      $F7
 
 Electoria_Loop0B:
 	smpsCall            Electoria_Call04
 	smpsLoop            $00, $08, Electoria_Loop0B
-	smpsChangeTransposition $09
+	smpsAlterPitch      $09
 
 Electoria_Loop0C:
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $01
+	smpsAlterPitch      $01
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsLoop            $00, $04, Electoria_Loop0C
 
 Electoria_Loop0D:
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $02
+	smpsAlterPitch      $02
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsLoop            $00, $03, Electoria_Loop0D
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $01
+	smpsAlterPitch      $01
 	smpsCall            Electoria_Call05
 
 Electoria_Loop0E:
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $01
+	smpsAlterPitch      $01
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsLoop            $00, $03, Electoria_Loop0E
 	smpsCall            Electoria_Call04
 	dc.b	nRst, $60
 
 Electoria_Loop0F:
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $01
+	smpsAlterPitch      $01
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsLoop            $00, $05, Electoria_Loop0F
 	smpsCall            Electoria_Call04
 	smpsCall            Electoria_Call05
 
 Electoria_Loop10:
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $01
+	smpsAlterPitch      $01
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsLoop            $00, $02, Electoria_Loop10
 	smpsJump            Electoria_Loop0C
 
@@ -584,26 +584,26 @@ Electoria_FM5:
 Electoria_Loop05:
 	dc.b	nG2, $60
 	smpsLoop            $00, $08, Electoria_Loop05
-	smpsChangeTransposition $FA
+	smpsAlterPitch      $FA
 
 Electoria_Loop06:
 	smpsCall            Electoria_Call04
 	smpsLoop            $00, $08, Electoria_Loop06
-	smpsChangeTransposition $06
+	smpsAlterPitch      $06
 
 Electoria_Loop07:
-	smpsChangeTransposition $FC
+	smpsAlterPitch      $FC
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $02
+	smpsAlterPitch      $02
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $02
+	smpsAlterPitch      $02
 	smpsLoop            $00, $03, Electoria_Loop07
-	smpsChangeTransposition $FC
+	smpsAlterPitch      $FC
 	smpsCall            Electoria_Call04
-	smpsChangeTransposition $01
+	smpsAlterPitch      $01
 	smpsCall            Electoria_Call05
-	smpsChangeTransposition $03
-	smpsChangeTransposition $FA
+	smpsAlterPitch      $03
+	smpsAlterPitch      $FA
 
 Electoria_Loop08:
 	smpsCall            Electoria_Call04
@@ -613,9 +613,9 @@ Electoria_Loop08:
 Electoria_Loop09:
 	smpsCall            Electoria_Call04
 	smpsLoop            $00, $0B, Electoria_Loop09
-	smpsChangeTransposition $FF
+	smpsAlterPitch      $FF
 	smpsCall            Electoria_Call05
-	smpsChangeTransposition $01
+	smpsAlterPitch      $01
 
 Electoria_Loop0A:
 	smpsCall            Electoria_Call04
@@ -636,15 +636,15 @@ Electoria_Loop27:
 	smpsLoop            $00, $08, Electoria_Loop27
 
 Electoria_Loop28:
-	smpsChangeTransposition $FC
+	smpsAlterPitch      $FC
 	smpsCall            Electoria_Call12
-	smpsChangeTransposition $04
+	smpsAlterPitch      $04
 	dc.b	nEb2, $06, nEb2, nEb3, nA2, nEb2, nEb3, nA2, nEb2, nEb3, nA2, nEb2
 	dc.b	nEb3, nA2, nEb2, nEb3, nA2
 	smpsLoop            $00, $03, Electoria_Loop28
-	smpsChangeTransposition $FC
+	smpsAlterPitch      $FC
 	smpsCall            Electoria_Call12
-	smpsChangeTransposition $04
+	smpsAlterPitch      $04
 	dc.b	nEb2, $06, nEb2, nEb3, nA2, nEb2, nEb3, nA2, nEb2, nRst, $30
 
 Electoria_Loop29:
@@ -675,25 +675,25 @@ Electoria_Call12:
 Electoria_PSG2:
 	smpsPSGvoice        sTone_0C
 	dc.b	nRst, $60
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 
 Electoria_Loop20:
 	smpsCall            Electoria_Call0E
 	smpsCall            Electoria_Call0F
 	smpsLoop            $00, $04, Electoria_Loop20
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsPSGAlterVol     $FF
 
 Electoria_Loop21:
 	smpsPSGvoice        sTone_03
 	smpsCall            Electoria_Call10
 	smpsLoop            $00, $08, Electoria_Loop21
-	smpsChangeTransposition $03
+	smpsAlterPitch      $03
 
 Electoria_Loop22:
 	smpsCall            Electoria_Call10
 	smpsLoop            $00, $07, Electoria_Loop22
-	smpsChangeTransposition $FD
+	smpsAlterPitch      $FD
 	smpsCall            Electoria_Call11
 
 Electoria_Loop23:
@@ -705,7 +705,7 @@ Electoria_Loop24:
 	smpsCall            Electoria_Call10
 	smpsLoop            $00, $08, Electoria_Loop24
 	smpsPSGvoice        sTone_0C
-	smpsChangeTransposition $0C
+	smpsAlterPitch      $0C
 	smpsPSGAlterVol     $01
 	smpsCall            Electoria_Call0E
 	smpsCall            Electoria_Call0F
@@ -716,7 +716,7 @@ Electoria_Loop25:
 	smpsCall            Electoria_Call0E
 	smpsCall            Electoria_Call0F
 	smpsLoop            $00, $02, Electoria_Loop25
-	smpsChangeTransposition $F4
+	smpsAlterPitch      $F4
 	smpsPSGAlterVol     $FF
 	smpsJump            Electoria_Loop21
 
@@ -868,7 +868,7 @@ Electoria_Voices:
 	smpsVcDecayRate2    $07, $05, $0A, $12
 	smpsVcDecayLevel    $03, $05, $03, $00
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $15, $10, $16
+	smpsVcTotalLevel    $00, $15, $10, $16
 
 ;	Voice $01
 ;	$3C
@@ -886,7 +886,7 @@ Electoria_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $00, $00, $02
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $86, $1F, $86, $17
+	smpsVcTotalLevel    $06, $1F, $06, $17
 
 ;	Voice $02
 ;	$2C
@@ -904,7 +904,7 @@ Electoria_Voices:
 	smpsVcDecayRate2    $00, $02, $05, $03
 	smpsVcDecayLevel    $01, $02, $01, $01
 	smpsVcReleaseRate   $08, $06, $08, $06
-	smpsVcTotalLevel    $80, $12, $80, $0F
+	smpsVcTotalLevel    $00, $12, $00, $0F
 
 ;	Voice $03
 ;	$41
@@ -922,7 +922,7 @@ Electoria_Voices:
 	smpsVcDecayRate2    $0A, $10, $08, $09
 	smpsVcDecayLevel    $0F, $0F, $0F, $0A
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $1B, $23, $1D
+	smpsVcTotalLevel    $00, $1B, $23, $1D
 
 ;	Voice $04 (unused)
 ;	$3C
@@ -940,4 +940,4 @@ Electoria_Voices:
 	smpsVcDecayRate2    $11, $16, $0F, $09
 	smpsVcDecayLevel    $00, $0A, $00, $06
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $11, $80, $16
+	smpsVcTotalLevel    $00, $11, $00, $16
