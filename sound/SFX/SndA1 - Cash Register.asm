@@ -1,5 +1,5 @@
 Snd01_Cash_Register_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	if ~~fixBugs
 	smpsHeaderVoice     Snd01_Cash_Register_Voices+$4000
 	else
@@ -34,7 +34,13 @@ Snd01_Cash_Register_FM4:
 Snd01_Cash_Register_PSG3:
 	smpsPSGvoice        sTone_02
 	smpsPSGform         $E7
+	if FixMusicAndSFXDataBugs
+	; This correctly shifts the notation's octaves up by 1.
+	dc.b	nRst, $02, nF6, $05, nG6, $04, nF6, $05, nG6, $04
+	else
+	; Warning: This is a direct copy of Sonic 1's notation, resulting in the notes being an octave too low!
 	dc.b	nRst, $02, nF5, $05, nG5, $04, nF5, $05, nG5, $04
+	endif
 	smpsStop
 
 Snd01_Cash_Register_Voices:
@@ -54,7 +60,7 @@ Snd01_Cash_Register_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $39, $28, $00
+	smpsVcTotalLevel    $00, $39, $28, $00
 
 ;	Voice $01
 ;	$04
@@ -72,5 +78,5 @@ Snd01_Cash_Register_Voices:
 	smpsVcDecayRate2    $0B, $00, $0B, $00
 	smpsVcDecayLevel    $00, $01, $00, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $23, $80, $23
+	smpsVcTotalLevel    $00, $23, $80, $23
 

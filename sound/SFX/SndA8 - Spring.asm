@@ -1,5 +1,5 @@
 Snd08_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	if ~~fixBugs
 	smpsHeaderVoice     Snd08_Voices+$4000
 	else
@@ -33,7 +33,7 @@ Snd08_Loop00:
 	else
 	smpsLoop            $00, $19, Snd08_Loop00
 	endif
-	; This line appears bugged, as this didn't exist in Sonic 3 & Knuckles.
+	; This line is strange, as it doesn't exist in Sonic 3 & Knuckles.
 	smpsFMAlterVol      $E7
 	smpsStop
 
@@ -54,7 +54,7 @@ Snd08_Voices:
 	smpsVcDecayRate2    $08, $06, $06, $07
 	smpsVcDecayLevel    $0F, $01, $01, $02
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $13, $30, $16
+	smpsVcTotalLevel    $00, $13, $30, $16
 
 ;	Voice $01
 ;	$20
@@ -72,5 +72,5 @@ Snd08_Voices:
 	smpsVcDecayRate2    $08, $06, $06, $07
 	smpsVcDecayLevel    $0F, $01, $01, $02
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $11, $23, $19
+	smpsVcTotalLevel    $00, $11, $23, $19
 

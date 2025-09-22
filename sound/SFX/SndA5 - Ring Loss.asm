@@ -1,5 +1,5 @@
 Snd05_Ring_Loss_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	if ~~fixBugs
 	smpsHeaderVoice     Snd05_Ring_Loss_Voices+$4000
 	else
@@ -45,5 +45,5 @@ Snd05_Ring_Loss_Voices:
 	smpsVcDecayRate2    $0B, $00, $0B, $00
 	smpsVcDecayLevel    $00, $01, $00, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $23, $80, $23
+	smpsVcTotalLevel    $00, $23, $00, $23
 

@@ -1,5 +1,5 @@
 Snd0A_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	if ~~fixBugs
 	smpsHeaderVoice     Snd0A_Voices+$4000
 	else
@@ -35,4 +35,4 @@ Snd0A_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $00, $00, $00, $00
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $00, $80, $00
+	smpsVcTotalLevel    $00, $00, $00, $00

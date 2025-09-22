@@ -1,5 +1,5 @@
 Snd09_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	if ~~fixBugs
 	smpsHeaderVoice     Snd09_Voices+$4000
 	else
@@ -31,7 +31,7 @@ Snd09_Voices:
 	smpsVcDecayRate2    $0A, $06, $0A, $09
 	smpsVcDecayLevel    $03, $03, $03, $04
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $20, $80, $17
+	smpsVcTotalLevel    $00, $20, $00, $17
 
 
 ; FM5 Data

@@ -82,7 +82,7 @@ EntryPoint:
 		moveq	#0,d0
 		movea.l	d0,a6
 		move.l	a6,usp
-		moveq	#$17,d1
+		moveq	#VDPInitValues_End-VDPInitValues-1,d1
 
 .vdploop:
 		move.b	(a5)+,d5
@@ -148,6 +148,7 @@ SetupValues:	dc.w $8000				; VDP register Start
 		dc.l vdp_data_port			; VDP Data port
 		dc.l vdp_control_port			; VDP Address port
 
+VDPInitValues:
 		dc.b 4					; 8004
 		dc.b $14				; 8114 Display Value
 		dc.b $30				; 8230 FG Scroll
@@ -172,6 +173,7 @@ SetupValues:	dc.w $8000				; VDP register Start
 		dc.b 0					; 9500 ""
 		dc.b 0					; 9600 ""
 		dc.b $80				; 9780 ""
+VDPInitValues_End
 
 		dc.l $40000080
 
@@ -225,7 +227,7 @@ GameProgram:
 		tst.w	(vdp_control_port).l
 		lea	(v_text).w,a0
 		move.l	(a0),d0
-		cmpi.l	#'SEGA',d0
+		cmpi.l	#"SEGA",d0
 		bne.s	loc_326
 		move.b	(port_1_control).l,d0
 		and.b	(port_2_control).l,d0
@@ -240,7 +242,7 @@ loc_326:
 loc_32A:
 		clr.l	(a1)+
 		dbf	d0,loc_32A
-		move.l	#'SEGA',(a0)
+		move.l	#"SEGA",(a0)
 
 loc_336:
 		moveq	#0,d0				; clear registers (d0 to d6 and a2)
@@ -283,7 +285,7 @@ loc_36E:
 		bne.s	.waitfordma			; if not, wait until it's finished
 		lea	(vdp_data_port).l,a0
 		move.w	#$8F02,(vdp_control_port).l
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 
 		moveq	#0,d0				; clear d0
 		move.l	#$40000000,(vdp_control_port).l	; set VDP in VRAM write mode
@@ -371,7 +373,7 @@ DMAToCRAM:
 		stopZ80
 		waitZ80
 		move.w	#$8F02,(vdp_control_port).l	; set VDP Increment
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 		lea	(vdp_control_port).l,a0		; load VDP address port to a0
 		ori.w	#$8114,(word_C9BA).w
 		move.w	(word_C9BA).w,(a0)
@@ -418,7 +420,7 @@ VDPSetup_02:
 		bset	#4,d0
 		move.w	d0,(a4)
 		move.w	#$8F02,(vdp_control_port).l	; set VDP Increment
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 		lea	(v_dmaqueueindex).w,a1
 		move.w	(a1)+,d7			; load repeat times to d7
 		bra.s	loc_542
@@ -577,7 +579,7 @@ sub_626:
 		bset	#4,d4
 		move.w	d4,(a0)
 		move.w	#$8F02,(vdp_control_port).l
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 		move.w	d2,d4
 		move.w	#$9300,d5
 		move.b	d4,d5
@@ -1813,7 +1815,7 @@ sub_14E4:
 		beq.w	loc_1570
 		move.w	#0,(a4)+
 		move.w	#$8F80,(vdp_control_port).l
-		move.w	#$8F80,($FFFFC9D6).w
+		move.w	#$8F80,(v_vdp_increment).w
 		move.w	d0,d1
 		moveq	#$F,d7
 		moveq	#0,d6
@@ -1861,7 +1863,7 @@ loc_155C:
 		move.l	(a4)+,(a2)
 		dbf	d7,loc_155C
 		move.w	#$8F02,(vdp_control_port).l
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 
 loc_1570:
 		move.w	(a3),d0
@@ -4058,6 +4060,7 @@ SoundDriverLoad:
 Z80_Driver:
 		include	"sound/Z80.asm"
 Z80_Driver_End
+		even
 ; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -5236,7 +5239,7 @@ SegatoVDPRep:
 ; ---------------------------------------------------------------------------
 PAL_Segalogo:	binclude	"Palettes/PalSegaLogo.bin" ; palettes used in the Sega logo
 		even
-ARTCRA_SegaLogo:binclude	"artcra/Sega Logo.bin"	; compressed Sega patterns
+ARTCRA_SegaLogo:binclude	"artcra/Sega Logo.cra"	; compressed Sega patterns
 		even
 ; ---------------------------------------------------------------------------
 ; Unknown Data
@@ -5760,7 +5763,7 @@ loc_80E0:
 		move.l	d0,($FFFFCDDE).w
 		lea	(vdp_data_port).l,a0
 		move.w	#$8F02,(vdp_control_port).l
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 		moveq	#0,d0
 		move.l	#$40000000,(vdp_control_port).l
 		move.w	#bytesToXcnt($10000,16),d1
@@ -7609,7 +7612,7 @@ loc_967C:
 		lea	SSZ_ArtLocs(pc),a2
 		bsr.w	sub_9D30
 		lea	($FFFFC9DE).w,a0
-		move.l	#v_128x128&$FFFFFF,$28(a0)
+		move.l	#v_lvldatabuffer&$FFFFFF,$28(a0)
 		lea	SSZ_MapFGLocs(pc),a2
 		bsr.w	DecEniMapLocs
 		move.l	a1,($FFFFCA46).w
@@ -7809,7 +7812,7 @@ loc_9898:
 		lea	TTZ_ArtLocs(pc),a2
 		bsr.w	sub_9D30
 		lea	($FFFFC9DE).w,a0
-		move.l	#v_128x128&$FFFFFF,$28(a0)
+		move.l	#v_lvldatabuffer&$FFFFFF,$28(a0)
 		lea	TTZ_MapFGLocs(pc),a2
 		bsr.w	DecEniMapLocs
 		move.l	a1,($FFFFCA46).w
@@ -8309,30 +8312,30 @@ sub_9D30:
 ; ---------------------------------------------------------------------------
 
 DecEniMapLocs:
-		movea.l	$28(a0),a1
-		move.w	$1C(a0),d0
-		move.l	a0,-(sp)
-		movea.l	(a2)+,a0
-		move.l	a2,-(sp)
-		jsr	(EniDec).w
-		movea.l	(sp)+,a2
-		movea.l	(sp)+,a0
-		move.l	a1,$24(a0)
-		move.l	a0,-(sp)
-		movea.l	(a2)+,a0
-		moveq	#0,d0
-		move.l	a2,-(sp)
-		jsr	(EniDec).w
-		movea.l	(sp)+,a2
-		movea.l	(sp)+,a0
-		move.l	a1,$20(a0)
-		move.l	a0,-(sp)
-		movea.l	(a2)+,a0
-		moveq	#0,d0
-		move.l	a2,-(sp)
-		jsr	(EniDec).w
-		movea.l	(sp)+,a2
-		movea.l	(sp)+,a0
+		movea.l	$28(a0),a1	; get destination
+		move.w	$1C(a0),d0	; get art tile
+		move.l	a0,-(sp)	; move a0 into stack pointer
+		movea.l	(a2)+,a0	; move 16x16 blocks into a0
+		move.l	a2,-(sp)	; move a2 into the stack pointer
+		jsr	(EniDec).w		; decompress 16x16 blocks
+		movea.l	(sp)+,a2	; restore a2 from the stack pointer
+		movea.l	(sp)+,a0	; restore a0 from the stack pointer
+		move.l	a1,$24(a0)	; move destination into $24 of a0
+		move.l	a0,-(sp)	; move a0 into stack pointer
+		movea.l	(a2)+,a0	; move 128x128 chunks into a0
+		moveq	#0,d0		; clear d0
+		move.l	a2,-(sp)	; move a2 into the stack pointer
+		jsr	(EniDec).w		; decompress 128x128 chunks
+		movea.l	(sp)+,a2	; restore a2 from the stack pointer
+		movea.l	(sp)+,a0	; restore a0 from the stack pointer
+		move.l	a1,$20(a0)	; move destination into $20 of a0
+		move.l	a0,-(sp)	; move a0 into stack pointer
+		movea.l	(a2)+,a0	; move level layout into a0
+		moveq	#0,d0		; clear d0
+		move.l	a2,-(sp)	; move a2 into the stack pointer
+		jsr	(EniDec).w		; decompress level layout
+		movea.l	(sp)+,a2	; restore a2 from the stack pointer
+		movea.l	(sp)+,a0	; restore a0 from the stack pointer
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
@@ -18458,7 +18461,7 @@ loc_F90C:
 		andi.w	#3,d3
 		lea	(vdp_data_port).l,a1
 		move.w	#$8F80,(vdp_control_port).l
-		move.w	#$8F80,($FFFFC9D6).w
+		move.w	#$8F80,(v_vdp_increment).w
 		move.l	d3,4(a1)
 		lsr.l	#1,d1
 
@@ -18466,7 +18469,7 @@ loc_F934:
 		move.l	d0,(a1)
 		dbf	d1,loc_F934
 		move.w	#$8F02,(vdp_control_port).l
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 		rts
 ; End of function sub_F904
 
@@ -18851,7 +18854,7 @@ SoundA9:	include	"Sound/SFX/SndA9 - Lamppost.asm" ; Check Point SFX (Same as Son
 ; ---------------------------------------------------------------------------
 ; these SFX below play Nothing (plays F2 straight away and does nothing)
 ; however they have the same SMPS Instrument in each of them ("blurrr.. (buzzer) noise with static")
-; I'm asuming these are just simply blank SFX slots ready to be used when the sound
+; I'm assuming these are just simply blank SFX slots ready to be used when the sound
 ; programmers needed them.
 ; ---------------------------------------------------------------------------
 SoundAA:	include	"Sound/SFX/SndAA.asm"
@@ -19391,7 +19394,7 @@ PAL_RainbowField:
 		binclude	"Palettes/PalRainbowField.bin"	; Palettes for Rainbow Field
 		even
 ARTCRA_RainbowField8x8:
-		binclude	"artcra/Rainbow Field.bin"	; 8x8 tiles for Rainbow Field
+		binclude	"artcra/Rainbow Field.cra"	; 8x8 tiles for Rainbow Field
 		even
 MAPUNC_RainbowFieldFG:
 		binclude	"Uncompressed/MapuncRainbowFieldFG.bin" ; Screen map for Rainbow Field FG
@@ -19403,7 +19406,7 @@ PAL_ElectricField:
 		binclude	"Palettes/PalElectricField.bin"	; Palettes for Electric Field
 		even
 ARTCRA_ElectricField8x8:
-		binclude	"artcra/Electric Field.bin"	; 8x8 tiles for Electric Field
+		binclude	"artcra/Electric Field.cra"	; 8x8 tiles for Electric Field
 		even
 MAPUNC_ElectricFieldFG:
 		binclude	"Uncompressed/MapuncElectricFieldFG.bin" ; Screen map for Electric Field FG

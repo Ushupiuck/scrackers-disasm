@@ -1,5 +1,5 @@
 Snd00_Jump_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	if ~~fixBugs
 	smpsHeaderVoice     Snd00_Jump_Voices+$4000
 	else
@@ -41,5 +41,5 @@ Snd00_Jump_Voices:
 	smpsVcDecayRate2    $0A, $00, $00, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $81, $33, $81, $55
+	smpsVcTotalLevel    $01, $33, $01, $55
 
