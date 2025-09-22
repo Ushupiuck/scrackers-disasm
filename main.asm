@@ -8326,30 +8326,30 @@ sub_9D30:
 ; ---------------------------------------------------------------------------
 
 DecEniMapLocs:
-		movea.l	$28(a0),a1
-		move.w	$1C(a0),d0
-		move.l	a0,-(sp)
-		movea.l	(a2)+,a0
-		move.l	a2,-(sp)
-		jsr	(EniDec).w
-		movea.l	(sp)+,a2
-		movea.l	(sp)+,a0
-		move.l	a1,$24(a0)
-		move.l	a0,-(sp)
-		movea.l	(a2)+,a0
-		moveq	#0,d0
-		move.l	a2,-(sp)
-		jsr	(EniDec).w
-		movea.l	(sp)+,a2
-		movea.l	(sp)+,a0
-		move.l	a1,$20(a0)
-		move.l	a0,-(sp)
-		movea.l	(a2)+,a0
-		moveq	#0,d0
-		move.l	a2,-(sp)
-		jsr	(EniDec).w
-		movea.l	(sp)+,a2
-		movea.l	(sp)+,a0
+		movea.l	$28(a0),a1	; get destination
+		move.w	$1C(a0),d0	; get art tile
+		move.l	a0,-(sp)	; move a0 into stack pointer
+		movea.l	(a2)+,a0	; move 16x16 blocks into a0
+		move.l	a2,-(sp)	; move a2 into the stack pointer
+		jsr	(EniDec).w		; decompress 16x16 blocks
+		movea.l	(sp)+,a2	; restore a2 from the stack pointer
+		movea.l	(sp)+,a0	; restore a0 from the stack pointer
+		move.l	a1,$24(a0)	; move destination into $24 of a0
+		move.l	a0,-(sp)	; move a0 into stack pointer
+		movea.l	(a2)+,a0	; move 128x128 chunks into a0
+		moveq	#0,d0		; clear d0
+		move.l	a2,-(sp)	; move a2 into the stack pointer
+		jsr	(EniDec).w		; decompress 128x128 chunks
+		movea.l	(sp)+,a2	; restore a2 from the stack pointer
+		movea.l	(sp)+,a0	; restore a0 from the stack pointer
+		move.l	a1,$20(a0)	; move destination into $20 of a0
+		move.l	a0,-(sp)	; move a0 into stack pointer
+		movea.l	(a2)+,a0	; move level layout into a0
+		moveq	#0,d0		; clear d0
+		move.l	a2,-(sp)	; move a2 into the stack pointer
+		jsr	(EniDec).w		; decompress level layout
+		movea.l	(sp)+,a2	; restore a2 from the stack pointer
+		movea.l	(sp)+,a0	; restore a0 from the stack pointer
 		rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
