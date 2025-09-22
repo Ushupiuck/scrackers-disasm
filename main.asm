@@ -5238,7 +5238,7 @@ SegatoVDPRep:
 ; ---------------------------------------------------------------------------
 PAL_Segalogo:	binclude	"Palettes/PalSegaLogo.bin" ; palettes used in the Sega logo
 		even
-ARTCRA_SegaLogo:binclude	"artcra/Sega Logo.bin"	; compressed Sega patterns
+ARTCRA_SegaLogo:binclude	"artcra/Sega Logo.cra"	; compressed Sega patterns
 		even
 ; ---------------------------------------------------------------------------
 ; Unknown Data
@@ -19409,7 +19409,7 @@ PAL_RainbowField:
 		binclude	"Palettes/PalRainbowField.bin"	; Palettes for Rainbow Field
 		even
 ARTCRA_RainbowField8x8:
-		binclude	"artcra/Rainbow Field.bin"	; 8x8 tiles for Rainbow Field
+		binclude	"artcra/Rainbow Field.cra"	; 8x8 tiles for Rainbow Field
 		even
 MAPUNC_RainbowFieldFG:
 		binclude	"Uncompressed/MapuncRainbowFieldFG.bin" ; Screen map for Rainbow Field FG
@@ -19421,7 +19421,7 @@ PAL_ElectricField:
 		binclude	"Palettes/PalElectricField.bin"	; Palettes for Electric Field
 		even
 ARTCRA_ElectricField8x8:
-		binclude	"artcra/Electric Field.bin"	; 8x8 tiles for Electric Field
+		binclude	"artcra/Electric Field.cra"	; 8x8 tiles for Electric Field
 		even
 MAPUNC_ElectricFieldFG:
 		binclude	"Uncompressed/MapuncElectricFieldFG.bin" ; Screen map for Electric Field FG
