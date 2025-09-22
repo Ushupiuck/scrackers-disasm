@@ -34,7 +34,13 @@ Snd01_Cash_Register_FM4:
 Snd01_Cash_Register_PSG3:
 	smpsPSGvoice        sTone_02
 	smpsPSGform         $E7
+	if FixMusicAndSFXDataBugs
+	; This correctly shifts the notation's octaves up by 1.
+	dc.b	nRst, $02, nF6, $05, nG6, $04, nF6, $05, nG6, $04
+	else
+	; Warning: This is a direct copy of Sonic 1's notation, resulting in the notes being an octave too low!
 	dc.b	nRst, $02, nF5, $05, nG5, $04, nF5, $05, nG5, $04
+	endif
 	smpsStop
 
 Snd01_Cash_Register_Voices:
