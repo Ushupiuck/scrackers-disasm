@@ -7627,7 +7627,7 @@ loc_967C:
 		lea	SSZ_ArtLocs(pc),a2
 		bsr.w	sub_9D30
 		lea	($FFFFC9DE).w,a0
-		move.l	#v_128x128&$FFFFFF,$28(a0)
+		move.l	#v_lvldatabuffer&$FFFFFF,$28(a0)
 		lea	SSZ_MapFGLocs(pc),a2
 		bsr.w	DecEniMapLocs
 		move.l	a1,($FFFFCA46).w
@@ -7830,7 +7830,7 @@ loc_9898:
 		lea	TTZ_ArtLocs(pc),a2
 		bsr.w	sub_9D30
 		lea	($FFFFC9DE).w,a0
-		move.l	#v_128x128&$FFFFFF,$28(a0)
+		move.l	#v_lvldatabuffer&$FFFFFF,$28(a0)
 		lea	TTZ_MapFGLocs(pc),a2
 		bsr.w	DecEniMapLocs
 		move.l	a1,($FFFFCA46).w

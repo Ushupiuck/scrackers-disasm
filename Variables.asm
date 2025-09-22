@@ -11,8 +11,11 @@ unk_0A00:	ds.b $102
 unk_0B02:	ds.b $82
 unk_0B84:	ds.b $102
 unk_0C86:	ds.b $82
-v_128x128:	ds.b $100*128
-			ds.b $2000
+v_lvldatabuffer:
+			ds.b $340*8	; blocks
+			ds.b $100*128	; chunks
+			ds.b $600	; layouts
+v_lvldatabuffer_end:
 unk_AD08:	ds.b $1004
 			ds.b $AF4
 unk_C800:	ds.b $12
