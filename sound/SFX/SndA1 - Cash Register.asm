@@ -1,5 +1,5 @@
 Snd01_Cash_Register_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	if ~~fixBugs
 	smpsHeaderVoice     Snd01_Cash_Register_Voices+$4000
 	else
@@ -60,7 +60,7 @@ Snd01_Cash_Register_Voices:
 	smpsVcDecayRate2    $00, $00, $00, $00
 	smpsVcDecayLevel    $0F, $0F, $0F, $0F
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $39, $28, $00
+	smpsVcTotalLevel    $00, $39, $28, $00
 
 ;	Voice $01
 ;	$04
@@ -78,5 +78,5 @@ Snd01_Cash_Register_Voices:
 	smpsVcDecayRate2    $0B, $00, $0B, $00
 	smpsVcDecayLevel    $00, $01, $00, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $23, $80, $23
+	smpsVcTotalLevel    $00, $23, $80, $23
 

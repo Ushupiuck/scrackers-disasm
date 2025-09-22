@@ -1,5 +1,5 @@
 Snd00_Jump_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	if ~~fixBugs
 	smpsHeaderVoice     Snd00_Jump_Voices+$4000
 	else

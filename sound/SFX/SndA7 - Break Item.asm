@@ -1,5 +1,5 @@
 Snd07_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	if ~~fixBugs
 	smpsHeaderVoice     Snd07_Voices+$4000
 	else
@@ -46,7 +46,7 @@ Snd07_Voices:
 	smpsVcDecayRate2    $0F, $00, $12, $05
 	smpsVcDecayLevel    $0F, $0F, $07, $00
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $00, $80, $00
+	smpsVcTotalLevel    $00, $00, $00, $00
 
 ;	Voice $01
 ;	$3C
@@ -64,5 +64,5 @@ Snd07_Voices:
 	smpsVcDecayRate2    $10, $14, $0F, $00
 	smpsVcDecayLevel    $02, $09, $09, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $26, $80, $07
+	smpsVcTotalLevel    $00, $26, $00, $07
 

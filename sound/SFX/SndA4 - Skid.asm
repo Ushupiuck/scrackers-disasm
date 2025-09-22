@@ -1,5 +1,5 @@
 Snd04_Skid_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	smpsHeaderVoiceNull
 	smpsHeaderTempoSFX  $01
 	smpsHeaderChanSFX   $02

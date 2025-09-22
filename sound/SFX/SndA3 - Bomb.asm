@@ -1,5 +1,5 @@
 Snd03_Bomb_Header:
-	smpsHeaderStartSong 3, 1
+	smpsHeaderStartSong 3
 	if ~~fixBugs
 	smpsHeaderVoice     Snd03_Bomb_Voices+$4000
 	else
@@ -37,5 +37,5 @@ Snd03_Bomb_Voices:
 	smpsVcDecayRate2    $10, $10, $1F, $0B
 	smpsVcDecayLevel    $02, $04, $02, $01
 	smpsVcReleaseRate   $0F, $0F, $0F, $0F
-	smpsVcTotalLevel    $80, $04, $07, $0D
+	smpsVcTotalLevel    $00, $04, $07, $0D
 
