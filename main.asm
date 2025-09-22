@@ -82,7 +82,7 @@ EntryPoint:
 		moveq	#0,d0
 		movea.l	d0,a6
 		move.l	a6,usp
-		moveq	#$17,d1
+		moveq	#VDPInitValues_End-VDPInitValues-1,d1
 
 .vdploop:
 		move.b	(a5)+,d5
@@ -148,6 +148,7 @@ SetupValues:	dc.w $8000				; VDP register Start
 		dc.l vdp_data_port			; VDP Data port
 		dc.l vdp_control_port			; VDP Address port
 
+VDPInitValues:
 		dc.b 4					; 8004
 		dc.b $14				; 8114 Display Value
 		dc.b $30				; 8230 FG Scroll
@@ -172,6 +173,7 @@ SetupValues:	dc.w $8000				; VDP register Start
 		dc.b 0					; 9500 ""
 		dc.b 0					; 9600 ""
 		dc.b $80				; 9780 ""
+VDPInitValues_End
 
 		dc.l $40000080
 
@@ -225,7 +227,7 @@ GameProgram:
 		tst.w	(vdp_control_port).l
 		lea	(v_text).w,a0
 		move.l	(a0),d0
-		cmpi.l	#'SEGA',d0
+		cmpi.l	#"SEGA",d0
 		bne.s	loc_326
 		move.b	(port_1_control).l,d0
 		and.b	(port_2_control).l,d0
@@ -240,7 +242,7 @@ loc_326:
 loc_32A:
 		clr.l	(a1)+
 		dbf	d0,loc_32A
-		move.l	#'SEGA',(a0)
+		move.l	#"SEGA",(a0)
 
 loc_336:
 		moveq	#0,d0				; clear registers (d0 to d6 and a2)
@@ -5584,7 +5586,7 @@ Fields_MainLoop:
 		bsr.w	sub_F390
 		jsr	(Field_ReadController).l
 		jsr	(Field_PauseGame).l
-		jsr	(sub_CCCA).l			; commented out causes screen not to follow during normal play, and stars on the tether didn"t animate
+		jsr	(sub_CCCA).l			; commented out causes screen not to follow during normal play, and stars on the tether didn't animate
 		jsr	(sub_81F8).l			; Sonic/Tails object related
 		jsr	(sub_82B2).l			; deformation/screen control??
 		disable_ints
@@ -18893,7 +18895,7 @@ SoundA9:	include	"Sound/SFX/SndA9 - Lamppost.asm" ; Check Point SFX (Same as Son
 ; ---------------------------------------------------------------------------
 ; these SFX below play Nothing (plays F2 straight away and does nothing)
 ; however they have the same SMPS Instrument in each of them ("blurrr.. (buzzer) noise with static")
-; I'm asuming these are just simply blank SFX slots ready to be used when the sound
+; I'm assuming these are just simply blank SFX slots ready to be used when the sound
 ; programmers needed them.
 ; ---------------------------------------------------------------------------
 SoundAA:	include	"Sound/SFX/SndAA.asm"
