@@ -285,7 +285,7 @@ loc_36E:
 		bne.s	.waitfordma			; if not, wait until it's finished
 		lea	(vdp_data_port).l,a0
 		move.w	#$8F02,(vdp_control_port).l
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 
 		moveq	#0,d0				; clear d0
 		move.l	#$40000000,(vdp_control_port).l	; set VDP in VRAM write mode
@@ -373,7 +373,7 @@ DMAToCRAM:
 		stopZ80
 		waitZ80
 		move.w	#$8F02,(vdp_control_port).l	; set VDP Increment
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 		lea	(vdp_control_port).l,a0		; load VDP address port to a0
 		ori.w	#$8114,(word_C9BA).w
 		move.w	(word_C9BA).w,(a0)
@@ -420,7 +420,7 @@ VDPSetup_02:
 		bset	#4,d0
 		move.w	d0,(a4)
 		move.w	#$8F02,(vdp_control_port).l	; set VDP Increment
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 		lea	(v_dmaqueueindex).w,a1
 		move.w	(a1)+,d7			; load repeat times to d7
 		bra.s	loc_542
@@ -579,7 +579,7 @@ sub_626:
 		bset	#4,d4
 		move.w	d4,(a0)
 		move.w	#$8F02,(vdp_control_port).l
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 		move.w	d2,d4
 		move.w	#$9300,d5
 		move.b	d4,d5
@@ -1817,7 +1817,7 @@ sub_14E4:
 		beq.w	loc_1570
 		move.w	#0,(a4)+
 		move.w	#$8F80,(vdp_control_port).l
-		move.w	#$8F80,($FFFFC9D6).w
+		move.w	#$8F80,(v_vdp_increment).w
 		move.w	d0,d1
 		moveq	#$F,d7
 		moveq	#0,d6
@@ -1865,7 +1865,7 @@ loc_155C:
 		move.l	(a4)+,(a2)
 		dbf	d7,loc_155C
 		move.w	#$8F02,(vdp_control_port).l
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 
 loc_1570:
 		move.w	(a3),d0
@@ -5764,7 +5764,7 @@ loc_80E0:
 		move.l	d0,($FFFFCDDE).w
 		lea	(vdp_data_port).l,a0
 		move.w	#$8F02,(vdp_control_port).l
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 		moveq	#0,d0
 		move.l	#$40000000,(vdp_control_port).l
 		move.w	#bytesToXcnt($10000,16),d1
@@ -18506,7 +18506,7 @@ loc_F90C:
 		andi.w	#3,d3
 		lea	(vdp_data_port).l,a1
 		move.w	#$8F80,(vdp_control_port).l
-		move.w	#$8F80,($FFFFC9D6).w
+		move.w	#$8F80,(v_vdp_increment).w
 		move.l	d3,4(a1)
 		lsr.l	#1,d1
 
@@ -18514,7 +18514,7 @@ loc_F934:
 		move.l	d0,(a1)
 		dbf	d1,loc_F934
 		move.w	#$8F02,(vdp_control_port).l
-		move.w	#$8F02,($FFFFC9D6).w
+		move.w	#$8F02,(v_vdp_increment).w
 		rts
 ; End of function sub_F904
 

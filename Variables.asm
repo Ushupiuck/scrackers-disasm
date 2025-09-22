@@ -38,6 +38,7 @@ word_C946:	ds.w 1
 word_C9B8:	ds.w 1
 word_C9BA:	ds.w 1
 
+v_vdp_increment:	equ ramaddr($FFFFC9D6)
 unk_2A00:	equ ramaddr($FFFF2A00)
 v_pal:	equ ramaddr($FFFFD3E4)
 v_dmaqueueindex:	equ ramaddr($FFFFD4F8)
