@@ -2,7 +2,7 @@
 	phase	ramaddr($FFFF0000)
 v_startofram:	ds.b $200
 
-v_systemstack:	
+v_systemstack:
 unk_0200:	ds.b $200
 unk_0400:	ds.b $200
 unk_0600:	ds.b $200

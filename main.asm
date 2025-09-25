@@ -4092,9 +4092,9 @@ SegaScreen:
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 SegaScreen_VDPSettings:
-		dc.w $8230				; plane a: 
+		dc.w $8230				; plane a:
 		dc.w $8407				; plane b:
-		dc.w $833C				; window table: 
+		dc.w $833C				; window table:
 		dc.w $855C				; sprite table: B800
 		dc.w $8D2F				; horizontal scroll table: BC00
 		dc.w $8B00				; full scroll horizontally/vertically, external interrupt disabled
@@ -8832,7 +8832,7 @@ loc_A1BC:
 		movea.w	($FFFFD862).w,a4
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
-CharacterTable:	
+CharacterTable:
         dc.l SonicObject	; Load Sonic			; something to do with stopping reflexes
 		dc.l TailsObject       ; Load Tails
 		dc.l locret_B414
@@ -9796,10 +9796,10 @@ locret_AAF6:
 
 
 ; =============== S U B	R O U T	I N E =======================================
-; Leftover Sonic subroutine for smooth physics collision 
+; Leftover Sonic subroutine for smooth physics collision
 ; (causes movement not to be so jagged)
 ; ===========================================================================
-Sonic_SlopeResist: 
+Sonic_SlopeResist:
 		rts
 ; End of function Sonic_SlopeResist
 
@@ -10732,10 +10732,10 @@ locret_B3DA:
 
 
 ; =============== S U B	R O U T	I N E =======================================
-; Leftover Tails subroutine for smooth physics collision 
+; Leftover Tails subroutine for smooth physics collision
 ; (causes movement not to be so jagged)
 ; ===========================================================================
-Tails_SlopeResist: 
+Tails_SlopeResist:
 		rts
 ; End of function Tails_SlopeResist
 
@@ -10868,7 +10868,7 @@ loc_B4A2:
 		moveq	#-2,d1
 		bra.w	loc_CA8A
 ; ---------------------------------------------------------------------------
-word_B4CC:	
+word_B4CC:
         dc.w $9C
 		dc.w $98
 		dc.w $94
@@ -13194,7 +13194,7 @@ loc_C832:
 		move.l	a3,obj.Map(a6)
 		rts
 ; ---------------------------------------------------------------------------
-CharacterDataTable_Levels:	
+CharacterDataTable_Levels:
         dc.l ANI_Sonic
 		dc.l ANI_Tails
 		dc.l 0
@@ -17028,7 +17028,7 @@ GameOver:
 		bclr	#7,(v_lagger).w
 
 .wait:
-		tst.b	(v_lagger).w	
+		tst.b	(v_lagger).w
 		bpl.s	.wait
 		dbf	d0,.loop
 		clr.w	(v_subgamemode).w
