@@ -3156,7 +3156,7 @@ loc_F02:
 		ld	a, c				; 4
 		ld	(zYM2612_D0), a		; 13
 		ei						; 4
-		
+
 loc_F11:
 		ld	b, 0Ah				; 7
 		djnz	$				; 8
