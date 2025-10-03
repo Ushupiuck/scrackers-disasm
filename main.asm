@@ -5242,15 +5242,6 @@ PAL_Segalogo:	binclude	"Palettes/PalSegaLogo.bin" ; palettes used in the Sega lo
 ARTCRA_SegaLogo:binclude	"artcra/Sega Logo.cra"	; compressed Sega patterns
 		even
 ; ---------------------------------------------------------------------------
-; Unknown Data
-		dc.w $31F9
-		dc.w $0111
-		dc.w $FF0A
-		dc.w $F00F
-		dc.w $FFFF
-		dc.w $FFFF
-		dc.w $FF00
-; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Title Screen (Mode: 08)
