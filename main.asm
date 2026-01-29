@@ -7,7 +7,7 @@
 
 	cpu 68000
 
-fixBugs = 1
+FixBugs = 1
 ;	| If 1, fixes some bugs (mainly sound driver related)
 zeroOffsetOptimization = 1
 ;	| If 1, makes a handful of zero-offset instructions smaller
@@ -1527,7 +1527,7 @@ locret_101E:
 
 ProcessDPLC_Pop:
 		lea	($FFFFD79A).w,a0
-		moveq	#$16-1,d0
+		moveq	#bytesToLcnt($58),d0
 
 loc_1026:
 		move.l	6(a0),(a0)+
@@ -6273,12 +6273,12 @@ PALCY_ElectricField_1:
 		dc.w $404
 loc_856A:
 		dc.l $FFFFFAEC
-	if ~~fixBugs
+	if FixBugs
+		dc.l $FFFFD43C
+	else
 		; Bug: this uses palette entry 2 instead of 3 like intended
 		; perhaps intentional though, considering it can flash very fast.
 		dc.l $FFFFD41C
-	else
-		dc.l $FFFFD43C
 	endif
 PALCY_ElectricField_2:
 		dc.w $EE0
@@ -6333,12 +6333,12 @@ PALCY_ElectricField_2:
 		dc.w $FFFF	; unknown
 loc_85D6:
 		dc.l $FFFFFAEE
-	if ~~fixBugs
+	if FixBugs
+		dc.l $FFFFD43E
+	else
 		; Bug: this uses palette entry 2 instead of 3 like intended
 		; perhaps intentional though, considering it can flash very fast.
 		dc.l $FFFFD41E
-	else
-		dc.l $FFFFD43E
 	endif
 		dc.w $8E0,$32
 		dc.w $6C0,5
@@ -9022,7 +9022,7 @@ loc_A3E0:
 		move.w	obj.Inertia(a6),d2
 		ext.l	d2
 		swap	d2
-	if fixBugs
+	if FixBugs
 		eor.w	d2,d1
 		andi.w	#8,d1
 	else
@@ -9745,7 +9745,7 @@ ObjSonic_Jump:
 		btst	#3,$25(a6)
 		beq.s	loc_AAD4
 		neg.w	d0
-	if fixBugs
+	if FixBugs
 		neg.w	d1	; jumping to the left is broken without this
 	endif
 
@@ -10680,7 +10680,7 @@ ObjTails_Jump:
 		btst	#3,$25(a6)
 		beq.s	loc_B3B8
 		neg.w	d0
-	if fixBugs
+	if FixBugs
 		neg.w	d1	; jumping to the left is broken without this
 	endif
 
@@ -17869,7 +17869,7 @@ sub_F390:
 		bsr.w	sub_FA44
 
 loc_F3AA:
-	if fixBugs
+	if FixBugs
 		moveq	#0,d0	; clears the entirety of d0
 	else
 		clr.w	d0		; clears only the word value of d0
@@ -17894,7 +17894,7 @@ loc_F3B6:
 ; ---------------------------------------------------------------------------
 		bra.s	loc_F43E
 ; ---------------------------------------------------------------------------
-	if fixBugs
+	if FixBugs
 		clr.b	(unk_FDC1).w
 	else
 		clr.w	(unk_FDC1).w	; This line mistakenly uses word instead of byte.
