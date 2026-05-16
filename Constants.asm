@@ -1,4 +1,41 @@
-; VDP addressses
+; Constants
+
+; Sound driver approximate size guess
+Size_of_Snd_driver_guess:	equ $1216
+
+; Universal VRAM addresses
+vram_window:	equ $B000
+vram_fg:	equ $C000
+vram_hscroll:	equ $D000
+vram_bg:	equ $E000
+vram_sprtbl:	equ $F000
+
+; VRAM data
+tile_size:	equ 8*8/2
+plane_size_64x32:	equ 64*32*2
+
+; ICD_BLK VRAM addresses
+vram_sprtbl_icd:	equ $D800
+vram_hscroll_icd:	equ $DC00
+
+; Sega Screen VRAM addresses
+vram_sprtbl_sega:	equ $B800
+vram_hscroll_sega:	equ $BC00
+vram_window_sega:	equ $F000
+
+; Title Screen VRAM addresses
+vram_sprtbl_title:	equ $F800
+vram_hscroll_title:	equ $FC00
+
+; Field VRAM addresses
+vram_sprtbl_field:	equ $A800
+vram_hscroll_field:	equ $AC00
+vram_window_field:	equ $B000
+
+; Level VRAM addresses
+vram_hscroll_lvl:	equ $D000
+
+; VDP addresses
 vdp_data_port:		equ $C00000
 vdp_control_port:	equ $C00004
 
@@ -57,21 +94,58 @@ bitUp:		equ 0
 
 ; Object variables
 obj	struct DOTS
-ID:			ds.w 1				; object ID (2 bytes)
+ID:			ds.w 1		; object ID (2 bytes)
 			ds.b 2
-Unk4:		ds.w 1				; unknown (2 bytes)
-Pointer:	ds.w 1				; object pointer (2 bytes)
-Xpos:		ds.l 1				; x position (4 bytes)
-Ypos:		ds.l 1				; y position (4 bytes)
-Map:		ds.l 1				; mappings address (4 bytes)
-			ds.b 4
-VelX:		ds.l 1				; x velocity (4 bytes)
-VelY:		ds.l 1				; y velocity (4 bytes)
-Unk20:		ds.w 1				; unknown (2 bytes)
-			ds.b 8
+Unk4:		ds.w 1		; unknown (2 bytes)
+Pointer:	ds.w 1		; object pointer (2 bytes)
+Xpos:		ds.l 1		; x position (4 bytes)
+Ypos:		ds.l 1		; y position (4 bytes)
+Map:		ds.l 1		; mappings address (4 bytes)
+ScreenX:	ds.w 1		; fixed x position (2 bytes)
+ScreenY:	ds.w 1		; fixed y position (2 bytes)
+VelX:		ds.l 1		; x velocity (4 bytes)
+VelY:		ds.l 1		; y velocity (4 bytes)
+VRAM:		ds.w 1		; object VRAM location (2 bytes)
+			ds.b 2
+
+HUDTime:
+			ds.b 2
+			ds.b 2
+			ds.b 2
 Angle:		ds.b 1
 			ds.b 1
-Inertia:	ds.b 1
+Inertia:	ds.w 1
+	endstruct
+
+; -------------------------------------------------------------------------
+; Controller data structure
+; -------------------------------------------------------------------------
+
+ctrl struct DOTS
+type		ds.b 1
+			ds.b 2
+hold_6		ds.b 1
+hold_3		ds.b 1
+press_3		ds.b 1
+press_6		ds.b 1
+angle		ds.b 1
+var_8		ds.b 1
+var_9		ds.b 1
+var_A		ds.b 1
+var_B		ds.b 1
+var_C		ds.w 1
+var_E		ds.w 1
+	endstruct
+
+mouse struct DOTS
+			ds.b 1
+orientation	ds.b 1
+buttons		ds.b 1
+x_high		ds.b 1
+x_low		ds.b 1
+y_high		ds.b 1
+y_low		ds.b 1
+			ds.b 9
 	endstruct
 
 ; Background music
