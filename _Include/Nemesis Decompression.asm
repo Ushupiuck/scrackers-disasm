@@ -6,25 +6,24 @@
 ; For format explanation see http://info.sonicretro.org/Nemesis_compression
 ; ---------------------------------------------------------------------------
 
-; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
-
 ; Nemesis decompression to VRAM
 NemDec:
 		lea	NemPCD_WriteRowToVDP(pc),a3	; write all data to the same location
 		lea	(vdp_data_port).l,a4		; specifically, to the VDP data port
 		bra.s	NemDecMain
 
-; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
-
+; ---------------------------------------------------------------------------
 ; Nemesis decompression subroutine, decompresses art to RAM
 ; Inputs:
 ; a0 = art address
 ; a4 = destination RAM address
+; ---------------------------------------------------------------------------
+
 NemDecToRAM:
 		lea	NemPCD_WriteRowToRAM(pc),a3	; advance to the next location after each write
 
 NemDecMain:
-		lea	(v_ngfx_buffer).w,a1
+		lea	(ngfx_buffer).w,a1
 		move.w	(a0)+,d2			; get number of patterns
 		lsl.w	#1,d2
 		bcc.s	loc_DE6				; branch if the sign bit isn't set
@@ -46,9 +45,6 @@ loc_DE6:
 ; ---------------------------------------------------------------------------
 ; Part of the Nemesis decompressor, processes the actual compressed data
 ; ---------------------------------------------------------------------------
-
-; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
-
 
 NemDec_ProcessCompressedData:
 		move.w	d6,d7
@@ -154,11 +150,9 @@ NemPCD_WriteRowToRAM_XOR:
 		bne.s	NemPCD_NewRow
 		rts
 
-; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
 ; ---------------------------------------------------------------------------
 ; Part of the Nemesis decompressor, builds the code table (in RAM)
 ; ---------------------------------------------------------------------------
-
 
 NemDec_BuildCodeTable:
 		move.b	(a0)+,d0			; read first byte

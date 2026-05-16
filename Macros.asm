@@ -11,6 +11,33 @@ bytesToWcnt function n,n>>1-1
 bytesToXcnt function n,x,n/x-1
 
 ; ---------------------------------------------------------------------------
+; Set a VRAM address via the VDP control port.
+; input: 16-bit VRAM address, control port (default is (vdp_control_port).l)
+; ---------------------------------------------------------------------------
+
+writeVRAM:	macro loc,controlport=(vdp_control_port).l
+		move.l	#($40000000+(((loc)&$3FFF)<<16)+(((loc)&$C000)>>14)),controlport
+		endm
+
+; ---------------------------------------------------------------------------
+; Set a CRAM address via the VDP control port.
+; input: 16-bit VRAM address, control port (default is (vdp_control_port).l)
+; ---------------------------------------------------------------------------
+
+writeCRAM:	macro loc=0,controlport=(vdp_control_port).l
+		move.l	#$C0000000+(loc<<16),controlport
+		endm
+
+; ---------------------------------------------------------------------------
+; Set a VSRAM address via the VDP control port.
+; input: 16-bit VRAM address, control port (default is (vdp_control_port).l)
+; ---------------------------------------------------------------------------
+
+writeVSRAM:	macro loc=0,controlport=(vdp_control_port).l
+		move.l	#$40000010+(loc<<16),controlport
+		endm
+
+; ---------------------------------------------------------------------------
 ; Fill portion of RAM with contents from d0
 ; input: start, end
 ; ---------------------------------------------------------------------------
@@ -72,7 +99,7 @@ resetZ80a:	macro
 ; ---------------------------------------------------------------------------
 
 disable_ints:	macro
-		move	#$2700,sr
+		move.w	#$2700,sr
 		endm
 
 ; ---------------------------------------------------------------------------
@@ -80,15 +107,58 @@ disable_ints:	macro
 ; ---------------------------------------------------------------------------
 
 enable_ints:	macro
-		move	#$2300,sr
+		move.w	#$2300,sr
+		endm
+
+; ---------------------------------------------------------------------------
+; Enable DMA macro
+; ---------------------------------------------------------------------------
+
+enable_dma:	macro controlport=(vdp_control_port).l
+		ori.w	#$8114,(vdp81_ctrl).w	; set bit 4 (DMA)
+		move.w	(vdp81_ctrl).w,controlport
+		endm
+
+; ---------------------------------------------------------------------------
+; Disable DMA macro
+; ---------------------------------------------------------------------------
+
+disable_dma:	macro controlport=(vdp_control_port).l
+		andi.w	#$FFEF,(vdp81_ctrl).w	; clear bit 4 (DMA)
+		move.w	(vdp81_ctrl).w,controlport
+		endm
+
+; ---------------------------------------------------------------------------
+; Enable vertical interrupts macro
+; ---------------------------------------------------------------------------
+
+enable_vints:	macro controlport=(vdp_control_port).l
+		ori.w	#$8124,(vdp81_ctrl).w	; set bit 5 (vint)
+		move.w	(vdp81_ctrl).w,controlport
+		endm
+
+; ---------------------------------------------------------------------------
+; Enable display macro
+; ---------------------------------------------------------------------------
+
+enable_display:	macro controlport=(vdp_control_port).l
+		ori.w	#$8144,(vdp81_ctrl).w	; set bit 6 (display)
+		move.w	(vdp81_ctrl).w,controlport
+		endm
+
+; ---------------------------------------------------------------------------
+; Disable display macro
+; ---------------------------------------------------------------------------
+
+disable_display:	macro controlport=(vdp_control_port).l
+		andi.w	#$81BC,(vdp81_ctrl).w	; clear bit 6 (display)
+		move.w	(vdp81_ctrl).w,controlport
 		endm
 
 ; function to make a little-endian 16-bit pointer for the Z80 sound driver
 z80_ptr function x,(x)<<8&$FF00|(x)>>8&$7F|$80
 
 ; Function to make a little endian (z80) pointer
-k68z80Pointer function addr,((((addr&$7FFF)+$8000)<<8)&$FF00)+(((addr&$7FFF)+$8000)>>8)
-
 little_endian function x,(x)<<8&$FF00|(x)>>8&$FF
 
 startBank macro {INTLABEL}
