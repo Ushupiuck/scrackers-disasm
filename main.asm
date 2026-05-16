@@ -1015,7 +1015,7 @@ ReadCtrlInput:
 		lea	(port_2_data).l,a0
 		lea	(ctrl_p2_type).w,a2
 		bsr.w	ReadCtrlPorts
-		bra.s	sub_992
+		; fall through
 
 sub_992:
 		moveq	#7,d0
@@ -1062,12 +1062,12 @@ ReadCtrlPorts:
 		nop
 		rts						; $00
 ; ---------------------------------------------------------------------------
-		bra.w	ReadMouse		; $02
+		bra.w	ReadMouse				; $02
 ; ---------------------------------------------------------------------------
 		nop
 		rts						; $04
 ; ---------------------------------------------------------------------------
-		bra.w	ReadMultiTap	; $06
+		bra.w	ReadMultiTap				; $06
 ; ---------------------------------------------------------------------------
 		nop
 		rts						; $08
@@ -1075,9 +1075,9 @@ ReadCtrlPorts:
 		nop
 		rts						; $0A
 ; ---------------------------------------------------------------------------
-		bra.w	ReadCtrlPad		; $0C
+		bra.w	ReadCtrlPad				; $0C
 ; ---------------------------------------------------------------------------
-		bra.w	InvalidCtrl	; $0E
+		bra.w	InvalidCtrl				; $0E
 ; ===========================================================================
 
 GetCtrlPeripheral:
@@ -1127,10 +1127,8 @@ ReadMouse:
 		bcs.w	loc_AAC
 		bsr.w	sub_ACA
 		move.b	#$60,(a0)
-
-loc_A96:
-		btst	#4,(a0)
-		dbne	d7,loc_A96
+.loop:		btst	#4,(a0)
+		dbne	d7,.loop
 		beq.w	loc_C62
 		startZ80
 		rts
@@ -1138,10 +1136,8 @@ loc_A96:
 loc_AAC:
 		lea	ctrl.len(a1),a1
 		move.b	#$60,(a0)
-
-loc_AB4:
-		btst	#4,(a0)
-		dbne	d7,loc_AB4
+.loop:		btst	#4,(a0)
+		dbne	d7,.loop
 		beq.w	loc_C62
 		startZ80
 		rts
@@ -1273,22 +1269,18 @@ sub_C2E:
 
 loc_C34:
 		move.b	#$20,(a0)
-
-loc_C38:
-		move.b	(a0),d0
+.loop:		move.b	(a0),d0
 		btst	#4,d0
-		dbne	d7,loc_C38
+		dbne	d7,.loop
 		beq.s	loc_C5C
 		move.b	(a0),d0
 		rts
 
 sub_C48:
 		move.b	#0,(a0)
-
-loc_C4C:
-		move.b	(a0),d0
+.loop:		move.b	(a0),d0
 		btst	#4,d0
-		dbeq	d7,loc_C4C
+		dbeq	d7,.loop
 		bne.s	loc_C5C
 		move.b	(a0),d0
 		rts
@@ -17590,9 +17582,9 @@ loc_EFF8:
 ; it's intentional, but not sure "why".
 ; ---------------------------------------------------------------------------
 		tst.w	(word_D834).w			; is World/Zone ID SSZ?
-		bne.s	loc_F00A			; if not, branch
+		bne.w	loc_F0DE			; if not, branch
 		move.b	#0,(byte_DA85).w		; remove the left Black bar block
-
+		bra.w	loc_F0DE
 ; ---------------------------------------------------------------------------
 
 HUD_Elements:
@@ -18818,7 +18810,7 @@ loc_FA4C:
 
 UnkReps:
 		dc.w $22				; number of uncompressed art files to read
-		dc.w 0				; VRAM location
+		dc.w 0					; VRAM location
 		dc.l AniArt_Hud1to9_Sym			; "0" Hud	; location of Art
 		dc.w $20				; size of Art
 		dc.w $80
