@@ -53,6 +53,7 @@ port_2_control:	equ $A1000B
 expansion_port_control:	equ $A1000D
 z80_bus_request:	equ $A11100
 z80_reset:		equ $A11200
+vdp_sega_lock:	equ $A14000
 
 id_Sega:	equ ptr_GM_Sega-GameModeArray
 id_Title:	equ ptr_GM_Title-GameModeArray
@@ -93,9 +94,16 @@ bitDn:		equ 1
 bitUp:		equ 0
 
 ; Object variables
+
+; Object VRAM documentation
+; bit 11 - x flip
+; bit 12 - y flip
+; bit 13, 14 - palette
+; bit 15 - priority
+
 obj	struct DOTS
 ID:			ds.w 1		; object ID (2 bytes)
-			ds.b 2
+Unk2:		ds.b 2		; unknown (2 bytes)
 Unk4:		ds.w 1		; unknown (2 bytes)
 Pointer:	ds.w 1		; object pointer (2 bytes)
 Xpos:		ds.l 1		; x position (4 bytes)
@@ -120,6 +128,13 @@ Inertia:	ds.w 1
 ; -------------------------------------------------------------------------
 ; Controller data structure
 ; -------------------------------------------------------------------------
+
+; type definition
+; 0 - 6 Button
+; 1 - 3 Button
+; 2 - Mouse
+; 3 to E - ?
+; F - Invalid
 
 ctrl struct DOTS
 type		ds.b 1
@@ -191,3 +206,21 @@ flg_Stop:	equ ((ptr_flgE1-CmdPtrTable)/2)+flg_First
 flg_StopPSG:	equ ((ptr_flgE2-CmdPtrTable)/2)+flg_First
 flg_FadeIn:	equ ((ptr_flgE3-CmdPtrTable)/2)+flg_First
 flg_Last:	equ ((ptr_flgend-CmdPtrTable)/2)+flg_First
+
+; VRAM ArtTile definitions
+; Multiply by $20 (tile_size) to get the actual location in VRAM
+
+; General Level Art
+ArtTile_Level:				equ $000
+ArtTile_Spikes_Horizontal:	equ $3BF
+ArtTile_Spikes_Vertical:	equ $3F7
+ArtTile_Spring:				equ $407
+ArtTile_HUD:				equ $500
+ArtTile_Player:				equ $69C
+ArtTile_Player_Arm:			equ $6B5
+
+; Field Art
+ArtTile_Electric_Field:		equ $048
+ArtTile_Rainbow_Field:		equ $100
+ArtTile_Sonic_Field:		equ $500
+ArtTile_Tails_Field:		equ $520
